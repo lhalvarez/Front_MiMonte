@@ -11,6 +11,7 @@ module.exports = (req, res) => {
 	//requestBody.trazabilidad.GUID = uuidv4(); 
 	requestBody.trazabilidad.urlCallBack = config.baseLocalUrl + '/balance';
 	let cacheKey = 'assets-' + requestBody.trazabilidad.GUID;
+	console.log("Callback url -> " + requestBody.trazabilidad.urlCallBack);
 
 	let cachedRequest = cache.get(cacheKey);
 	if (cachedRequest)

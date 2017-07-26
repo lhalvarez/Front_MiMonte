@@ -1,5 +1,5 @@
 ﻿const appToken = require('../components/AppToken');
-const config = require('../Config');
+const config = require('../config');
 const request = require('request');
 
 module.exports = (req, res) => {

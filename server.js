@@ -30,5 +30,5 @@ app.get('/svc/token', token);
 app.post('/svc/assets', assets);
 app.post('/svc/balance', assetsCallBack);
 
-app.listen(8080);
-console.log('Serving MiMonte on localhost:8080');	
+app.listen(3000);
+console.log('Serving MiMonte on localhost:3000');	

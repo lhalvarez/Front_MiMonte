@@ -4,6 +4,13 @@ config.env = 'development';
 config.hostname = 'localhost';
 config.mmendpoint = 'https://iamdr.montepiedad.com.mx:4444';
 
+config.mmconsumerId = 25;
+config.mmdestinationId = 14;
+
+config.baseLocalUrl = 'http://35.188.217.181/srv/';
+
 config.token_grant_type = 'client_credentials';
 config.token_client_id = 'e24fe3a5-43db-4c83-99ea-e0723e9a9c93';
 config.token_client_secret = '0d7f208d-0a5b-4225-984d-fd4313360e6b';
+
+
