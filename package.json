@@ -2,6 +2,10 @@
 	"name": "MiMonteFEB",
 	"version": "1.0.0",
 	"private": true,
+	"engines": {
+		"node": "6.9.3",
+		"npm": "3.10.10"
+	},
 	"dependencies": {
 		"body-parser": "^1.17.2",
 		"cors": "^2.8.4",
@@ -83,13 +87,5 @@
 		"moduleNameMapper": {
 			"^react-native$": "react-native-web"
 		}
-	},
-	"babel": {
-		"presets": [
-			"react-app"
-		]
-	},
-	"eslintConfig": {
-		"extends": "react-app"
 	}
 }
