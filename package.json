@@ -62,7 +62,7 @@
     "client:build": "cd client && npm run build",
     "server:install": "npm install",
     "server:start": "node server.js",
-    "prepare": "npm-run-all client:build server:start",
+    "prepare": "npm-run-all client:install client:build",
     "start": "npm-run-all prepare server:start"
   },
   "jest": {
