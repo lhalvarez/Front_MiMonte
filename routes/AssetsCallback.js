@@ -8,6 +8,7 @@ module.exports = (req, res) => {
 
 	let cacheKey = 'assets-' + req.body.requestGUID;
 
+	console.log('Callback for -> ' + cacheKey);
 	let cachedRequest = cache.get(cacheKey);
 	if (cachedRequest) {
 

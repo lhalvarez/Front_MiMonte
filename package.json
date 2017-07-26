@@ -57,14 +57,14 @@
     "webpack-manifest-plugin": "1.1.0",
     "whatwg-fetch": "2.0.3"
   },
-  "scripts": {
-    "client:install": "cd client && npm install",
-    "client:build": "cd client && npm run build",
-    "server:install": "npm install",
-    "server:start": "node server.js",
-    "prepare": "npm-run-all client:install client:build",
-    "start": "npm-run-all prepare server:start"
-  },
+	"scripts": {
+		"client:install": "cd client && npm install",
+		"client:build": "cd client && npm run build",
+		"server:install": "npm install",
+		"server:start": "node server.js",
+		"prepare": "npm-run-all client:install client:build",
+		"start": "cd client && npm install && npm run build && cd .. && node server.js"
+	},
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx}"
