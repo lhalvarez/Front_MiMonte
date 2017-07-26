@@ -16,7 +16,7 @@ export default {
 	AuthenticationResetPasswordApiMethod: '/GestionClientes/UsuariosMonte/v1/solicitarReinicioContrasena',
 	AuthenticationChangePasswordApiMethod: '/GestionClientes/UsuariosMonte/v1/registrarContrasena',
 
-	UseMocks: false,
+	UseMocks: process.env.REACT_APP_USE_MOCKS,
 	            
 	//TODO: Remove from here
 	MMClientId: 'e24fe3a5-43db-4c83-99ea-e0723e9a9c93',

@@ -16,8 +16,9 @@ class RecoveryPassword extends Component {
 	}
 	componentDidMount() {
 		this.setState({ username: '', token: '', newPassword: '' })
+		Actions.logout();
 	}
-	validate() {
+	validateRetrievePassword() {
 
 		let valid = true;
 		let errors = [];
@@ -34,16 +35,36 @@ class RecoveryPassword extends Component {
 
 		return true;
 	}
+	validateRegisterPassword() {
+
+		let valid = true;
+		let errors = [];
+
+		if (this.state.token == null || this.state.token == '')
+			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
+
+		if (this.state.newPassword == null || this.state.newPassword != this.state.newPasswordConfirmation)
+			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
+
+		if (errors.length > 0) {
+			let errorMessage = '';
+			errors.forEach(e => errorMessage += e.message + '\r\n');
+			Actions.error(errorMessage);
+			return false;
+		}
+
+		return true;
+	}
 	retrievePassword(e) {
-		//e.preventDefault();
-		//if (!this.validate())
-		//	return;
+		e.preventDefault();
+		if (!this.validateRetrievePassword())
+			return;
 		Actions.retrievePassword(this.state.username);
 	}
 	registerPassword(e) {
-		//e.preventDefault();
-		//if (!this.validate())
-		//	return;
+		e.preventDefault();
+		if (!this.validateRegisterPassword())
+			return;
 		Actions.registerPassword(this.state.username, this.state.newPassord, this.state.token);
 	}
 	setValue(event) {
@@ -90,14 +111,17 @@ class RecoveryPassword extends Component {
 										<div className="panel-body nomargin-top nopadding-top">
 											<form onSubmit={this.registerPassword} >
 												<div className="spacer-12"></div>
-												<p><span className="w400">Escribe el código de desbloqueo que te llegó vía SMS al teléfono ** **** **25 enlazado a tu cuenta.</span></p>
+												<p><span className="w400">Escribe el código de desbloqueo que te llegó vía SMS al teléfono ** **** {this.props.retrievePasswordPhoneNumber} enlazado a tu cuenta.</span></p>
 												<FormInput id="token" label="Código de desbloqueo" onChange={this.setValue} />
-												<FormInput id="newPassword" label="Contraseña" onChange={this.setValue} />
-												<FormInput id="newPasswordConfirmation" label="Confirma tu contraseña" onChange={this.setValue} />
+												<FormInput id="newPassword" label="Contraseña" type="password" onChange={this.setValue} />
+												<FormInput id="newPasswordConfirmation" label="Confirma tu contraseña" type="password"  onChange={this.setValue} />
 												<div className="spacer-12"></div>
 												<button className="btn btn-danger btn-raised btn-sm center-block" type="submit">Enviar</button>
 											</form>
 										</div>
+									)}
+									{this.props.registerPasswordCompleted && (
+										<Redirect to="/login" />
 									)}
 								</div>
 							)}

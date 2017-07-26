@@ -91,56 +91,81 @@ class AuthenticationApi extends ApiBase {
 							});
 					}
 				},
-
-				onFailure: function (err) {
-					reject(err);
-					//Actions.error(err);
-					//Actions.loginFailed();
-				},
-
+				onFailure: err => reject(err)
 			});
 		});
 	}
 	logout() {
-
+		// nothing to do.
 	}
 	retrievePassword(username, appToken) {
-		return super.buildPost(
-			appConfig.AuthenticationResetPasswordApiMethod,
-			{
-				usuario: {
-					nombreUsuario: username
-				}
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + appToken,
-					usuario: 'usuarioMonte'
-				}
-			}
-		);
-	}
-	registerPassword(username, newPassword, token, appToken) {
-		return super.buildPost(
-			appConfig.AuthenticationChangePasswordApiMethod,
-			{
-				usuario: {
-					nombreUsuario: username,
-					contrasena: newPassword,
-					datosValidacion: {
-						'token': token
+		console.log('Retrieve Password ' + appConfig.UseMocks);
+		if (appConfig.UseMocks) {
+			return new Promise((resolve, reject) => {
+				setTimeout(resolve({
+					data: {
+						telefono: {
+							ultimosDigitos: 5905
+						},
+						respuesta: {
+							codigo: 0,
+							mensaje: 'Reinicio de contrasena pendiente de validación'
+						}
+					}
+				}), 3000);
+			});
+		} else {
+			return super.buildPost(
+				appConfig.AuthenticationResetPasswordApiMethod,
+				{
+					usuario: {
+						nombreUsuario: username
+					}
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + appToken,
+						usuario: 'usuarioMonte'
 					}
 				}
-			},
-			{
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: 'Bearer ' + appToken,
-					usuario: 'usuarioMonte'
+			);
+		}
+	}
+	registerPassword(username, newPassword, token, appToken) {
+		if (appConfig.UseMocks) {
+			return new Promise((resolve, reject) => {
+				setTimeout(resolve({
+					data: {
+						"respuesta": {
+							"codigo": "0",
+							"mensaje": "Nueva contraseña registrada exitosamente"
+						}
+					}
+				}), 3000);
+			});
+		}
+		else {
+			return super.buildPost(
+				appConfig.AuthenticationChangePasswordApiMethod,
+				{
+					usuario: {
+						nombreUsuario: username,
+						contrasena: newPassword,
+						datosValidacion: {
+							'token': token
+						}
+					}
+				},
+				{
+					headers: {
+						'Content-Type': 'application/json',
+						Authorization: 'Bearer ' + appToken,
+						usuario: 'usuarioMonte'
+					}
 				}
-			}
-		);
+			);
+		}
 	}
 
 

@@ -10,7 +10,9 @@ class RegisterStore {
 			onStepOneStarted: Actions.registerStepOne,
 			onStepTwoStarted: Actions.registerStepTwo,
 			onRegisterStepCompleted: Actions.registerStepCompleted,
-			onRegisterStepFailed: Actions.registerFailed
+			onRegisterStepFailed: Actions.registerFailed,
+			onRegisterResendActivationCode: Actions.registerResendActivationCode,
+			onRegisterResendEmail: Actions.registerResendEmail
 		});
 	}
 	onTokenIssued(token)
@@ -20,6 +22,8 @@ class RegisterStore {
 	onStepOneStarted(state)	{ this.state['loading'] = true;	}
 	onStepTwoStarted(state) { this.state['loading'] = true; }
 	onRegisterStepFailed(state) { this.state['loading'] = false; }
+	onRegisterResendActivationCode(state) { this.state['loading'] = true; }
+	onRegisterResendEmail(sate) { this.state['loading'] = true; }
 	onRegisterStepCompleted(state) {
 		if (state)
 		{

@@ -24,7 +24,23 @@
     </Compile>
     <Compile Include="client\src\components\Loading.js" />
     <Compile Include="client\src\flux\stores\GlobalStore.js" />
+    <Compile Include="config\config.production.js" />
+    <Compile Include="config\config.development.js" />
+    <Compile Include="config\config.global.js" />
+    <Compile Include="config\index.js" />
     <Compile Include="RemoteDebug.js" />
+    <Compile Include="routes\Activation.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\AppToken.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="components\Cognito.js" />
+    <Compile Include="routes\Assets.js" />
+    <Compile Include="routes\AssetsCallback.js">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="routes\Token.js" />
     <Compile Include="server.js" />
     <Content Include="client\package.json" />
     <Content Include="client\build\index.html" />
@@ -158,6 +174,9 @@
     <Folder Include="client\src\scenes\components" />
     <Folder Include="client\src\scenes\private" />
     <Folder Include="client\src\scenes\public" />
+    <Folder Include="config\" />
+    <Folder Include="components\" />
+    <Folder Include="routes\" />
     <Folder Include="obj" />
     <Folder Include="obj\Debug" />
   </ItemGroup>

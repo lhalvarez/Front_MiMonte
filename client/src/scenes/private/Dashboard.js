@@ -11,7 +11,7 @@ class Dashboard extends Component {
 		super();
 	}
 	componentDidMount() {
-		setTimeout(() => Actions.fetchAssets(), 3000);
+		
 	}
 	render() {
 		return (

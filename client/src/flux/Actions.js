@@ -8,7 +8,7 @@ import SessionStore from './stores/SessionStore'
 
 class Actions {
 	constructor() {
-		this.generateActions("updateAssets", "loginFailed", "registerFailed");
+		this.generateActions("updateAssets", "registerFailed");
 		this.sessionInfo = {};
 		this.initAxios();
 	}
@@ -22,8 +22,11 @@ class Actions {
 	login(username, password) {
 		AuthenticationApi.login(username, password)
 			.then(result => this.loggedIn(result))
-			.catch(error => { this.error(error); this.loginFailed(); });
+			.catch(error => this.loginFailed(error));
 		return true;
+	}
+	loginFailed(state) {
+		this.error(state); return state;
 	}
 	loggedIn(state) {
 		if (state) {
@@ -41,8 +44,7 @@ class Actions {
 		return ({ sessionInfo: { loggedIn: false } });
 	}
 	appToken(resolve, reject) {
-		if (this.sessionInfo && this.sessionInfo.appToken)
-		{
+		if (this.sessionInfo && this.sessionInfo.appToken) {
 			resolve(this.sessionInfo.appToken);
 		}
 
@@ -65,47 +67,56 @@ class Actions {
 		this.appToken(token => {
 			AuthenticationApi.retrievePassword(username, token)
 				.then(result => {
-					this.retrievePasswordCompleted(result.data)
+					if (this.verifyApiState(result.data)) {
+						this.retrievePasswordCompleted(result.data)
+					}
 				})
-				.catch(error => this.error(error));
+				.catch(error => this.loginFailed(error));
 		});
 
 		return true;
 	}
 	registerPassword(username, newPassword, token) {
-		this.appToken();
-		//AuthenticationApi.registerPassword(username, newPassword, token, this.sessionInfo.appToken)
-		//	.then(result => {
-		//		this.registerPasswordCompleted(result.data)
-		//	})
-		//	.catch(error => this.error(error));
+		this.appToken(token => {
+			AuthenticationApi.registerPassword(username, newPassword, token, this.sessionInfo.appToken)
+				.then(result => {
+					if (this.verifyApiState(result.data)) {
+						this.registerPasswordCompleted(result.data)
+					}
+				})
+				.catch(error => this.error(error));
+		});
 		return true;
 	}
 	retrievePasswordCompleted(state) {
-		return true;
+		return state;
 	}
 	registerPasswordCompleted(state) {
-		return true;
+		return state;
 	}
 	registerStepOne(data) {
-		RegisterApi.verifyInformation({ sessionInfo: this.sessionInfo, data: data })
-			.then(result => {
-				this.registerStepCompleted({ info: data, result: result.data });
-			})
-			.catch(error => {
-				this.error(error); this.registerFailed();
-			});
+		this.appToken(token => {
+			RegisterApi.verifyInformation({ appToken: token, data: data })
+				.then(result => {
+					this.registerStepCompleted({ info: data, result: result.data });
+				})
+				.catch(error => {
+					this.error(error); this.registerFailed();
+				});
+		});
 
 		return true;
 	}
 	registerStepTwo(data) {
-		RegisterApi.createUser({ sessionInfo: this.sessionInfo, data: data })
-			.then(result => {
-				this.registerStepCompleted({ info: data, result: result.data });
-			})
-			.catch(error => {
-				this.error(error); this.registerFailed();
-			});
+		this.appToken(token => {
+			RegisterApi.createUser({ appToken: token, data: data })
+				.then(result => {
+					this.registerStepCompleted({ info: data, result: result.data });
+				})
+				.catch(error => {
+					this.error(error); this.registerFailed();
+				});
+		});
 		return true;
 	}
 	registerResendActivationCode(data) {
@@ -120,6 +131,21 @@ class Actions {
 	}
 	registerStepCompleted(state) {
 		return state;
+	}
+	registerResendEmail(data) {
+		return true;
+	}
+	verifyApiState(state) {
+		if (state)
+		{
+			if (state.respuesta && state.respuesta.codigo != '0')
+			{
+				console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
+				this.error(state.respuesta);
+				return false;
+			}
+		}
+		return true;
 	}
 	error(error) {
 		debugger;

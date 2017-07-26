@@ -14,7 +14,6 @@ class Register extends Component {
 		super(props);
 	}
 	componentDidMount() {
-		Actions.appToken();
 	}
 	static getStores() {
 		return [RegisterStore];
@@ -47,9 +46,9 @@ class Register extends Component {
 						<div className="col-md-12">
 							<div className="tab-content">
 
-								<Loading visible={(this.props.appToken == null || this.props.loading)}/>
+								<Loading visible={this.props.loading}/>
 
-								{this.props.appToken && this.props.loading == false && (
+								{this.props.loading == false && (
 									<div>
 										{this.props.currentStep == 1 && <RegisterStepOne />}
 										{this.props.currentStep == 2 && <RegisterStepTwo />}

@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import UserInfo from './UserInfo';
 import Nav from './Nav';
-
+import { Link, Redirect } from 'react-router-dom'
 
 class Header extends Component {
 
 	render() {
 		return (
 			<div>
-			
+
 				<div className="container-fluid bkg-001">
 					<div className="container">
 						<div className="row visible-sm visible-md visible-lg">
 							<div className="col-sm-3 pad-12">
-								<img src="images/logoNMPch.png" className="img-responsive" />
+								<Link to="/home">
+									<img src="images/logoNMPch.png" className="img-responsive" />
+								</Link>
 							</div>
 							<div className="col-sm-3 pad-12">
 								<div className="spacer-24"></div>

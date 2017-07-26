@@ -14,27 +14,33 @@ class SessionStore {
 			onLogout: Actions.logout,
 			onLoginFailed: Actions.loginFailed,
 			onRetrievePassword: Actions.retrievePassword,
-			onRetrievePasswordSucceed: Actions.retrievePasswordCompleted
+			onRetrievePasswordSucceed: Actions.retrievePasswordCompleted,
+			onRegisterPasswordCompleted: Actions.registerPasswordCompleted
 		});
 	}
 	flushState()
 	{
-		this.state = {
-			loading: false,
-			loggingIn: false,
-			recoveryPasswordTokenIssued: false,
-			sessionInfo: {
-				loggedIn: false,
-				appToken: null
-			}
-		};
+		if (this.state) {
+			this.state['loading'] = false;
+			this.state['loggingIn'] = false;
+		}
+		else {
+			this.state = {
+				loading: false,
+				loggingIn: false,
+				recoveryPasswordTokenIssued: false,
+				sessionInfo: {
+					loggedIn: false,
+					appToken: null
+				}
+			};
+		}
 	}
 	onAppToken(state) {
 		console.log('loading');
 		this.state.loading = true;
 	}
 	onAppTokenIssued(token) {
-		this.state['loading'] = false;
 		this.state.sessionInfo.appToken = token;
 	}
 	onRetrievePassword(state) {
@@ -45,6 +51,10 @@ class SessionStore {
 		this.state['retrievePasswordStep'] = 1;
 		this.state['retrievePasswordPhoneNumber'] = state.telefono.ultimosDigitos;
 		this.state['recoveryPasswordTokenIssued'] = true;
+	}
+	onRegisterPasswordCompleted(state) {
+		this.state['loading'] = false;
+		this.state['registerPasswordCompleted'] = true;
 	}
 	onLogin(state) {
 		this.state['loading'] = true;
@@ -57,6 +67,7 @@ class SessionStore {
 		this.flushState();
 	}
 	onLoginFailed(state) {
+		debugger;
 		this.flushState();
 	}
 	isAppTokenValid() {

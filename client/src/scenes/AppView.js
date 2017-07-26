@@ -17,8 +17,8 @@ import RecoveryPassword from './public/RecoveryPassword'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
-import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert'; // Import 
-import 'react-confirm-alert/src/react-confirm-alert.css' // Import css 
+import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css' 
 import GlobalStore from '../flux/stores/GlobalStore'
 import Actions from '../flux/Actions'
 
@@ -36,7 +36,8 @@ class AppView extends Component {
 					<div>
 						<Header />
 						<Switch>
-							
+							<Route path="/activationSucceed" component={Login} />
+							<Route path="/activationError" component={Login} />
 							<Route path="/login" component={Login} />
 							<Route path="/register" component={Register} />
 							<Route path="/recoverypassword" component={RecoveryPassword} />
@@ -46,12 +47,9 @@ class AppView extends Component {
 					</div>
 				</Router>
 				{this.props.error && (
-					<ReactConfirmAlert
-						title="Error"
-						message={this.props.error}
-						confirmLabel="Continuar"
-						onConfirm={() => Actions.cleanError() }
-					/>
+					<div>
+						{this.props.error}
+					</div>
 				)}
 			</div>
 		);

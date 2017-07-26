@@ -63,6 +63,24 @@ class RegisterStepTwo extends Component {
 				}
 			});
 	}
+	resendEmail() {
+		Actions.registerResendEmail(
+			{
+				usuario: {
+					nombreUsuario: this.props.contractInfo.cliente.correoElectronico,
+					medioContacto: {
+						contactoPor: 1,
+						valorContacto: this.props.contractInfo.cliente.telefono.numeroTelefono
+					},
+					datosValidacion: {
+						"@reenvioToken": true
+					}
+				},
+				cliente: {
+					idCliente: this.props.contractInfo.cliente.idCliente
+				}
+			});
+	}
 	continue() {
 		if (!this.validate())
 			return;

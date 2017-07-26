@@ -8,7 +8,7 @@ class RegisterApi extends ApiBase {
 	}
 	verifyInformation(state) {
 		console.log('Register - Verify information');
-		console.log('Register - App Token ' + state.sessionInfo.appToken);
+		console.log('Register - App Token ' + state.appToken);
 
 		if (ApiConfig.UseMocks) {
 			return new Promise((resolve, reject) => {
@@ -33,7 +33,7 @@ class RegisterApi extends ApiBase {
 				{
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: 'Bearer ' + state.sessionInfo.appToken,
+						Authorization: 'Bearer ' + state.appToken,
 						usuario: 'usuarioMonte'
 					}
 				}
@@ -42,7 +42,7 @@ class RegisterApi extends ApiBase {
 	}
 	createUser(state) {
 		console.log('Register - Create User');
-		console.log('Register - App Token ' + state.sessionInfo.appToken);
+		console.log('Register - App Token ' + state.appToken);
 
 		if (ApiConfig.UseMocks) {
 			return new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ class RegisterApi extends ApiBase {
 				{
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: 'Bearer ' + state.sessionInfo.appToken,
+						Authorization: 'Bearer ' + state.appToken,
 						usuario: 'usuarioMonte'
 					}
 				}
@@ -100,7 +100,7 @@ class RegisterApi extends ApiBase {
 				{
 					headers: {
 						'Content-Type': 'application/json',
-						Authorization: 'Bearer ' + state.sessionInfo.appToken,
+						Authorization: 'Bearer ' + state.appToken,
 						usuario: 'usuarioMonte'
 					}
 				}
