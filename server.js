@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const path = require('path');
 const morgan = require('morgan');
+const cfenv = require('cfenv');
 
 const activation = require('./routes/Activation')
 const token = require('./routes/Token')
@@ -30,5 +31,8 @@ app.get('/svc/token', token);
 app.post('/svc/assets', assets);
 app.post('/svc/balance', assetsCallBack);
 
-app.listen(3000);
-console.log('Serving MiMonte on localhost:3000');	
+var appEnv = cfenv.getAppEnv();
+
+app.listen(appEnv.port, appEnv.bind,  function() {
+	console.log("server starting on " + appEnv.url);
+})
