@@ -64,7 +64,7 @@
     "server:install": "npm install",
     "server:start": "node server.js",
     "prepare": "npm-run-all client:install client:build",
-    "start": "cd client && npm install --only=dev && npm install && npm run build && cd .. && node server.js"
+    "start": "node server.js"
   },
   "jest": {
     "collectCoverageFrom": [
