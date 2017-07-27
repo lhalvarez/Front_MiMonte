@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 
 import {
 	BrowserRouter as Router,
@@ -17,7 +17,12 @@ import RecoveryPassword from './public/RecoveryPassword'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 
+import Confirm from 'react-confirm-bootstrap';
+
 import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
+
+import ConfirmLink from 'react-confirm-dialog';
+
 import 'react-confirm-alert/src/react-confirm-alert.css' 
 import GlobalStore from '../flux/stores/GlobalStore'
 import Actions from '../flux/Actions'
@@ -47,8 +52,15 @@ class AppView extends Component {
 					</div>
 				</Router>
 				{this.props.error && (
+					
 					<div>
-						{this.props.error}
+						<ReactConfirmAlert
+							title="Atención"
+							message={this.props.error}
+							confirmLabel="Continuar"
+							onConfirm={() => { Actions.cleanError(); }}
+							onCancel={() => { }}
+						/>
 					</div>
 				)}
 			</div>
