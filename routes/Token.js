@@ -1,10 +1,10 @@
 const appToken = require('../components/AppToken');
 const config = require('../config')
+const log4js = require('log4js');
+const logger = log4js.getLogger('default');
 
 module.exports = (req, res) =>
 {
-	console.log('Getting app token...')
-	console.log(config.mmendpoint);
 	appToken(function (error, response, body) {
 		
 		if (error) {
@@ -12,12 +12,12 @@ module.exports = (req, res) =>
 		}
 
 		if (response && response.statusCode == 200) {
-			console.log('App token issued...');
+			logger.info('Application Token Successful Issued.');
 			res.status(200);
 			res.json(JSON.parse(body));
 		}
 		else {
-			console.error('App token failed...');
+			logger.error('Application Token ERROR. Unable to get a valid token.');
 			res.json({
 				servicesToken: 'FAILED'
 			});

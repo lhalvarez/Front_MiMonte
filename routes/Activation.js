@@ -1,10 +1,15 @@
 ﻿const appToken = require('../components/AppToken');
 const config = require('../config');
 const request = require('request');
+const log4js = require('log4js');
+const logger = log4js.getLogger('default');
 
 module.exports = (req, res) => {
+
 	let activationCode = req.query.t;
 	let username = req.query.u;
+
+	console.log('Activation user invoked / Token: ' + activationCode +  ' Username: ' + username);
 
 	appToken(function (error, response, body) {
 		if (error) {
@@ -61,7 +66,7 @@ module.exports = (req, res) => {
 
 		}
 		else {
-			console.error('App token failed...');
+			console.error('Unable to get an application token');
 			res.json({
 				"codigoError": "FEB-0001",
 				"descripcionError": "No pudo obtenerse el token de aplicación",

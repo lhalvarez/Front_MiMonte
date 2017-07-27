@@ -1,16 +1,16 @@
 var config = module.exports = {};
 
-config.env = 'development';
-config.hostname = 'localhost';
-config.mmendpoint = 'https://iamdr.montepiedad.com.mx:4444';
+config.env = process.env.NODE_ENV;
+config.hostname = process.env.HOSTNAME;
+config.mmendpoint = process.env.MMENDPOINT;
 
-config.mmconsumerId = 25;
-config.mmdestinationId = 14;
+config.mmconsumerId = process.env.MMCONSUMERID;
+config.mmdestinationId = process.env.MMDESTINATIONID;
 
-config.baseLocalUrl = 'http://35.188.217.181/srv/';
+config.baseLocalUrl = 'http://' + process.env.HOSTNAME + '/';
 
 config.token_grant_type = 'client_credentials';
-config.token_client_id = 'e24fe3a5-43db-4c83-99ea-e0723e9a9c93';
-config.token_client_secret = '0d7f208d-0a5b-4225-984d-fd4313360e6b';
+config.token_client_id = process.env.APP_TOKEN_CLIENT_ID;
+config.token_client_secret = process.env.APP_TOKEN_CLIENT_SECRET;
 
 

@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -13,7 +14,26 @@ const token = require('./routes/Token')
 const assets = require('./routes/Assets')
 const assetsCallBack = require('./routes/AssetsCallback')
 
+const log4js = require('log4js');
+log4js.configure({
+  appenders: { 
+  	out: { type: 'stdout' },
+  	file: { type: 'file', filename: 'mimonte-server.log' } 
+  },
+  categories: { default: { appenders: ['file', 'out'], level: 'debug' } }
+});
+
+const logger = log4js.getLogger('default');
+const config = require('./config')
+
+if (config.request_debug == 1)
+{
+	require('request-debug')(request);
+}
+
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
@@ -24,15 +44,28 @@ app.get('/', function (req, res) {
 });
 
 // Public proxy service
-app.get('/svc/activate', activation);
+app.get('/srv/activate', activation);
 // Internal access token.
-app.get('/svc/token', token);
+app.get('/srv/token', token);
 
-app.post('/svc/assets', assets);
-app.post('/svc/balance', assetsCallBack);
+app.post('/srv/assets', assets);
+app.post('/srv/balance', assetsCallBack);
 
 var appEnv = cfenv.getAppEnv();
 
 app.listen(appEnv.port || 3000, appEnv.bind,  function() {
+	logger.info('Env configuration -> ');
+
+	logger.info('config.env ' + config.env);
+	logger.info('hostname '+ config.hostname);
+	logger.info('mmendpoint '+ config.mmendpoint);
+	logger.info('mmdestinationId ' + config.mmdestinationId);
+	logger.info('mmconsumerId ' + config.mmconsumerId);
+	logger.info('baseLocalUrl '+ config.baseLocalUrl);
+	logger.info('token_client_id '+ config.token_client_id);
+	logger.info('token_client_secret ' + config.token_client_secret);
+	logger.info('server started on ' + appEnv.url);
+	
 	console.log("server starting on " + appEnv.url);
+
 })

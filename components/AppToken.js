@@ -1,8 +1,10 @@
 ﻿const request = require('request');
 const config = require('../config')
+const log4js = require('log4js');
+const logger = log4js.getLogger('file');
 
 module.exports = (callback) => {
-	console.log('Getting app token ' + config.token_client_id);
+	logger.info('Getting application token');
 	request.post({
 		url: config.mmendpoint + '/NMP/oauth/token',
 		form: {
