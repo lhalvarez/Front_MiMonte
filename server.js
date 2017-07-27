@@ -33,6 +33,6 @@ app.post('/svc/balance', assetsCallBack);
 
 var appEnv = cfenv.getAppEnv();
 
-app.listen(appEnv.port, appEnv.bind,  function() {
+app.listen(appEnv.port || 3000, appEnv.bind,  function() {
 	console.log("server starting on " + appEnv.url);
 })
