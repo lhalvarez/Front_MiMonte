@@ -17,6 +17,7 @@
     "react": "^15.6.1",
     "react-async-script": "^0.9.1",
     "react-bootstrap-table": "^3.4.1",
+    "react-confirm-alert": "^1.0.7",
     "react-confirm-bootstrap": "^3.1.4",
     "react-confirm-dialog": "^1.0.5",
     "react-dom": "^15.6.1",
