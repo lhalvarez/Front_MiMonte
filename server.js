@@ -8,6 +8,7 @@ const request = require('request');
 const path = require('path');
 const morgan = require('morgan');
 const cfenv = require('cfenv');
+const fs = require('fs');
 
 const activation = require('./routes/Activation')
 const token = require('./routes/Token')
@@ -37,11 +38,26 @@ app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:htt
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use('/', express.static('client/build'));
 
-app.get('/', function (req, res) {
-	res.sendFile('index.html');
+fs.exists('build', function (exists) {
+	console.log('use build')
+	app.use('/', express.static(path.join(__dirname, 'build')));
+
+	app.get('/', function (req, res) {
+		res.sendFile(__dirname, path.join('build', 'index.html'));
+	});
 });
+
+fs.exists('client/build', function (exists) {
+	console.log('use client/ build')
+	app.use('/', express.static(path.join(__dirname, 'client','build')));
+
+	app.get('/', function (req, res) {
+		res.sendFile(__dirname, path.join('client', 'build', 'index.html'));
+	});
+});
+
+
 
 // Public proxy service
 app.get('/srv/activate', activation);
@@ -55,6 +71,7 @@ var appEnv = cfenv.getAppEnv();
 
 app.listen(appEnv.port || 3000, appEnv.bind,  function() {
 	logger.info('Env configuration -> ');
+	logger.info('Static resources @ ' + path.join(__dirname, 'client', 'build'));
 
 	logger.info('config.env ' + config.env);
 	logger.info('hostname '+ config.hostname);
