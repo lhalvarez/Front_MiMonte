@@ -13,6 +13,7 @@ class GlobalStore {
 		});
 	}
 	onError(error) {
+		alert(error);
 		this.state.error = error;
 	}
 	onCleanError() {

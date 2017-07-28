@@ -51,18 +51,7 @@ class AppView extends Component {
 						<Footer />
 					</div>
 				</Router>
-				{this.props.error && (
-					
-					<div>
-						<ReactConfirmAlert
-							title="Atención"
-							message={this.props.error}
-							confirmLabel="Continuar"
-							onConfirm={() => { Actions.cleanError(); }}
-							onCancel={() => { }}
-						/>
-					</div>
-				)}
+			
 			</div>
 		);
 	}
