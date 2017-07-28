@@ -8,12 +8,9 @@ class ApiBase {
 		return axios.create().post(apiMethod, data, config);
 	}
 	getAppToken() {
-		return axios.create().post(ApiConfig.AppTokenApiMethod,
-			qs.stringify({
-				'grant_type': 'client_credentials',
-				'client_id': ApiConfig.MMClientId,
-				'client_secret': ApiConfig.MMClientSecret
-			}),
+		return axios.create().post(
+			ApiConfig.BackendEndpoint + ApiConfig.AppTokenApiMethod,
+			qs.stringify({}),
 			{
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded'

@@ -20,9 +20,11 @@ const AssetSource = {
 			//return state;
 		},
 		remote: (state) => {
-			debugger;
-			var x = AssetsApi.byClient(state.session.clientId);
-			return x;
+			return Promise.all([
+				AssetsApi.byClient(state.session.clientId,1),
+				AssetsApi.byClient(state.session.clientId,2),
+				AssetsApi.byClient(state.session.clientId,3)
+			]);
 		},
 		loading: Actions.loading,
 		success: Actions.updateAssets,
@@ -42,8 +44,6 @@ class AssetStore {
 	}
 	handleFetchAssets(state)
 	{
-		this.waitFor(SessionStore);
-
 		if (this.getInstance().isLoading() == false)
 		{
 			this.setState({ assets: this.state.assets, session: state.session });
@@ -52,16 +52,38 @@ class AssetStore {
 		
 	}
 	handleUpdateAssets(state) {
-		debugger;
-		this.waitFor(SessionStore);
-		let finalState = { assets: state.data.partidas.partida };
+		let finalState = {
+			assetsA: [],
+			assetsB: [],
+			assetsC: []
+		};
+		if (state.length > 0)
+		{
+			finalState.assetsA = this.parseState(state[0]);
+			finalState.assetsB = this.parseState(state[1]);
+			finalState.assetsC = this.parseState(state[2]);
+		}
+		else {
+			finalState.assetsA = this.parseState(state);
+		}
+		
 		localStorage.setItem("assets", JSON.stringify(finalState));
 		this.setState(finalState);
 		this.errorMessage = null;
 	}
 	isLoading() {
-		debugger;
 		return this.getInstance().isLoading();
+	}
+	parseState(state)
+	{
+		if (state.data && state.data.partidas)
+		{
+			return state.data.partidas.partida;
+		}
+		else
+		{
+			return [];
+		}
 	}
 }
 

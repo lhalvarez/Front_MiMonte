@@ -8,9 +8,14 @@ module.exports = (req, res) => {
 
 	let requestBody = req.body;
 	
-	//requestBody.trazabilidad.GUID = uuidv4(); 
-	requestBody.trazabilidad.urlCallBack = config.baseLocalUrl + '/balance';
-	let cacheKey = 'assets-' + requestBody.trazabilidad.GUID;
+	let trazabilidadGuid = uuidv4(); 
+
+	requestBody.trazabilidad = {
+		GUID: trazabilidadGuid,
+		urlCallBack: config.baseLocalUrl + '/balance'
+	};
+
+	let cacheKey = 'assets-' + trazabilidadGuid;
 	console.log("Callback url -> " + requestBody.trazabilidad.urlCallBack);
 
 	let cachedRequest = cache.get(cacheKey);

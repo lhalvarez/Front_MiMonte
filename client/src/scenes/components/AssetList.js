@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import connectToStores from 'alt-utils/lib/connectToStores';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
@@ -11,12 +10,6 @@ class AssetList extends Component {
 		super(props);
 	}
 	componentDidMount() {
-	}
-	static getStores() {
-		return [AssetStore];
-	}
-	static getPropsFromStores() {
-		return AssetStore.getState();
 	}
 	render() {
 		return (
@@ -59,9 +52,7 @@ class AssetList extends Component {
 													</div>
 												)}
 
-												{AssetStore.isLoading() == false &&
-													(
-														<BootstrapTable data={this.props.assets} >
+															<BootstrapTable data={this.props.assets} >
 															<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" dataFormat={(cell, row) =>
 																(
 																	<input type="checkbox" id="chk10602346" />
@@ -93,7 +84,7 @@ class AssetList extends Component {
 																	</div>
 																)}></TableHeaderColumn>
 														</BootstrapTable>
-													)}
+												
 											</div>
 
 										</div>
@@ -109,4 +100,4 @@ class AssetList extends Component {
 	}
 }
 
-export default connectToStores(AssetList);
+export default AssetList;

@@ -46,7 +46,7 @@ app.get('/', function (req, res) {
 // Public proxy service
 app.get('/srv/activate', activation);
 // Internal access token.
-app.get('/srv/token', token);
+app.post('/srv/token', token);
 
 app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);

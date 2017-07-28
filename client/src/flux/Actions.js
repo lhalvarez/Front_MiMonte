@@ -18,6 +18,7 @@ class Actions {
 		axios.defaults.headers.common['idDestino'] = appConfig.DestinoId;
 		axios.defaults.headers.common['Accept'] = 'application/json';
 		axios.defaults.headers.common['Content-Type'] = 'application/json';
+		axios.defaults.headers.common['usuario'] = 'usuarioMonte';
 	}
 	login(username, password) {
 		AuthenticationApi.login(username, password)
@@ -29,12 +30,16 @@ class Actions {
 		this.error(state); return state;
 	}
 	loggedIn(state) {
+		debugger;
 		if (state) {
 			this.sessionInfo = state;
 			var savedSessionInfo = localStorage.getItem('sessionInfo');
 			localStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
+
+			this.fetchAssets();
+
 			return state;
 		}
 	}
@@ -43,12 +48,12 @@ class Actions {
 		alt.recycle();
 		return ({ sessionInfo: { loggedIn: false } });
 	}
-	appToken(resolve, reject) {
+	getAppToken(resolve, reject) {
 		if (this.sessionInfo && this.sessionInfo.appToken) {
 			resolve(this.sessionInfo.appToken);
 		}
 
-		AuthenticationApi.appToken()
+		AuthenticationApi.getAppToken()
 			.then(result => {
 				this.appTokenIssued(result.data.access_token);
 				resolve(result.data.access_token);
@@ -61,10 +66,11 @@ class Actions {
 		return true;
 	}
 	appTokenIssued(token) {
+		axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		return token;
 	}
 	retrievePassword(username) {
-		this.appToken(token => {
+		this.getAppToken(token => {
 			AuthenticationApi.retrievePassword(username, token)
 				.then(result => {
 					if (this.verifyApiState(result.data)) {
@@ -77,7 +83,7 @@ class Actions {
 		return true;
 	}
 	registerPassword(username, newPassword, token) {
-		this.appToken(token => {
+		this.getAppToken(token => {
 			AuthenticationApi.registerPassword(username, newPassword, token, this.sessionInfo.appToken)
 				.then(result => {
 					if (this.verifyApiState(result.data)) {
@@ -95,7 +101,7 @@ class Actions {
 		return state;
 	}
 	registerStepOne(data) {
-		this.appToken(token => {
+		this.getAppToken(token => {
 			RegisterApi.verifyInformation({ appToken: token, data: data })
 				.then(result => {
 					this.registerStepCompleted({ info: data, result: result.data });
@@ -108,7 +114,7 @@ class Actions {
 		return true;
 	}
 	registerStepTwo(data) {
-		this.appToken(token => {
+		this.getAppToken(token => {
 			RegisterApi.createUser({ appToken: token, data: data })
 				.then(result => {
 					this.registerStepCompleted({ info: data, result: result.data });

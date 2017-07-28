@@ -7,7 +7,7 @@ class SessionStore {
 		this.flushState();
 
 		this.bindListeners({
-			onAppToken: Actions.appToken,
+			onAppToken: Actions.getAppToken,
 			onAppTokenIssued: Actions.appTokenIssued,
 			onLogin: Actions.login,
 			onLoggedIn: Actions.loggedIn,

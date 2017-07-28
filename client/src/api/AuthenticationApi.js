@@ -5,7 +5,6 @@ import {
 	AuthenticationDetails,
 	CognitoUser
 } from "amazon-cognito-identity-js"
-import request from 'superagent'
 import ApiBase from './ApiBase'
 import appConfig from "./ApiConfig"
 
@@ -16,7 +15,7 @@ class AuthenticationApi extends ApiBase {
 	constructor() {
 		super();
 	}
-	appToken() {
+	getAppToken() {
 		return super.getAppToken();
 	}
 	login(username, password) {
@@ -44,51 +43,40 @@ class AuthenticationApi extends ApiBase {
 			cognitoUser.authenticateUser(authenticationDetails, {
 				onSuccess: function (result) {
 
-					console.log('access token + ' + result.getAccessToken().getJwtToken());
+					console.log('OAuth Token ->' + result.getAccessToken().getJwtToken());
 
 					let token = result.getAccessToken().getJwtToken();
+					
+					me.getAppToken()
+						.then(result => {
+							Actions.appTokenIssued(result.data.access_token);
+							me.retrieveUserInfo(username)
+								.then(result => {
+									debugger;
+									let sessionInfo = {
+										id: 1,
+										email: username,
+										fullName: result.data.Cliente.nombre + ' ' + result.data.Cliente.apellidoPaterno + ' ' + result.data.Cliente.apellidoMaterno,
+										token: token,
+										appToken: me.appToken,
+										loggedIn: true,
+										clientId: result.data.Cliente.idCliente,
+										credentialNumber: result.data.Cliente.numeroDeCredencial,
+										username: username
+									};
+									resolve(sessionInfo);
+								})
+								.catch(error => {
+									reject(error);
+								});
+
+						})
+						.catch(error => {
+							reject(error);
+						});
 
 					if (token != null) {
-						request.post(appConfig.MMEnpoint + '/oauth/token')
-							.send('grant_type=client_credentials')
-							.send('client_id=' + appConfig.MMClientId)
-							.send('client_secret=' + appConfig.MMClientSecret)
-							.end((err, res) => {
-								if (err || !res.ok) {
-									reject(err);
-								} else {
-									me.appToken = res.body.access_token;
-									console.log('APP token -> ' + me.appToken);
-									request.post(appConfig.MMEnpoint + '/GestionClientes/Cliente/v2/usuarioMonte')
-
-										.set('usuario', username)
-										.set('idConsumidor', appConfig.ConsumidorId)
-										.set('idDestino', appConfig.DestinoId)
-										.set('Authorization', 'Bearer ' + me.appToken)
-										.set('Accept', 'application/json')
-										.set('Content-Type', 'application/json')
-										.send({ usuarioMonte: username })
-										.end(function (err, res) {
-											if (err || !res.ok) {
-												reject(err);
-											} else {
-												let sessionInfo = {
-													id: 1,
-													email: username,
-													fullName: res.body.Cliente.nombre + ' ' + res.body.Cliente.apellidoPaterno + ' ' + res.body.Cliente.apellidoMaterno,
-													token: token,
-													appToken: me.appToken,
-													loggedIn: true,
-													clientId: res.body.Cliente.idCliente,
-													credentialNumber: res.body.Cliente.numeroDeCredencial,
-													username: username
-												};
-												//Actions.loggedIn(sessionInfo);
-												resolve(sessionInfo);
-											}
-										});
-								}
-							});
+					
 					}
 				},
 				onFailure: err => reject(err)
@@ -97,6 +85,12 @@ class AuthenticationApi extends ApiBase {
 	}
 	logout() {
 		// nothing to do.
+	}
+	retrieveUserInfo(username)
+	{
+		return super.buildPost(
+			appConfig.UsuariosApiMethod,
+			{ usuarioMonte: username });
 	}
 	retrievePassword(username, appToken) {
 		console.log('Retrieve Password ' + appConfig.UseMocks);
