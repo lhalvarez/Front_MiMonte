@@ -37,10 +37,10 @@ app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:htt
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use(express.static(path.resolve(__dirname, 'client', 'build')));
+app.use('/', express.static('client/build'));
 
 app.get('/', function (req, res) {
-	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+	res.sendFile('index.html');
 });
 
 // Public proxy service
