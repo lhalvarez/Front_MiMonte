@@ -38,11 +38,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use('/', express.static(path.join(__dirname, '..', 'build')));
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
-app.get('/', function (req, res) {
-	res.sendFile(__dirname, path.join('..', 'build', 'index.html'));
-});
+
 
 // Public proxy service
 app.get('/srv/activate', activation);
@@ -54,7 +52,7 @@ app.post('/srv/balance', assetsCallBack);
 
 var appEnv = cfenv.getAppEnv();
 
-app.listen(appEnv.port || 3000, appEnv.bind,  function() {
+app.listen(appEnv.port || 6003, appEnv.bind,  function() {
 	logger.info('Env configuration -> ');
 	logger.info('Static resources @ ' + path.join(__dirname, 'client', 'build'));
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 
 class AssetDetails extends Component {
 	render() {
@@ -22,13 +22,13 @@ class AssetDetails extends Component {
 									<div className="col-md-4">
 										<p className="col-005">Prenda</p>
 										<p></p>
-										<p className="col-005">Fecha de Empe�o</p>
+										<p className="col-005">Fecha de Empeño</p>
 										<p>01/Marzo/2017</p>
-										<p className="col-005">Tipo de Empe�o</p>
+										<p className="col-005">Tipo de Empeño</p>
 										<p>Pagos Libres</p>
-										<p className="col-005">Fecha de Comercializaci�n (Desempe�o)</p>
+										<p className="col-005">Fecha de Comercialización (Desempeño)</p>
 										<p>31/Marzo/2017</p>
-										<p className="col-005">Monto de desempe�o</p>
+										<p className="col-005">Monto de desempeño</p>
 										<p>$719.14</p>
 									</div>
 									<div className="col-md-8">
@@ -39,7 +39,7 @@ class AssetDetails extends Component {
 													<tr>
 														<th className="text-center"></th>
 														<th>Fecha de Pago</th>
-														<th >Operaci�n</th>
+														<th >Operación</th>
 														<th className="text-right">Monto</th>
 													</tr>
 												</thead>
@@ -65,7 +65,7 @@ class AssetDetails extends Component {
 															</div>
 														</td>
 														<td>31/Abril/2017</td>
-														<td>Desempe�o</td>
+														<td>Desempeño</td>
 														<td className="text-right">$1,174.00</td>
 													</tr>
 												</tbody>

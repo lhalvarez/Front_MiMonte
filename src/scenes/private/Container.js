@@ -34,7 +34,7 @@ class LoggedInContainer extends Component {
 				)}
 				<Route path="/home" component={Dashboard} />
 				<Route path="/assets" component={Assets} />
-				<Route path="/components/details/:id" component={AssetDetails} />
+				<Route path="/asset/details/:id" component={AssetDetails} />
 				<Route path="/payments" component={Payments} />
 				<Route path="/promotions" component={Promotions} />
 			</div>

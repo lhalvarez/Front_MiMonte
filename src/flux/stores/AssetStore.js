@@ -46,7 +46,12 @@ class AssetStore {
 	{
 		if (this.getInstance().isLoading() == false)
 		{
-			this.setState({ assets: this.state.assets, session: state.session });
+			this.setState({ 
+				assets: this.state.assets,
+				session: state.session,
+				loading: true,
+				totalBalance: 0
+			});
 			this.getInstance().load();
 		}
 		
@@ -55,7 +60,9 @@ class AssetStore {
 		let finalState = {
 			assetsA: [],
 			assetsB: [],
-			assetsC: []
+			assetsC: [], 
+			loading: false, 
+			totalBalance: 140
 		};
 		if (state.length > 0)
 		{
