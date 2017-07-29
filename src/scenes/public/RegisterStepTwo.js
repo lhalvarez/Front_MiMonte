@@ -28,10 +28,10 @@ class RegisterStepTwo extends Component {
 
 		let errors = [];
 		
-		if (this.state.smsCode === null || this.state.smsCode === '')
+		if (this.state.smsCode == null || this.state.smsCode == '')
 			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
 		
-		if (this.state.password === null || this.state.password !==this.state.passwordConfirmacion)
+		if (this.state.password == null || this.state.password !==this.state.passwordConfirmacion)
 			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
 		
 		if (errors.length > 0) {
