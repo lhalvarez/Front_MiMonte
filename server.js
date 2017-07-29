@@ -48,17 +48,6 @@ fs.exists('build', function (exists) {
 	});
 });
 
-fs.exists('client/build', function (exists) {
-	console.log('use client/ build')
-	app.use('/', express.static(path.join(__dirname, 'client','build')));
-
-	app.get('/', function (req, res) {
-		res.sendFile(__dirname, path.join('client', 'build', 'index.html'));
-	});
-});
-
-
-
 // Public proxy service
 app.get('/srv/activate', activation);
 // Internal access token.
