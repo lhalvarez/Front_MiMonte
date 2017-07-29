@@ -1,17 +1,29 @@
 ﻿import React, { Component } from 'react';
-import SessionInfoStore from '../flux/SessionInfoStore' 
+import connectToStores from 'alt-utils/lib/connectToStores';
+import SessionStore from '../flux/stores/SessionStore' 
+import Actions from '../flux/Actions'
+import ComponentBase from './ComponentBase'
 
-class UserInfo extends Component {
+class UserInfo extends ComponentBase {
 	constructor() {
 		super();
-		this.state = SessionInfoStore.getState();
-		debugger;
+	}
+	static getStores() {
+		return [SessionStore];
+	}
+	static getPropsFromStores() {
+		return SessionStore.getState();
 	}
 	render() {
+		var isLoggedIn = this.props.sessionInfo != null
+			&& this.props.sessionInfo.loggedIn;
 		return (
-			<p className="s1 cond w400 text-center col-005">Bienvenido {this.state.fullName} <a className="btn btn-primary btn-fab btn-fab-mini bkg-002"><i className="material-icons">person</i></a></p>
+			<div>
+				{ isLoggedIn && (
+					<p className="s1 cond w400 text-center col-005">Bienvenido {this.props.sessionInfo.fullName} <a className="btn btn-primary btn-fab btn-fab-mini bkg-002"><i className="material-icons">person</i></a></p>
+				)}
+			</div>
 		);
 	}
 }
-
-export default UserInfo;
+export default connectToStores(UserInfo);

@@ -15,9 +15,13 @@ class Footer extends Component {
 								<div className="pull-right">
 									<a className="btn btn-primary btn-fab btn-fab-mini bkg-002 relative" ><i className="material-icons">chat</i></a>
 								</div>
+
 							</div>
 						</div>
 					</div>
+				</div>
+				<div className="center">
+					<small><b>{process.env.NODE_ENV}</b> mode. {process.env.REACT_APP_COGNITO_REGION}</small>
 				</div>
 			</div>
 		);
