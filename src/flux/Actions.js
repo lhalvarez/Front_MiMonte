@@ -30,7 +30,7 @@ class Actions {
 		this.error(state); return state;
 	}
 	loggedIn(state) {
-		debugger;
+		console.info('User logged in...');
 		if (state) {
 			this.sessionInfo = state;
 			var savedSessionInfo = localStorage.getItem('sessionInfo');

@@ -4,8 +4,9 @@ import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
 import AssetStore from '../../flux/stores/AssetStore';
 import Actions from '../../flux/Actions';
+import Loading from '../../components/Loading';
 
-class AssetList extends Component {
+class AssetListB extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -14,7 +15,6 @@ class AssetList extends Component {
 	render() {
 		return (
 			<div>
-
 				{
 					this.props.showSearch &&
 					<div className="panel-header nomargin-top nopadding-top">
@@ -38,15 +38,8 @@ class AssetList extends Component {
 					<div className="row">
 						<div className="col-md-12">
 
-							{this.props.loading && (
-								<div className="loading">
-									<div className="loading-bar"></div>
-									<div className="loading-bar"></div>
-									<div className="loading-bar"></div>
-									<div className="loading-bar"></div>
-									<div className="loading-text">cargando información de boletas...</div>
-								</div>
-							)}
+							<Loading visible={this.props.Loading} />
+
 							{this.props.loading == false && this.props.assets && (
 								<BootstrapTable data={this.props.assets} >
 									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" dataFormat={(cell, row) =>
@@ -60,23 +53,8 @@ class AssetList extends Component {
 												<div>{row.prenda.descripcion}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => {
-
-										<div className="radio radio-primary">
-											<input name="grp10602346" type="radio" />
-											<label className="col-001" >
-												pendiente</label>
-										</div>
-									}}
-									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => dateFormat(row.condiciones.fechaLimitePago, "dd/mmmm/yyyy")}>Fecha Limite</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='center' dataAlign='center' width="100" dataFormat={(cell, row) =>
-										(
-											<div>
-												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
-													<i className="material-icons col-001"></i></Link>
-											</div>
-										)}></TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (<span>no existe el dato</span>)}>Sucursal</TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => dateFormat(row.condiciones.fechaLimitePago, "dd/mmmm/yyyy")}>A la Venta</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>
@@ -84,7 +62,8 @@ class AssetList extends Component {
 					</div>
 				</div>
 			</div>
-		)
+		);
 	}
 }
-export default AssetList;
+
+export default AssetListB;

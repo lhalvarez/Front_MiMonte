@@ -20,9 +20,6 @@ class Footer extends Component {
 						</div>
 					</div>
 				</div>
-				<div className="center">
-					<small><b>{process.env.NODE_ENV}</b> mode. {process.env.REACT_APP_COGNITO_REGION}</small>
-				</div>
 			</div>
 		);
 	}

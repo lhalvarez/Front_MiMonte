@@ -53,7 +53,7 @@ class Nav extends Component {
 					</nav>;
 		}
 		else {
-			navBar = <div className="spacer-48">asfdsaf</div>;
+			navBar = <div className="spacer-48">&nbsp;</div>;
 		}
 
 		return (
