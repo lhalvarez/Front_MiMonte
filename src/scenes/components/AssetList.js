@@ -2,19 +2,31 @@
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
-import AssetStore from '../../flux/stores/AssetStore';
-import Actions from '../../flux/Actions';
+import Loading from '../../components/Loading';
 
 class AssetList extends Component {
 	constructor(props) {
 		super(props);
+		this.filter = this.filter.bind(this);
+		this.setValue = this.setValue.bind(this);
 	}
 	componentDidMount() {
+		this.setState({});
+	}
+	filter() {
+		if (this.state.filterPhase)
+		{
+			
+		}
+	}
+	setValue(event) {
+		var object = {};
+		object[event.target.id] = event.target.value;
+		this.setState(object);
 	}
 	render() {
 		return (
 			<div>
-
 				{
 					this.props.showSearch &&
 					<div className="panel-header nomargin-top nopadding-top">
@@ -23,7 +35,7 @@ class AssetList extends Component {
 								<div className="form-group">
 									<div className="input-group">
 										<div className="input-group-addon"><i className="material-icons">search</i></div>
-										<input type="text" className="form-control" placeholder="Filtrar resultados" />
+										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.setValue} />
 									</div>
 								</div>
 							</div>
@@ -37,19 +49,10 @@ class AssetList extends Component {
 				<div className="panel-body">
 					<div className="row">
 						<div className="col-md-12">
-
-							{this.props.loading && (
-								<div className="loading">
-									<div className="loading-bar"></div>
-									<div className="loading-bar"></div>
-									<div className="loading-bar"></div>
-									<div className="loading-bar"></div>
-									<div className="loading-text">cargando información de boletas...</div>
-								</div>
-							)}
-							{this.props.loading == false && this.props.assets && (
+							<Loading visible={this.props.loading} text="cargando información de boletas" />
+							{this.props.loading === false && this.props.assets && (
 								<BootstrapTable data={this.props.assets} >
-									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" dataFormat={(cell, row) =>
+									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" width="30" dataFormat={(cell, row) =>
 										(
 											<input type="checkbox" id="chk10602346" />
 										)}></TableHeaderColumn>
@@ -60,21 +63,36 @@ class AssetList extends Component {
 												<div>{row.prenda.descripcion}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => {
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (
 
-										<div className="radio radio-primary">
-											<input name="grp10602346" type="radio" />
-											<label className="col-001" >
-												pendiente</label>
+										<div>
+											{row.saldos && (
+												<div>
+													<div className="radio radio-primary">
+														<label className="col-001">
+															<input name="grp10602346" type="radio" id="10602346OpcR" />
+															Refrendo - ${row.saldos.saldoRefrendo}</label>
+													</div>
+													<div className="radio radio-primary">
+														<label>
+															<input name="grp10602346" type="radio" id="10602346OpcD" />
+															Desempeño - ${row.saldos.saldoDesempeno}
+														</label>
+													</div>
+												</div>)
+											}
+
+											<Loading visible={!row.saldos} text="cargando saldos" />
 										</div>
-									}}
+
+									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => dateFormat(row.condiciones.fechaLimitePago, "dd/mmmm/yyyy")}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="100" dataFormat={(cell, row) => dateFormat(row.condiciones.fechaLimitePago, "dd/mmmm/yyyy")}>Fecha Limite</TableHeaderColumn>
 									<TableHeaderColumn headerAlign='center' dataAlign='center' width="100" dataFormat={(cell, row) =>
 										(
 											<div>
 												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
-													<i className="material-icons col-001"></i></Link>
+													<i className="material-icons col-001">search</i></Link>
 											</div>
 										)}></TableHeaderColumn>
 								</BootstrapTable>

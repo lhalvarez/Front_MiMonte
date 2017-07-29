@@ -3,29 +3,19 @@
 import {
 	BrowserRouter as Router,
 	Route,
-	Link,
 	Switch
 } from 'react-router-dom'
 import History from '../flux/History'
 
 import LoggedInContainer from './private/Container'
 import connectToStores from 'alt-utils/lib/connectToStores';
-import Dashboard from './private/Dashboard'
 import Login from './public/Login'
 import Register from './public/Register'
 import RecoveryPassword from './public/RecoveryPassword'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-
-import Confirm from 'react-confirm-bootstrap';
-
-import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
-
-import ConfirmLink from 'react-confirm-dialog';
-
 import 'react-confirm-alert/src/react-confirm-alert.css' 
 import GlobalStore from '../flux/stores/GlobalStore'
-import Actions from '../flux/Actions'
 
 class AppView extends Component {
 	static getStores() {

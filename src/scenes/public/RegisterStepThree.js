@@ -1,7 +1,4 @@
 ﻿import React, { Component } from 'react';
-import Title from '../../components/Title'
-import FormInput from '../../components/FormInput'
-import Actions from '../../flux/Actions';
 
 class RegisterStepThree extends Component {
 	constructor(props) {

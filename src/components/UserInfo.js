@@ -1,13 +1,9 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
 import SessionStore from '../flux/stores/SessionStore' 
-import Actions from '../flux/Actions'
 import ComponentBase from './ComponentBase'
 
 class UserInfo extends ComponentBase {
-	constructor() {
-		super();
-	}
 	static getStores() {
 		return [SessionStore];
 	}

@@ -1,8 +1,6 @@
 ﻿import React, { Component } from 'react';
-import Title from '../../components/Title'
 import FormInput from '../../components/FormInput'
 import Actions from '../../flux/Actions';
-import Cleave from 'cleave.js/react';
 
 class RegisterStepOne extends Component {
 	constructor(props) {
@@ -19,38 +17,37 @@ class RegisterStepOne extends Component {
 		this.setState(object);
 	}
 	validate() {
-		if (this.state.privacidad == false) {
+		if (this.state.privacidad ===  false) {
 			Actions.error('Debe firmar el acuerdo de privacidad');
 		}
-
-		let valid = true;
+		
 		let errors = [];
 
-		if (this.state.nombre == null || this.state.nombre == '')
+		if (this.state.nombre ===  null || this.state.nombre ===  '')
 			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
 
-		if (this.state.apellidoMaterno == null || this.state.apellidoMaterno == '')
+		if (this.state.apellidoMaterno ===  null || this.state.apellidoMaterno ===  '')
 			errors.push({ field: 'apellidoMaterno', message: 'El Apellido Materno es requerido' });
 
-		if (this.state.apellidoPaterno == null || this.state.apellidoPaterno == '')
+		if (this.state.apellidoPaterno ===  null || this.state.apellidoPaterno ===  '')
 			errors.push({ field: 'apellidoPaterno', message: 'El Apellido Paterno es requerido' });
 
-		if (this.state.nombre == null || this.state.nombre == '')
+		if (this.state.nombre ===  null || this.state.nombre ===  '')
 			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
 
-		if (this.state.celular == null || this.state.celular == '')
+		if (this.state.celular ===  null || this.state.celular ===  '')
 			errors.push({ field: 'celular', message: 'El Número de celular es requerido' });
 
-		if (this.state.email == null || this.state.email == '')
+		if (this.state.email ===  null || this.state.email ===  '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
-		if (this.state.celular == null || this.state.celular != this.state.celularConfirmacion)
+		if (this.state.celular ===  null || this.state.celular !==this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 
-		if (this.state.email == null || this.state.email != this.state.emailConfirmacion)
+		if (this.state.email ===  null || this.state.email !==this.state.emailConfirmacion)
 			errors.push({ field: 'email', message: 'Confirmación de Correo Electrónico no coincide' });
 
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) == false)  
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) ===  false)  
 			errors.push({ field: 'email', message: 'El correo Electrónico tiene un formato incorrecto' });
 
 		if (errors.length > 0) {
@@ -143,7 +140,7 @@ class RegisterStepOne extends Component {
 				<div className="row">
 					<div className="col-md-4">
 						<div className="">
-							<input type="checkbox" id="privacidad" onChange={this.onChange} /> He le&iacute;do y aceptado el <a href="#" className="cond col-003">aviso de privacidad</a>
+							<input type="checkbox" id="privacidad" onChange={this.onChange} /> He le&iacute;do y aceptado el <a className="cond col-003">aviso de privacidad</a>
 						</div>
 					</div>
 					<div className="col-md-4 text-center center-block">

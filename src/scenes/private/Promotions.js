@@ -6,7 +6,6 @@ class Promotions extends Component {
 		return (
 			<div className="container">
 				Promociones
-				
 			</div>
 		);
 	}

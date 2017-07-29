@@ -1,6 +1,5 @@
 import axios from 'axios';
 import ApiConfig from './ApiConfig'
-import Actions from '../flux/Actions'
 import qs from 'qs'
 
 class ApiBase {

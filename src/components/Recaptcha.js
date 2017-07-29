@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 class Recaptcha extends Component {
 	//TODO: retrieve sitekey from env.

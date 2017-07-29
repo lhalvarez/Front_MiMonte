@@ -2,24 +2,25 @@
 import Title from '../../components/Title';
 import AssetList from '../components/AssetList';
 import AssetListB from '../components/AssetListB';
-import AssetTab from '../components/AssetTab';
-import Actions from '../../flux/Actions';
 import AssetStore from '../../flux/stores/AssetStore'
 import connectToStores from 'alt-utils/lib/connectToStores';
 
 class Assets extends Component {
 	constructor(props) {
 		super(props);
-		this.currentTab = 1;
+		this.state = { tab: 1 };
+		this.prevTab = this.prevTab.bind(this);
+		this.nextTab = this.nextTab.bind(this);
 	}
 	componentDidMount() {
-
+	
 	}
 	prevTab() {
-		this.currentTab = 1;
+		this.state.tab = 1;
 	}
 	nextTab() {
-		this.currentTab = 2;
+		debugger;
+		this.state.tab = 2;
 	}
 	static getStores() {
 		return [AssetStore];
@@ -30,7 +31,7 @@ class Assets extends Component {
 	render() {
 		return (
 			<div>
-				<Title title="Boletas" />{this.currentTab}
+				<Title title="Boletas" />{this.state.tab}
 
 				<div className="container">
 					<div className="row">
@@ -39,8 +40,8 @@ class Assets extends Component {
 								<div className="panel-body">
 									<div className="col-md-12">
 										<ul className="nav nav-pills " id="tabBoletas">
-											<li role="presentation" className="active cond w400"><a onClick={this.prevTab} aria-controls="bol1" role="tab" >Prendas en Empe&Ntilde;o</a></li>
-											<li role="presentation" className="cond w400"><a onClick={this.nextTab} aria-controls="bol2" role="tab" >Prendas en Comercializaci&oacute;n</a></li>
+											<li role="presentation" className="active cond w400"><a href="#" onClick={this.prevTab}  >Prendas en Empe&Ntilde;o</a></li>
+											<li role="presentation" className="cond w400"><a href="#" onClick={this.nextTab}  >Prendas en Comercializaci&oacute;n</a></li>
 										</ul>
 									</div>
 								</div>
@@ -49,32 +50,35 @@ class Assets extends Component {
 					</div>
 				</div>
 
-				<div className="container">
-					<div className="row">
-						<div className="col-md-12">
-							<div className="tab-content">
-								<div role="tabpanel" className="tab-pane fade in active" id="bol1">
-									<div className="panel panel-default well nopadding-bottom">
-										<AssetList showSearch={true} loading={this.props.loading} assets={this.props.assetsA} />
+				{this.state.tab === 1 && (
+					<div className="container">
+						<div className="row">
+							<div className="col-md-12">
+								<div className="tab-content">
+									<div role="tabpanel" className="tab-pane active" id="bol1">
+										<div className="panel panel-default well nopadding-bottom">
+											<AssetList showSearch={true} loading={this.props.loading} assets={this.props.assetsA} />
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
+				)}
+				{this.state.tab === 2 && (
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">
 							<div className="tab-content">
-								<div role="tabpanel" className="tab-pane fade in active" id="bol2">
+								<div role="tabpanel" className="tab-pane active" id="bol2">
 									<div className="panel panel-default well nopadding-bottom">
-										<div class="panel-body">
-											<div class="col-md-8">
+										<div className="panel-body">
+											<div className="col-md-8">
 												<AssetListB showSearch={true} loading={this.props.loading} assets={this.props.assetsB} />
 											</div>
-											<div class="col-md-4">
+											<div className="col-md-4">
 												<p>Recupera tu prenda</p>
-												<p>Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu empeño y realiza tu <a href="#">Desempeño Extemporáneo</a>.</p>
+												<p>Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu empeño y realiza tu <a>Desempeño Extemporáneo</a>.</p>
 												<p>Deberás presentar tu identificación oficial y boleta original, asó como realizar el pago de tu préstamo otorgado más intereses, y se te pueda entregar tu prenda en ventanilla.</p>
 												<p>Si tu prenda ya no aparece en el listado es probable que se haya comercializado.</p>
 												<p>Corrobora esta información en la sucursal en donde la empeñaste y pide más información en ventanilla.</p>
@@ -87,7 +91,7 @@ class Assets extends Component {
 					</div>
 
 				</div>
-
+				)}
 			</div>
 		)
 	}

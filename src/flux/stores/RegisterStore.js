@@ -29,21 +29,21 @@ class RegisterStore {
 		{
 			this.state['loading'] = false;
 
-			if (state.result.respuesta.codigo == 0)
+			if (state.result.respuesta.codigo === 0)
 			{
-				if (state.result.cliente.estadoRegistro.toLowerCase() == 'preregistro')
+				if (state.result.cliente.estadoRegistro.toLowerCase() === 'preregistro')
 				{
 					this.state["contractInfo"] = state.info;
 					this.state["stepOneResult"] = state.result;
 					this.state.currentStep = 2;
 				}
-				else if (state.result.cliente.estadoRegistro.toLowerCase() == 'pendiente')
+				else if (state.result.cliente.estadoRegistro.toLowerCase() === 'pendiente')
 				{
 					this.state["createUserInfo"] = state.info;
 					this.state["stepTwoResult"] = state.result;
 					this.state.currentStep = 3;
 				}
-				else if (state.result.cliente.estadoRegistro.toLowerCase() == 'validacion')
+				else if (state.result.cliente.estadoRegistro.toLowerCase() === 'validacion')
 				{
 					this.state.currentStep = 2;
 				}

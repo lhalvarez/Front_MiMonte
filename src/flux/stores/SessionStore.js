@@ -67,7 +67,7 @@ class SessionStore {
 		this.flushState();
 	}
 	onLoginFailed(state) {
-		debugger;
+		
 		this.flushState();
 	}
 	isAppTokenValid() {

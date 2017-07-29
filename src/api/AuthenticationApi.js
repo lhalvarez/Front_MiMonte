@@ -1,20 +1,14 @@
-import { Config, CognitoIdentityCredentials } from "aws-sdk";
 import {
 	CognitoUserPool,
-	CognitoUserAttribute,
 	AuthenticationDetails,
 	CognitoUser
 } from "amazon-cognito-identity-js"
 import ApiBase from './ApiBase'
 import appConfig from "./ApiConfig"
 
-import ValidarDatosPayload from './RequestPayload'
 import Actions from '../flux/Actions'
 
 class AuthenticationApi extends ApiBase {
-	constructor() {
-		super();
-	}
 	getAppToken() {
 		return super.getAppToken();
 	}
@@ -52,7 +46,7 @@ class AuthenticationApi extends ApiBase {
 							Actions.appTokenIssued(result.data.access_token);
 							me.retrieveUserInfo(username)
 								.then(result => {
-									debugger;
+									
 									let sessionInfo = {
 										id: 1,
 										email: username,

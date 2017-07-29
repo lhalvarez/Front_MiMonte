@@ -1,11 +1,7 @@
 import ApiBase from './ApiBase'
 import ApiConfig from './ApiConfig'
-import axios from 'axios';
 
 class RegisterApi extends ApiBase {
-	constructor() {
-		super();
-	}
 	verifyInformation(state) {
 		console.log('Register - Verify information');
 		console.log('Register - App Token ' + state.appToken);
@@ -109,4 +105,4 @@ class RegisterApi extends ApiBase {
 	}
 }
 
-export default new RegisterApi;
+export default new RegisterApi();

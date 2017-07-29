@@ -1,10 +1,8 @@
 import alt from '../Alt'
 import AuthenticationApi from '../api/AuthenticationApi'
-import AssetsApi from '../api/AssetsApi'
 import RegisterApi from '../api/RegisterApi'
 import axios from 'axios';
 import appConfig from '../api/ApiConfig'
-import SessionStore from './stores/SessionStore'
 
 class Actions {
 	constructor() {
@@ -33,7 +31,6 @@ class Actions {
 		console.info('User logged in...');
 		if (state) {
 			this.sessionInfo = state;
-			var savedSessionInfo = localStorage.getItem('sessionInfo');
 			localStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
@@ -144,7 +141,7 @@ class Actions {
 	verifyApiState(state) {
 		if (state)
 		{
-			if (state.respuesta && state.respuesta.codigo != '0')
+			if (state.respuesta && state.respuesta.codigo !== '0')
 			{
 				console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
 				this.error(state.respuesta);
@@ -154,10 +151,9 @@ class Actions {
 		return true;
 	}
 	error(error) {
-		debugger;
+		var message = '';
 		console.error(JSON.stringify(error));
 		if (error.response) {
-			var message = '';
 			if (error.response.data) {
 				try {
 					let cod = error.response.data.codigoError;
@@ -179,7 +175,7 @@ class Actions {
 			return message;
 		}
 		else if (error.code) {
-			var message = '';
+	
 			try {
 				let cod = error.code;
 				let description = error.message;
@@ -201,6 +197,9 @@ class Actions {
 
 	}
 	fetchAssets() {
+		return { session: this.sessionInfo };
+	}
+	fetchAssetsBalance() {
 		return { session: this.sessionInfo };
 	}
 	isLoggedIn() {

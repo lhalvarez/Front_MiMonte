@@ -12,9 +12,6 @@ import Promotions from './Promotions';
 import Dashboard from './Dashboard';
 
 class LoggedInContainer extends Component {
-	constructor(props) {
-		super(props);
-	}
 	componentDidMount() {
 	}
 	static getStores() {
@@ -26,7 +23,7 @@ class LoggedInContainer extends Component {
 	render() {
 		return (
 			<div>
-				{this.props.sessionInfo.loggedIn == false && (
+				{this.props.sessionInfo.loggedIn === false && (
 					<Redirect to="/login" />
 				)}
 				{this.props.sessionInfo.loggedIn  && (

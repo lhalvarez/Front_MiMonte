@@ -2,15 +2,11 @@
 import connectToStores from 'alt-utils/lib/connectToStores';
 import AssetList from '../components/AssetList';
 import AssetSummaryTitle from '../components/AssetSummaryTitle';
-import Actions from '../../flux/Actions';
 import Promotions from '../components/Promotions';
 import AssetStore from '../../flux/stores/AssetStore'
 import AssetListB from '../components/AssetListB';
 
 class Dashboard extends Component {
-	constructor(props) {
-		super(props);
-	}
 	componentDidMount() {
 
 	}

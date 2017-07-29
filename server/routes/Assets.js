@@ -8,7 +8,7 @@ module.exports = (req, res) => {
 
 	let requestBody = req.body;
 	
-	let trazabilidadGuid = uuidv4(); 
+	let trazabilidadGuid = requestBody.trazabilidad.GUID ? requestBody.trazabilidad.GUID : uuidv4(); 
 
 	requestBody.trazabilidad = {
 		GUID: trazabilidadGuid,
@@ -16,20 +16,30 @@ module.exports = (req, res) => {
 	};
 
 	let cacheKey = 'assets-' + trazabilidadGuid;
+
 	console.log("Callback url -> " + requestBody.trazabilidad.urlCallBack);
 
-	let cachedRequest = cache.get(cacheKey);
-	if (cachedRequest)
-	{
-		res.json(cachedRequest);
+	let cacheObject = cache.get(cacheKey);
+
+	if (cacheObject) {
+		res.json(cacheObject.data);
 		return;
 	}
-
+	else {
+		cacheObject = {
+			clientId: requestBody.idCliente,
+			criteria: requestBody.criterios.criterioBoleta,
+			trackingId: trazabilidadGuid,
+			data: null
+		};
+	}
+	
 	appToken(function (error, response, body) {
 
 		if (response && response.statusCode == 200) {
 			let token = JSON.parse(body);
 			let appToken = token.access_token;
+
 			console.log('Getting assets...' + cacheKey);
 
 			request.post({
@@ -50,11 +60,16 @@ module.exports = (req, res) => {
 				}
 			}, (e1, r1, b1) => {
 				console.log('Assets output ' + b1);
+
 				if (e1)
 				{
 					console.error(e1);
 				}
-				cache.put(cacheKey, b1);
+				if (b1) {
+					b1.requestGUID = trazabilidadGuid;
+					cacheObject.data = b1;
+					cache.put(cacheKey, cacheObject);
+				}
 				console.log('Cached response with ' + cacheKey);
 				res.json(b1);
 			});
