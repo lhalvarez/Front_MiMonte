@@ -34,18 +34,14 @@ if (config.request_debug == 1)
 
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-fs.exists('build', function (exists) {
-	console.log('use build')
-	app.use('/', express.static(path.join(__dirname, 'build')));
+app.use('/', express.static(path.join(__dirname, '..', 'build')));
 
-	app.get('/', function (req, res) {
-		res.sendFile(__dirname, path.join('build', 'index.html'));
-	});
+app.get('/', function (req, res) {
+	res.sendFile(__dirname, path.join('..', 'build', 'index.html'));
 });
 
 // Public proxy service
