@@ -80,6 +80,7 @@ class AssetStore {
 		this.loading = false;
 		this.errorMessage = null;
 		this.state = {
+			asset: {},
 			assets: [],
 			trackingA: uuid(),
 			trackingB: uuid(),
@@ -91,8 +92,16 @@ class AssetStore {
 		this.bindListeners({
 			handleFetchAssets: Actions.fetchAssets,
 			handleUpdateAssets: Actions.updateAssets,
-			handleFetchAssetsBalance: Actions.fetchAssetsBalance
+			handleFetchAssetsBalance: Actions.fetchAssetsBalance,
+			handleFetchAssetDetail: Actions.fetchAssetDetail
 		});
+	}
+	handleFetchAssetDetail(state) {
+		if (state && state.asset)
+		{
+			debugger;
+			this.state.asset = state.asset.partidas.partida[0];
+		}
 	}
 	handleFetchAssets(state) {
 		if (this.getInstance().isLoading() === false) {

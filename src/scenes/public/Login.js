@@ -81,11 +81,13 @@ class Login extends Component {
 					</div>
 				)}
 				<div className="spacer-24"></div>
+
+
 				<div className="container">
 					<div className="row">
 						<div className="col-md-4 col-xs-12 col-md-offset-4">
 							<div className="panel panel-default well">
-								<Loading visible={this.props.loggingIn || this.props.loading} />
+								<Loading visible={this.props.loggingIn || this.props.loading} text="verificando información" />
 
 
 								{this.props.loggingIn === false && (

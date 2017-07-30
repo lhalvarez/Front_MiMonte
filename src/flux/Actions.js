@@ -1,12 +1,13 @@
 import alt from '../Alt'
 import AuthenticationApi from '../api/AuthenticationApi'
 import RegisterApi from '../api/RegisterApi'
+import AssetsApi from '../api/AssetsApi'
 import axios from 'axios';
 import appConfig from '../api/ApiConfig'
 
 class Actions {
 	constructor() {
-		this.generateActions("updateAssets", "registerFailed");
+		this.generateActions("updateAssets", "registerFailed", "assetLoaded");
 		this.sessionInfo = {};
 		this.initAxios();
 	}
@@ -25,6 +26,7 @@ class Actions {
 		return true;
 	}
 	loginFailed(state) {
+		debugger;
 		this.error(state); return state;
 	}
 	loggedIn(state) {
@@ -139,10 +141,8 @@ class Actions {
 		return true;
 	}
 	verifyApiState(state) {
-		if (state)
-		{
-			if (state.respuesta && state.respuesta.codigo !== '0')
-			{
+		if (state) {
+			if (state.respuesta && state.respuesta.codigo !== '0') {
 				console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
 				this.error(state.respuesta);
 				return false;
@@ -152,7 +152,7 @@ class Actions {
 	}
 	error(error) {
 		var message = '';
-		console.error(JSON.stringify(error));
+		console.error(error);
 		if (error.response) {
 			if (error.response.data) {
 				try {
@@ -172,10 +172,9 @@ class Actions {
 					message = e;
 				}
 			}
-			return message;
 		}
 		else if (error.code) {
-	
+
 			try {
 				let cod = error.code;
 				let description = error.message;
@@ -183,12 +182,14 @@ class Actions {
 			} catch (e) {
 				message = e;
 			}
-			return message;
+		}
+		else if (error.message) {
+			message = "VERSION DESARROLLO - Error: " + error.message;
+		} else {
+			message += 'ERROR INESPERADO: ' + error;
+		}
 
-		}
-		else {
-			return error;
-		}
+		return message;
 	}
 	cleanError() {
 		return true;
@@ -196,15 +197,25 @@ class Actions {
 	loading() {
 
 	}
+	isLoggedIn() {
+		//TODO: also validate token expirations.
+		return this.sessionInfo.loggedIn;
+	}
 	fetchAssets() {
 		return { session: this.sessionInfo };
 	}
 	fetchAssetsBalance() {
 		return { session: this.sessionInfo };
 	}
-	isLoggedIn() {
-		//TODO: also validate token expirations.
-		return this.sessionInfo.loggedIn;
+
+	fetchAssetDetail(number) {
+		AssetsApi.byNumber(number)
+			.then(result => {
+				this.assetLoaded({ asset: result.data });
+			})
+			.catch(error => this.error(error));
+
+		return number;
 	}
 }
 

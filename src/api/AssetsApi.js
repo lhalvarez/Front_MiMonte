@@ -18,6 +18,17 @@ class AssetsApi extends ApiBase {
 			}
 		);
 	}
+	byNumber(number) {
+		console.log('Getting asset -> ' + number);
+		return super.buildPost(
+			ApiConfig.BackendEndpoint + ApiConfig.AssetsByClientApiMethod,
+			{
+				folios: {
+					folio: number
+				}
+			}
+		);
+	}
 }
 
 export default new AssetsApi();

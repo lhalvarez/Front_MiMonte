@@ -17,43 +17,43 @@ class RegisterStepOne extends Component {
 		this.setState(object);
 	}
 	validate() {
-		if (this.state.privacidad ==  false) {
+		if (this.state.privacidad == false) {
 			Actions.error('Debe firmar el acuerdo de privacidad');
 		}
-		
+
 		let errors = [];
 
-		if (this.state.nombre ==  null || this.state.nombre ==  '')
+		if (this.state.nombre == null || this.state.nombre == '')
 			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
 
-		if (this.state.apellidoMaterno ==  null || this.state.apellidoMaterno ==  '')
+		if (this.state.apellidoMaterno == null || this.state.apellidoMaterno == '')
 			errors.push({ field: 'apellidoMaterno', message: 'El Apellido Materno es requerido' });
 
-		if (this.state.apellidoPaterno ==  null || this.state.apellidoPaterno ==  '')
+		if (this.state.apellidoPaterno == null || this.state.apellidoPaterno == '')
 			errors.push({ field: 'apellidoPaterno', message: 'El Apellido Paterno es requerido' });
 
-		if (this.state.nombre ==  null || this.state.nombre ==  '')
+		if (this.state.nombre == null || this.state.nombre == '')
 			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
 
-		if (this.state.celular ==  null || this.state.celular ==  '')
+		if (this.state.celular == null || this.state.celular == '')
 			errors.push({ field: 'celular', message: 'El Número de celular es requerido' });
 
-		if (this.state.email ==  null || this.state.email ==  '')
+		if (this.state.email == null || this.state.email == '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
-		if (this.state.celular ==  null || this.state.celular !==this.state.celularConfirmacion)
+		if (this.state.celular == null || this.state.celular !== this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 
-		if (this.state.email ==  null || this.state.email !==this.state.emailConfirmacion)
+		if (this.state.email == null || this.state.email !== this.state.emailConfirmacion)
 			errors.push({ field: 'email', message: 'Confirmación de Correo Electrónico no coincide' });
 
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) ==  false)  
-			errors.push({ field: 'email', message: 'El correo Electrónico tiene un formato incorrecto' });
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) == false)
+			errors.push({ field: 'email', message: 'El Correo Electrónico tiene un formato incorrecto' });
 
 		if (errors.length > 0) {
-			let errorMessage = '';
-			errors.forEach(e => errorMessage += e.message + '\r\n');
-			Actions.error(errorMessage);
+			Actions.error(errors.map((error) =>
+				<div>{error.message}</div>
+			));
 			return false;
 		}
 
@@ -105,7 +105,7 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" options={{ date: true, datePattern: ['Y', 'm', 'd'], delimiter: '-' }} />
+						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" options={{ date: true, datePattern: ['d','m', 'Y'], delimiter: '-' }} />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />

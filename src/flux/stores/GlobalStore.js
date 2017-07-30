@@ -4,6 +4,7 @@ import Actions from '../Actions';
 class GlobalStore {
 	constructor() {
 		this.state = {
+			showErrorsDialog: false,
 			loading: false,
 			error: ''
 		}
@@ -13,11 +14,12 @@ class GlobalStore {
 		});
 	}
 	onError(error) {
-		alert(error);
 		this.state.error = error;
+		this.state.showErrorsDialog = true;
 	}
 	onCleanError() {
 		this.state.error = '';
+		this.state.showErrorsDialog = false;
 	}
 }
 

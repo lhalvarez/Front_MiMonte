@@ -7,7 +7,7 @@ config.mmendpoint = process.env.SERVER_MMENDPOINT;
 config.mmconsumerId = process.env.SERVER_MMCONSUMERID;
 config.mmdestinationId = process.env.SERVER_MMDESTINATIONID;
 
-config.baseLocalUrl = 'http://' + process.env.SERVER_HOSTNAME + '/';
+config.baseLocalUrl = 'http://' + process.env.SERVER_HOSTNAME;
 
 config.token_grant_type = 'client_credentials';
 config.token_client_id = process.env.SERVER_APP_TOKEN_CLIENT_ID;

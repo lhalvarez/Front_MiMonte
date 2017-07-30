@@ -2,6 +2,7 @@
 import AssetStore from '../../flux/stores/AssetStore'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Loading from '../../components/Loading';
+import Actions from '../../flux/Actions';
 
 class AssetDetails extends Component {
 	componentDidMount() {
@@ -11,7 +12,7 @@ class AssetDetails extends Component {
 		this.state.asset = this.props.assetsA.find((asset) => {
 			return (asset.prenda.folio === this.props.match.params.id);
 		});
-		debugger;
+		Actions.fetchAssetDetail(this.props.match.params.id);
 	}
 	static getStores() {
 		return [AssetStore];
