@@ -13,7 +13,7 @@ module.exports = (req, res) => {
 	if (cachedRequest) {
 
 		let newest = req.body.partidas.partida;
-		let oldest = cachedRequest.partidas.partida;
+		let oldest = cachedRequest.data.partidas.partida;
 
 		_.each(newest, (newestPrenda) => {
 			console.log('Looking for ' + newestPrenda.prenda.folio);
@@ -21,7 +21,18 @@ module.exports = (req, res) => {
 			var match = _.find(oldest, function (oldestPrenda) { return oldestPrenda.prenda.folio === newestPrenda.prenda.folio })
 			if (match) {
 				console.log('Updating ' + newestPrenda.prenda.folio);
-				match.saldos = newestPrenda.saldos;
+				if (!match.saldos) {
+					match.saldos = {};
+				}
+
+				if (newestPrenda.saldos.saldoRefrendo)
+				{
+					match.saldos.saldoRefrendo = newestPrenda.saldos.saldoRefrendo;
+				}
+				if (newestPrenda.saldos.saldoDesempeno)
+				{
+					match.saldos.saldoDesempeno = newestPrenda.saldos.saldoDesempeno;
+				}
 			}
 		});
 		

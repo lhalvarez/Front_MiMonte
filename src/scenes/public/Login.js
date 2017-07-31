@@ -1,4 +1,4 @@
-﻿import React, { Component, PropTypes } from 'react'
+﻿import React, { Component } from 'react'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import { Link, Redirect } from 'react-router-dom'
 import Title from '../../components/Title'
@@ -25,10 +25,9 @@ class Login extends Component {
 	}
 	validate() {
 
-		let valid = true;
 		let errors = [];
 
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.username) == false)
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.username) === false)
 			errors.push({ field: 'email', message: 'El correo electrónico tiene un formato incorrecto' });
 
 		if (errors.length > 0) {
@@ -57,7 +56,7 @@ class Login extends Component {
 				{this.props.sessionInfo.loggedIn && (
 					<Redirect to="/home" />
 				)}
-				{this.props.location.pathname == '/activationSucceed' && (
+				{this.props.location.pathname === '/activationSucceed' && (
 					<div className="container">
 						<div className="row">
 							<div className="col-md-4 col-xs-12 col-md-offset-4">
@@ -69,7 +68,7 @@ class Login extends Component {
 						</div>
 					</div>
 				)}
-				{this.props.location.pathname == '/activationError' && (
+				{this.props.location.pathname === '/activationError' && (
 					<div className="container">
 						<div className="row">
 							<div className="col-md-4 col-xs-12 col-md-offset-4">
@@ -82,14 +81,16 @@ class Login extends Component {
 					</div>
 				)}
 				<div className="spacer-24"></div>
+
+
 				<div className="container">
 					<div className="row">
 						<div className="col-md-4 col-xs-12 col-md-offset-4">
 							<div className="panel panel-default well">
-								<Loading visible={this.props.loggingIn || this.props.loading} />
+								<Loading visible={this.props.loggingIn || this.props.loading} text="verificando información" />
 
 
-								{this.props.loggingIn == false && (
+								{this.props.loggingIn === false && (
 									<div>
 										<Title title="Ingresa" />
 										<div className="panel-body nomargin-top nopadding-top">

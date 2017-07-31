@@ -1,8 +1,6 @@
 ﻿import React, { Component } from 'react';
-import Title from '../../components/Title'
 import FormInput from '../../components/FormInput'
 import Actions from '../../flux/Actions';
-import Cleave from 'cleave.js/react';
 
 class RegisterStepOne extends Component {
 	constructor(props) {
@@ -23,7 +21,6 @@ class RegisterStepOne extends Component {
 			Actions.error('Debe firmar el acuerdo de privacidad');
 		}
 
-		let valid = true;
 		let errors = [];
 
 		if (this.state.nombre == null || this.state.nombre == '')
@@ -44,19 +41,19 @@ class RegisterStepOne extends Component {
 		if (this.state.email == null || this.state.email == '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
-		if (this.state.celular == null || this.state.celular != this.state.celularConfirmacion)
+		if (this.state.celular == null || this.state.celular !== this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 
-		if (this.state.email == null || this.state.email != this.state.emailConfirmacion)
+		if (this.state.email == null || this.state.email !== this.state.emailConfirmacion)
 			errors.push({ field: 'email', message: 'Confirmación de Correo Electrónico no coincide' });
 
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) == false)  
-			errors.push({ field: 'email', message: 'El correo Electrónico tiene un formato incorrecto' });
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) == false)
+			errors.push({ field: 'email', message: 'El Correo Electrónico tiene un formato incorrecto' });
 
 		if (errors.length > 0) {
-			let errorMessage = '';
-			errors.forEach(e => errorMessage += e.message + '\r\n');
-			Actions.error(errorMessage);
+			Actions.error(errors.map((error) =>
+				<div>{error.message}</div>
+			));
 			return false;
 		}
 
@@ -108,7 +105,7 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" options={{ date: true, datePattern: ['Y', 'm', 'd'], delimiter: '-' }} />
+						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" options={{ date: true, datePattern: ['d','m', 'Y'], delimiter: '-' }} />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />
@@ -143,7 +140,7 @@ class RegisterStepOne extends Component {
 				<div className="row">
 					<div className="col-md-4">
 						<div className="">
-							<input type="checkbox" id="privacidad" onChange={this.onChange} /> He le&iacute;do y aceptado el <a href="#" className="cond col-003">aviso de privacidad</a>
+							<input type="checkbox" id="privacidad" onChange={this.onChange} /> He le&iacute;do y aceptado el <a className="cond col-003">aviso de privacidad</a>
 						</div>
 					</div>
 					<div className="col-md-4 text-center center-block">

@@ -1,15 +1,9 @@
 ﻿import React, { Component } from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateFormat from 'dateformat';
-import { Link } from 'react-router-dom'
-import AssetStore from '../../flux/stores/AssetStore';
-import Actions from '../../flux/Actions';
 import Loading from '../../components/Loading';
 
 class AssetListB extends Component {
-	constructor(props) {
-		super(props);
-	}
 	componentDidMount() {
 	}
 	render() {
@@ -40,7 +34,7 @@ class AssetListB extends Component {
 
 							<Loading visible={this.props.Loading} />
 
-							{this.props.loading == false && this.props.assets && (
+							{this.props.loading === false && this.props.assets && (
 								<BootstrapTable data={this.props.assets} >
 									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" dataFormat={(cell, row) =>
 										(

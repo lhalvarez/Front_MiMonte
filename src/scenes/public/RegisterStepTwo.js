@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
-import Title from '../../components/Title'
 import FormInput from '../../components/FormInput'
 import RegisterStore from '../../flux/stores/RegisterStore';
 import Actions from '../../flux/Actions';
@@ -27,13 +26,12 @@ class RegisterStepTwo extends Component {
 	}
 	validate() {
 
-		let valid = true;
 		let errors = [];
 		
 		if (this.state.smsCode == null || this.state.smsCode == '')
 			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
 		
-		if (this.state.password == null || this.state.password != this.state.passwordConfirmacion)
+		if (this.state.password == null || this.state.password !==this.state.passwordConfirmacion)
 			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
 		
 		if (errors.length > 0) {

@@ -3,29 +3,22 @@
 import {
 	BrowserRouter as Router,
 	Route,
-	Link,
 	Switch
 } from 'react-router-dom'
 import History from '../flux/History'
 
 import LoggedInContainer from './private/Container'
 import connectToStores from 'alt-utils/lib/connectToStores';
-import Dashboard from './private/Dashboard'
 import Login from './public/Login'
 import Register from './public/Register'
 import RecoveryPassword from './public/RecoveryPassword'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-
-import Confirm from 'react-confirm-bootstrap';
-
-import ReactConfirmAlert, { confirmAlert } from 'react-confirm-alert';
-
-import ConfirmLink from 'react-confirm-dialog';
-
-import 'react-confirm-alert/src/react-confirm-alert.css' 
+import 'react-confirm-alert/src/react-confirm-alert.css'
 import GlobalStore from '../flux/stores/GlobalStore'
-import Actions from '../flux/Actions'
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
+import Actions from '../flux/Actions';
 
 class AppView extends Component {
 	static getStores() {
@@ -40,6 +33,20 @@ class AppView extends Component {
 				<Router history={History}>
 					<div>
 						<Header />
+						<Modal show={this.props.showErrorsDialog}>
+							<Modal.Header>
+								<Modal.Title>Atención</Modal.Title>
+							</Modal.Header>
+
+							<Modal.Body>
+								{this.props.error}
+							</Modal.Body>
+
+							<Modal.Footer>
+								<Button onClick={Actions.cleanError}>Continuar</Button>
+							</Modal.Footer>
+						</Modal>
+
 						<Switch>
 							<Route path="/activationSucceed" component={Login} />
 							<Route path="/activationError" component={Login} />
@@ -51,7 +58,7 @@ class AppView extends Component {
 						<Footer />
 					</div>
 				</Router>
-			
+
 			</div>
 		);
 	}

@@ -1,14 +1,13 @@
 import alt from '../Alt'
 import AuthenticationApi from '../api/AuthenticationApi'
-import AssetsApi from '../api/AssetsApi'
 import RegisterApi from '../api/RegisterApi'
+import AssetsApi from '../api/AssetsApi'
 import axios from 'axios';
 import appConfig from '../api/ApiConfig'
-import SessionStore from './stores/SessionStore'
 
 class Actions {
 	constructor() {
-		this.generateActions("updateAssets", "registerFailed");
+		this.generateActions("updateAssets", "registerFailed", "assetLoaded");
 		this.sessionInfo = {};
 		this.initAxios();
 	}
@@ -27,13 +26,13 @@ class Actions {
 		return true;
 	}
 	loginFailed(state) {
+		debugger;
 		this.error(state); return state;
 	}
 	loggedIn(state) {
 		console.info('User logged in...');
 		if (state) {
 			this.sessionInfo = state;
-			var savedSessionInfo = localStorage.getItem('sessionInfo');
 			localStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
@@ -142,10 +141,8 @@ class Actions {
 		return true;
 	}
 	verifyApiState(state) {
-		if (state)
-		{
-			if (state.respuesta && state.respuesta.codigo != '0')
-			{
+		if (state) {
+			if (state.respuesta && state.respuesta.codigo !== '0') {
 				console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
 				this.error(state.respuesta);
 				return false;
@@ -154,10 +151,9 @@ class Actions {
 		return true;
 	}
 	error(error) {
-		debugger;
-		console.error(JSON.stringify(error));
+		var message = '';
+		console.error(error);
 		if (error.response) {
-			var message = '';
 			if (error.response.data) {
 				try {
 					let cod = error.response.data.codigoError;
@@ -176,10 +172,9 @@ class Actions {
 					message = e;
 				}
 			}
-			return message;
 		}
 		else if (error.code) {
-			var message = '';
+
 			try {
 				let cod = error.code;
 				let description = error.message;
@@ -187,12 +182,14 @@ class Actions {
 			} catch (e) {
 				message = e;
 			}
-			return message;
+		}
+		else if (error.message) {
+			message = "VERSION DESARROLLO - Error: " + error.message;
+		} else {
+			message += 'ERROR INESPERADO: ' + error;
+		}
 
-		}
-		else {
-			return error;
-		}
+		return message;
 	}
 	cleanError() {
 		return true;
@@ -200,12 +197,25 @@ class Actions {
 	loading() {
 
 	}
-	fetchAssets() {
-		return { session: this.sessionInfo };
-	}
 	isLoggedIn() {
 		//TODO: also validate token expirations.
 		return this.sessionInfo.loggedIn;
+	}
+	fetchAssets() {
+		return { session: this.sessionInfo };
+	}
+	fetchAssetsBalance() {
+		return { session: this.sessionInfo };
+	}
+
+	fetchAssetDetail(number) {
+		AssetsApi.byNumber(number)
+			.then(result => {
+				this.assetLoaded({ asset: result.data });
+			})
+			.catch(error => this.error(error));
+
+		return number;
 	}
 }
 
