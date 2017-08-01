@@ -63,6 +63,9 @@ class RegisterStepOne extends Component {
 		if (!this.validate())
 			return;
 
+		let dateString = this.state.fechaNacimiento.match(/^(\d{2})\-(\d{2})\-(\d{4})$/);
+		let fn = new Date(dateString[3], dateString[2] - 1, dateString[1]);
+
 		Actions.registerStepOne(
 			{
 				cliente: {
@@ -70,7 +73,7 @@ class RegisterStepOne extends Component {
 					apellidoPaterno: this.state.apellidoPaterno,
 					apellidoMaterno: this.state.apellidoMaterno,
 					nombres: this.state.nombre,
-					fechaNacimiento: this.state.fechaNacimiento,
+					fechaNacimiento: fn.toISOString().substring(0,10),
 					correoElectronico: this.state.email,
 					telefono: {
 						numeroTelefono: this.state.celular
