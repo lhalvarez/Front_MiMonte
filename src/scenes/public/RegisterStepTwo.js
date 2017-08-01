@@ -33,11 +33,11 @@ class RegisterStepTwo extends Component {
 		
 		if (this.state.password == null || this.state.password !==this.state.passwordConfirmacion)
 			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
-		
+
 		if (errors.length > 0) {
-			let errorMessage = '';
-			errors.forEach(e => errorMessage += e.message + '\r\n');
-			Actions.error(errorMessage);
+			Actions.error(errors.map((error) =>
+				<div>{error.message}</div>
+			));
 			return false;
 		}
 

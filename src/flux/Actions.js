@@ -152,6 +152,7 @@ class Actions {
 	}
 	error(error) {
 		var message = '';
+		debugger;
 		console.error(error);
 		if (error.response) {
 			if (error.response.data) {
@@ -185,8 +186,9 @@ class Actions {
 		}
 		else if (error.message) {
 			message = "VERSION DESARROLLO - Error: " + error.message;
-		} else {
-			message += 'ERROR INESPERADO: ' + error;
+		}
+		else {
+			return error;
 		}
 
 		return message;
