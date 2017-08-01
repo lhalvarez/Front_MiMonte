@@ -41,10 +41,10 @@ class RegisterStepOne extends Component {
 		if (this.state.email == null || this.state.email == '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
-		if (this.state.celular == null || this.state.celular !== this.state.celularConfirmacion)
+		if (this.state.celular == null || this.state.celular != this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 
-		if (this.state.email == null || this.state.email !== this.state.emailConfirmacion)
+		if (this.state.email == null || this.state.email != this.state.emailConfirmacion)
 			errors.push({ field: 'email', message: 'Confirmación de Correo Electrónico no coincide' });
 
 		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) == false)

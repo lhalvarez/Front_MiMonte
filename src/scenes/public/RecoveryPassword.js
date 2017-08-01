@@ -40,7 +40,7 @@ class RecoveryPassword extends Component {
 		if (this.state.token == null || this.state.token == '')
 			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
 
-		if (this.state.newPassword == null || this.state.newPassword !== this.state.newPasswordConfirmation)
+		if (this.state.newPassword == null || this.state.newPassword != this.state.newPasswordConfirmation)
 			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
 
 		if (errors.length > 0) {

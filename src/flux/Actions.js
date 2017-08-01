@@ -141,7 +141,7 @@ class Actions {
 	}
 	verifyApiState(state) {
 		if (state) {
-			if (state.respuesta && state.respuesta.codigo !== '0') {
+			if (state.respuesta && state.respuesta.codigo != '0') {
 				console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
 				this.error(state.respuesta);
 				return false;

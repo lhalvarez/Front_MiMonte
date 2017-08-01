@@ -42,7 +42,7 @@ if (typeof jQuery == 'undefined') {
     }
 
     for (var name in transEndEventNames) {
-      if (el.style[name] !== undefined) {
+      if (el.style[name] != undefined) {
         return { end: transEndEventNames[name] }
       }
     }
@@ -233,7 +233,7 @@ if (typeof jQuery == 'undefined') {
         $parent.find('.active').removeClass('active')
         this.$element.addClass('active')
       } else if ($input.prop('type') == 'checkbox') {
-        if (($input.prop('checked')) !== this.$element.hasClass('active')) changed = false
+        if (($input.prop('checked')) != this.$element.hasClass('active')) changed = false
         this.$element.toggleClass('active')
       }
       $input.prop('checked', this.$element.hasClass('active'))
@@ -1056,8 +1056,8 @@ if (typeof jQuery == 'undefined') {
     $(document)
       .off('focusin.bs.modal') // guard against infinite focus loop
       .on('focusin.bs.modal', $.proxy(function (e) {
-        if (document !== e.target &&
-            this.$element[0] !== e.target &&
+        if (document != e.target &&
+            this.$element[0] != e.target &&
             !this.$element.has(e.target).length) {
           this.$element.trigger('focus')
         }
@@ -1114,7 +1114,7 @@ if (typeof jQuery == 'undefined') {
           this.ignoreBackdropClick = false
           return
         }
-        if (e.target !== e.currentTarget) return
+        if (e.target != e.currentTarget) return
         this.options.backdrop == 'static'
           ? this.$element[0].focus()
           : this.hide()
