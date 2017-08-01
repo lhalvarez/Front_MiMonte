@@ -86,7 +86,8 @@ class AssetStore {
 			trackingB: uuid(),
 			trackingC: uuid(),
 			loading: false,
-			totalBalance: 0
+			totalBalance: 0,
+			balanceRetries: 0
 		}
 		this.registerAsync(AssetSource);
 		this.bindListeners({
@@ -118,6 +119,12 @@ class AssetStore {
 		}
 	}
 	handleUpdateAssets(state) {
+		if (this.state && this.state.balanceRetries > 10)
+		{
+			clearTimeout(this.timerId);
+			console.log('Assets balance reached max retries');
+		}
+
 		let finalState = {
 			assetsA: [],
 			assetsB: [],
