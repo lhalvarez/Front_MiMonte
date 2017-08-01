@@ -10,7 +10,7 @@ class AssetDetails extends Component {
 			asset: {}
 		}
 		this.state.asset = this.props.assetsA.find((asset) => {
-			return (asset.prenda.folio === this.props.match.params.id);
+			return (asset.prenda.folio == this.props.match.params.id);
 		});
 		Actions.fetchAssetDetail(this.props.match.params.id);
 	}

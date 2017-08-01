@@ -59,7 +59,6 @@ class Actions {
 			})
 			.catch(error => {
 				this.error(error);
-				reject(error);
 			});
 
 		return true;

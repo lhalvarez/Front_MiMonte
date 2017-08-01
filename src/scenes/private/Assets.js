@@ -50,7 +50,7 @@ class Assets extends Component {
 					</div>
 				</div>
 
-				{this.state.tab === 1 && (
+				{this.state.tab == 1 && (
 					<div className="container">
 						<div className="row">
 							<div className="col-md-12">
@@ -65,7 +65,7 @@ class Assets extends Component {
 						</div>
 					</div>
 				)}
-				{this.state.tab === 2 && (
+				{this.state.tab == 2 && (
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">

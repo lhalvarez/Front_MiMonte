@@ -105,7 +105,7 @@ class AssetStore {
 		}
 	}
 	handleFetchAssets(state) {
-		if (this.getInstance().isLoading() === false) {
+		if (this.getInstance().isLoading() == false) {
 
 			this.state.session = state.session;
 			this.state.loading = true;
@@ -114,7 +114,7 @@ class AssetStore {
 		}
 	}
 	handleFetchAssetsBalance() {
-		if (this.getInstance().isLoading() === false) {
+		if (this.getInstance().isLoading() == false) {
 			this.getInstance().load(this.state);
 		}
 	}

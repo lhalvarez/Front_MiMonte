@@ -21,7 +21,7 @@ class RecoveryPassword extends Component {
 
 		let errors = [];
 
-		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.username) === false)
+		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.username) == false)
 			errors.push({ field: 'email', message: 'El correo electrónico tiene un formato incorrecto' });
 
 		if (errors.length > 0) {
@@ -37,10 +37,10 @@ class RecoveryPassword extends Component {
 
 		let errors = [];
 
-		if (this.state.token === null || this.state.token === '')
+		if (this.state.token == null || this.state.token == '')
 			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
 
-		if (this.state.newPassword === null || this.state.newPassword !== this.state.newPasswordConfirmation)
+		if (this.state.newPassword == null || this.state.newPassword !== this.state.newPasswordConfirmation)
 			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
 
 		if (errors.length > 0) {
@@ -87,9 +87,9 @@ class RecoveryPassword extends Component {
 							
 							<Loading visible={this.props.loading} />
 
-							{this.props.loading === false && (
+							{this.props.loading == false && (
 								<div>
-									{this.props.recoveryPasswordTokenIssued === false && (
+									{this.props.recoveryPasswordTokenIssued == false && (
 										<div className="panel-body nomargin-top nopadding-top">
 											<form onSubmit={this.retrievePassword} >
 												<div className="spacer-12"></div>

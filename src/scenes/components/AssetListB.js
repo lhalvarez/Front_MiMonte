@@ -34,7 +34,7 @@ class AssetListB extends Component {
 
 							<Loading visible={this.props.Loading} />
 
-							{this.props.loading === false && this.props.assets && (
+							{this.props.loading == false && this.props.assets && (
 								<BootstrapTable data={this.props.assets} >
 									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" dataFormat={(cell, row) =>
 										(

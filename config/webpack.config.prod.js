@@ -18,7 +18,7 @@ const getClientEnvironment = require('./env');
 const publicPath = paths.servedPath;
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
-const shouldUseRelativeAssetPaths = publicPath === './';
+const shouldUseRelativeAssetPaths = publicPath == './';
 // `publicUrl` is just like `publicPath`, but we will provide it to our app
 // as %PUBLIC_URL% in `index.html` and `process.env.PUBLIC_URL` in JavaScript.
 // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
@@ -243,7 +243,7 @@ module.exports = {
       },
     }),
     // Makes some environment variables available to the JS code, for example:
-    // if (process.env.NODE_ENV === 'production') { ... }. See `./env.js`.
+    // if (process.env.NODE_ENV == 'production') { ... }. See `./env.js`.
     // It is absolutely essential that NODE_ENV was set to production here.
     // Otherwise React will be compiled in the very slow development mode.
     new webpack.DefinePlugin(env.stringified),
@@ -282,7 +282,7 @@ module.exports = {
       dontCacheBustUrlsMatching: /\.\w{8}\./,
       filename: 'service-worker.js',
       logger(message) {
-        if (message.indexOf('Total precache size is') === 0) {
+        if (message.indexOf('Total precache size is') == 0) {
           // This message occurs for every build and is a bit too noisy.
           return;
         }

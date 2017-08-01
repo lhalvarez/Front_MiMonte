@@ -51,7 +51,7 @@ choosePort(HOST, DEFAULT_PORT)
       // We have not found a port.
       return;
     }
-    const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
+    const protocol = process.env.HTTPS == 'true' ? 'https' : 'http';
     const appName = require(paths.appPackageJson).name;
     const urls = prepareUrls(protocol, HOST, port);
     // Create a webpack compiler that is configured with custom messages.
