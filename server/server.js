@@ -37,18 +37,40 @@ app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:htt
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
+app.use(function (req, res, next) {
+	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+	res.header('Expires', '-1');
+	res.header('Pragma', 'no-cache');
+	next()
+});
 
 app.use(express.static(path.join(__dirname, '..', 'build')));
 
-app.get('/', function (req, res) {
-	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
-});
 
-app.get('/srv/activate', activation);
+app.all('/srv/activate', activation);
 app.post('/srv/token', token);
 
 app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);
+
+
+app.get('/', function (req, res) {
+
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+
+	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
+});
+
+app.get('*', function (req, res) {
+
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+
+	res.sendFile('index.html', { root: path.join(__dirname, '..', 'build') });
+});
 
 var appEnv = cfenv.getAppEnv();
 

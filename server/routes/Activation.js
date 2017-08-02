@@ -6,6 +6,10 @@ const logger = log4js.getLogger('default');
 
 module.exports = (req, res) => {
 
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+
 	let activationCode = req.query.t;
 	let username = req.query.u;
 
@@ -49,18 +53,14 @@ module.exports = (req, res) => {
 					console.log(e1);
 					res.redirect('/activationError');
 				}
-				else if (r1.statusCode == 200 || r1.statusCode == 500) {
+				else if (r1.statusCode == 200) {
 					console.log('Activación... ' + b1);
+					res.statusCode = 307;
 					res.redirect('/activationSucceed');
 				}
 				else {
-
-					res.json({
-						"codigoError": "FEB-0001",
-						"descripcionError": "No pudo activarse el usuario.",
-						"tipoError": "Error de Servicio",
-						"severidad": "1"
-					})
+					res.statusCode = 307;
+					res.redirect('/activationError');
 				}
 			});
 
