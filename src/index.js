@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import AppView from './scenes/AppView';
-import registerServiceWorker from './registerServiceWorker';
 import Actions from './flux/Actions';
 
 let savedSessionInfo = localStorage.getItem('sessionInfo');
@@ -17,4 +16,4 @@ if (savedSessionInfo)
 }
 
 ReactDOM.render(<AppView />, document.getElementById('root'));
-registerServiceWorker();
+
