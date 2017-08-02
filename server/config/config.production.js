@@ -1,13 +1,15 @@
 var config = module.exports = {};
 
+config.application = JSON.parse(process.env.VCAP_APPLICATION);
+
 config.env = process.env.NODE_ENV;
-config.hostname = process.env.CF_INSTANCE_IP;
+config.hostname = config.application.uris[0];
 config.mmendpoint = process.env.SERVER_MMENDPOINT;
 
 config.mmconsumerId = process.env.SERVER_MMCONSUMERID;
 config.mmdestinationId = process.env.SERVER_MMDESTINATIONID;
 
-config.baseLocalUrl = 'http://' + process.env.CF_INSTANCE_IP;
+config.baseLocalUrl = 'https://' + config.hostname;
 
 config.token_grant_type = 'client_credentials';
 config.token_client_id = process.env.SERVER_APP_TOKEN_CLIENT_ID;

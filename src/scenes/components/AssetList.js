@@ -50,7 +50,7 @@ class AssetList extends Component {
 					<div className="row">
 						<div className="col-md-12">
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
-							{this.props.loading === false && this.props.assets && (
+							{this.props.loading == false && this.props.assets && (
 								<BootstrapTable data={this.props.assets} >
 									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" width="30" dataFormat={(cell, row) =>
 										(

@@ -29,7 +29,6 @@
     "npm-run-all": "^4.0.2",
     "react": "^15.6.1",
     "react-async-script": "^0.9.1",
-    "react-bootstrap": "^0.31.1",
     "react-bootstrap-table": "^3.4.1",
     "react-bootstrap-validation": "^0.1.11",
     "react-confirm-alert": "^1.0.7",

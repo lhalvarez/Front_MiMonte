@@ -12,7 +12,7 @@ module.exports = (req, res) => {
 
 	requestBody.trazabilidad = {
 		GUID: trazabilidadGuid,
-		urlCallBack: config.baseLocalUrl + '/balance'
+		urlCallBack: config.baseLocalUrl + '/srv/balance'
 	};
 
 	let cacheKey = 'assets-' + trazabilidadGuid;

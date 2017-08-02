@@ -12,17 +12,18 @@ class RegisterStepOne extends Component {
 		this.setState({});
 	}
 	setValue(event) {
+		
 		var object = {};
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 	}
 	validate() {
-		if (this.state.privacidad == false) {
-			Actions.error('Debe firmar el acuerdo de privacidad');
-		}
-
 		let errors = [];
 
+		if (this.state.privacidad == null || this.state.privacidad != 'on') {
+			errors.push({ field: 'privacidad', message: 'Debe firmar el acuerdo de privacidad' });
+		}
+		
 		if (this.state.nombre == null || this.state.nombre == '')
 			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
 
@@ -41,10 +42,10 @@ class RegisterStepOne extends Component {
 		if (this.state.email == null || this.state.email == '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
-		if (this.state.celular == null || this.state.celular !== this.state.celularConfirmacion)
+		if (this.state.celular == null || this.state.celular != this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 
-		if (this.state.email == null || this.state.email !== this.state.emailConfirmacion)
+		if (this.state.email == null || this.state.email != this.state.emailConfirmacion)
 			errors.push({ field: 'email', message: 'Confirmación de Correo Electrónico no coincide' });
 
 		if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.state.email) == false)
@@ -120,7 +121,7 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} />
+						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 16, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }} />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="boleta" label="No. de Boleta Activa" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 9, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }} />
@@ -143,7 +144,7 @@ class RegisterStepOne extends Component {
 				<div className="row">
 					<div className="col-md-4">
 						<div className="">
-							<input type="checkbox" id="privacidad" onChange={this.onChange} /> He le&iacute;do y aceptado el <a className="cond col-003">aviso de privacidad</a>
+							<input type="checkbox" id="privacidad" onChange={this.setValue} /> He le&iacute;do y aceptado el <a className="cond col-003">aviso de privacidad</a>
 						</div>
 					</div>
 					<div className="col-md-4 text-center center-block">

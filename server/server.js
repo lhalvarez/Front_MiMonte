@@ -40,17 +40,31 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, '..', 'build')));
 
-app.get('/', function (req, res) {
-	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
-});
 
-// Public proxy service
-app.get('/srv/activate', activation);
-// Internal access token.
+app.all('/srv/activate', activation);
 app.post('/srv/token', token);
 
 app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);
+
+
+app.get('/', function (req, res) {
+
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+
+	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
+});
+
+app.get('*', function (req, res) {
+
+	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+	res.header("Pragma", "no-cache");
+	res.header("Expires", 0);
+
+	res.sendFile('index.html', { root: path.join(__dirname, '..', 'build') });
+});
 
 var appEnv = cfenv.getAppEnv();
 
