@@ -38,20 +38,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
-// Public proxy service
+app.get('*', function (req, res) {
+	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
+});
+
 app.get('/srv/activate', activation);
-// Internal access token.
 app.post('/srv/token', token);
 
 app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);
-
-app.use(express.static(path.join(__dirname, '..', 'build')));
-
-app.get('/', function (req, res) {
-	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
-});
 
 var appEnv = cfenv.getAppEnv();
 
