@@ -7,6 +7,7 @@ class AssetListB extends Component {
 	componentDidMount() {
 	}
 	render() {
+		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 		return (
 			<div>
 				{
@@ -36,11 +37,7 @@ class AssetListB extends Component {
 
 							{this.props.loading == false && this.props.assets && (
 								<BootstrapTable data={this.props.assets} >
-									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" dataFormat={(cell, row) =>
-										(
-											<input type="checkbox" id="chk10602346" />
-										)}></TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="300" dataFormat={(cell, row) =>
+									<TableHeaderColumn headerAlign='left' isKey dataField='prenda.folio'  dataAlign='left' width="300" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
@@ -48,7 +45,7 @@ class AssetListB extends Component {
 											</div>
 										)}>Prenda</TableHeaderColumn>
 									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (<span>no existe el dato</span>)}>Sucursal</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => dateFormat(row.condiciones.fechaLimitePago, "dd/mmmm/yyyy")}>A la Venta</TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions) }>A la Venta</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>

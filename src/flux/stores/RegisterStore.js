@@ -52,6 +52,11 @@ class RegisterStore {
 					Actions.error("Respuesta inesperada.");
 				}
 			}
+			//else if (state.result.respuesta.codigo == 3002)
+			//{
+			//	this.state["contractInfo"] = state.info;
+			//	this.state.currentStep = 2;
+			//}
 			
 		}
 	}

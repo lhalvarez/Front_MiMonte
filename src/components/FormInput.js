@@ -31,7 +31,7 @@ class FormInput extends Component {
 				control = <Cleave {...common} className="form-control" options={{ date: true, datePattern: ['Y', 'm', 'd'] }} onChange={this.props.onChange} placeholder="yyyy/mm/dd" />
 				break;
 			case 'format':
-				control = <Cleave {...common} className="form-control" onChange={this.props.onChange} options={this.props.options} />
+				control = <Cleave {...common} className="form-control" placeholder={this.props.placeholder} onChange={this.props.onChange} options={this.props.options} />
 				break;
 			default:
 				control = <input {...common} type="text" className="form-control" onChange={this.props.onChange} onLoad={this.props.onLoad} />;

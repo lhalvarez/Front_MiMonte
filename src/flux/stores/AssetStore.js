@@ -87,7 +87,8 @@ class AssetStore {
 			trackingC: uuid(),
 			loading: false,
 			totalBalance: 0,
-			balanceRetries: 0
+			balanceRetries: 0,
+			balanceFailed: false
 		}
 		this.registerAsync(AssetSource);
 		this.bindListeners({
@@ -121,7 +122,8 @@ class AssetStore {
 	handleUpdateAssets(state) {
 		if (this.state && this.state.balanceRetries > 10)
 		{
-			clearTimeout(this.timerId);
+			clearInterval(this.timerId);
+			this.state.balanceFailed = true;
 			console.log('Assets balance reached max retries');
 		}
 
@@ -145,12 +147,29 @@ class AssetStore {
 			finalState = state;
 		}
 
+		if (this.state.balanceFailed == true)
+		{
+			finalState.assetsA.forEach((element) => {
+				if (!element.saldos
+					|| !element.saldos.saldoRefrendo
+					|| !element.saldos.saldoDesempeno)
+				{
+					element.saldos = { failed: true }
+				}
+			})
+		}
+		
+
 		localStorage.setItem("assets", JSON.stringify(finalState));
 		this.setState(finalState);
 
-		this.timerId = setTimeout(() => this.refreshBalance(), 5000);
+		if (this.state.balanceRetries == 0) {
+			this.timerId = setInterval(() => this.refreshBalance(), 5000);
+		}
 
 		this.errorMessage = null;
+
+		this.state.balanceRetries++;
 	}
 
 	refreshBalance() {
