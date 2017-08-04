@@ -24,7 +24,13 @@ class AssetList extends Component {
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 	}
+	onSearchChange(searchText, colInfos, multiColumnSearch) {
+		alert(searchText);
+	}
 	render() {
+		const options = {
+			onSearchChange: this.onSearchChange
+		};
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 		const tableOptions = {
 			page: 1,  // which page you want to show as default
@@ -52,15 +58,16 @@ class AssetList extends Component {
 								<BootstrapTable data={this.props.assets} pagination={false} options={tableOptions}
 									search={this.props.showSearch}
 									searchPlaceholder='filtrar...'>
-									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="300" dataFormat={(cell, row) =>
+									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
 												<div>{row.prenda.descripcion}</div>
+												<div><span className="col-012 italic">{row.prenda.tipoContrato}</span></div>
 												<div>Sucursal: {row.prenda.sucursal}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn columnFilter={true} headerAlign='left' dataField='prenda.descripcion' ref='descripcionColumn' dataAlign='left' width="200" dataFormat={(cell, row) => (
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => (
 
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
@@ -83,7 +90,7 @@ class AssetList extends Component {
 												<div>
 													no disponible
 													</div>
-												)
+											)
 											}
 
 											<Loading visible={!row.saldos} text="cargando saldos" />
@@ -91,7 +98,7 @@ class AssetList extends Component {
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="100" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>
