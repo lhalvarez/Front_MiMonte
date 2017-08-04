@@ -4,7 +4,7 @@ import ApiConfig from './ApiConfig'
 
 class AssetsApi extends ApiBase {
 	byClient(clientNumber, criteria, trackingId) {
-		console.log('Getting assets -> ' + trackingId);
+		
 		return super.buildPost(
 			ApiConfig.BackendEndpoint + ApiConfig.AssetsByClientApiMethod, 
 			{
@@ -19,7 +19,6 @@ class AssetsApi extends ApiBase {
 		);
 	}
 	byNumber(number) {
-		console.log('Getting asset -> ' + number);
 		return super.buildPost(
 			ApiConfig.BackendEndpoint + ApiConfig.AssetsByClientApiMethod,
 			{

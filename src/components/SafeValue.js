@@ -5,9 +5,6 @@ class SafeValue extends Component {
 	{
 		super(props);
 		this.safeValue = props.value;
-
-		//this.safeValue = this.htmlEscape(this.safeValue);
-		console.log(this.safeValue);
 	}
 	htmlEscape(str) {
 		return String(str)

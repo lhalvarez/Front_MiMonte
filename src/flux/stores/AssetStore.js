@@ -39,7 +39,6 @@ const AssetSource = {
 				//}
 
 				if (!shouldProcess) {
-					console.log('Assets Source - Using local');
 					return state;
 				}
 				else {
@@ -124,7 +123,6 @@ class AssetStore {
 		{
 			clearInterval(this.timerId);
 			this.state.balanceFailed = true;
-			console.log('Assets balance reached max retries');
 		}
 
 		let finalState = {

@@ -130,7 +130,7 @@ class RegisterStepTwo extends Component {
 					<div className="col-md-6">
 						<p className="col-011">Escribe el código que te llegó por SMS al número de teléfono {this.props.contractInfo.cliente.telefono.numeroTelefono}</p>
 						<FormInput id="smsCode" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 6, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }}  />
-						<p className="text-center"><button className="btn btn-warning btn-raised btn-line btn-sm" disabled="true" onClick={this.resendCode}>Volver a Enviar</button></p>
+						<p className="text-center"><button className="btn btn-warning btn-raised btn-line btn-sm" onClick={this.resendCode}>Volver a Enviar</button></p>
 						<div className="spacer-24"></div>
 						<p className="col-005 small text-center">Si has intentado volver a enviar el SMS y no tuviste respuesta, comunícate al 01 800 EL MONTE (01 800 35 666 83).</p>
 					</div>

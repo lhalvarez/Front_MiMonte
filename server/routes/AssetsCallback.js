@@ -16,11 +16,9 @@ module.exports = (req, res) => {
 		let oldest = cachedRequest.data.partidas.partida;
 
 		_.each(newest, (newestPrenda) => {
-			console.log('Looking for ' + newestPrenda.prenda.folio);
-
+			
 			var match = _.find(oldest, function (oldestPrenda) { return oldestPrenda.prenda.folio == newestPrenda.prenda.folio })
 			if (match) {
-				console.log('Updating ' + newestPrenda.prenda.folio);
 				if (!match.saldos) {
 					match.saldos = {};
 				}
