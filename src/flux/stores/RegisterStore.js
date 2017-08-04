@@ -29,7 +29,7 @@ class RegisterStore {
 		{
 			this.state['loading'] = false;
 
-			if (state.result.respuesta.codigo == 0)
+			if (state.result.respuesta && state.result.respuesta.codigo == 0)
 			{
 				if (state.result.cliente.estadoRegistro.toLowerCase() == 'preregistro')
 				{
@@ -52,11 +52,11 @@ class RegisterStore {
 					Actions.error("Respuesta inesperada.");
 				}
 			}
-			//else if (state.result.respuesta.codigo == 3002)
-			//{
-			//	this.state["contractInfo"] = state.info;
-			//	this.state.currentStep = 2;
-			//}
+			else if (state.result.codigoError == "NMP-3002")
+			{
+				this.state["contractInfo"] = state.info;
+				this.state.currentStep = 2;
+			}
 			
 		}
 	}

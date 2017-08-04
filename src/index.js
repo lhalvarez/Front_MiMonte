@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import AppView from './scenes/AppView';
 import Actions from './flux/Actions';
 
-let savedSessionInfo = localStorage.getItem('sessionInfo');
+let savedSessionInfo = sessionStorage.getItem('sessionInfo');
 if (savedSessionInfo)
 {
 	try {

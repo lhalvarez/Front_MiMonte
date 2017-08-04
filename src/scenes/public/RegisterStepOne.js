@@ -78,7 +78,7 @@ class RegisterStepOne extends Component {
 					},
 					medioValidacion: 1,
 					datosPrendarios: {
-						numContrato: this.state.boleta //partida
+						numContrato: 0
 					}
 				}
 			}
@@ -118,12 +118,9 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxlength="16"/>
+						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxLength="16"/>
 					</div>
-					<div className="col-md-4">
-						<FormInput id="boleta" label="No. de Boleta Activa" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 9, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }} />
-					</div>
-
+			
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">

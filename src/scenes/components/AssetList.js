@@ -26,6 +26,19 @@ class AssetList extends Component {
 	}
 	render() {
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+		const tableOptions = {
+			page: 1,  // which page you want to show as default
+			sizePerPage: 5,  // which size per page you want to locate as default
+			pageStartIndex: 1, // where to start counting the pages
+			paginationSize: 3,  // the pagination bar size.
+			prePage: 'Anterior', // Previous page button text
+			nextPage: 'Siguiente', // Next page button text
+			firstPage: 'Primera', // First page button text
+			lastPage: 'Última', // Last page button text
+			paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
+			paginationPosition: 'bottom'  // default is bottom, top and both is all available
+		};
+
 		return (
 			<div>
 				{
@@ -52,12 +65,13 @@ class AssetList extends Component {
 						<div className="col-md-12">
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
-								<BootstrapTable data={this.props.assets} >
+								<BootstrapTable data={this.props.assets} pagination={true} options={tableOptions}	>
 									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="300" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
 												<div>{row.prenda.descripcion}</div>
+												<div>Sucursal: {row.prenda.sucursal}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
 									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (

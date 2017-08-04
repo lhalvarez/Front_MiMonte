@@ -33,7 +33,8 @@ class Actions {
 		console.info('User logged in...');
 		if (state) {
 			this.sessionInfo = state;
-			localStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
+			
+			sessionStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
 
@@ -43,7 +44,7 @@ class Actions {
 		}
 	}
 	logout() {
-		localStorage.removeItem('sessionInfo');
+		sessionStorage.removeItem('sessionInfo');
 		alt.recycle();
 		return ({ sessionInfo: { loggedIn: false } });
 	}
@@ -105,7 +106,11 @@ class Actions {
 					this.registerStepCompleted({ info: data, result: result.data });
 				})
 				.catch(error => {
-					this.error(error); this.registerFailed();
+					if (error.response.data && error.response.data.codigoError == "NMP-3002") {
+						this.registerStepCompleted({ info: data, result: error.response.data });
+					} else {
+						this.error(error); this.registerFailed();
+					}
 				});
 		});
 
