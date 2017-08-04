@@ -29,10 +29,11 @@ class RegisterStore {
 		{
 			this.state['loading'] = false;
 
-			if (state.result.respuesta && state.result.respuesta.codigo == 0)
+			if (state.result.respuesta && (state.result.respuesta.codigo == 0 || state.result.respuesta.codigo == "NMP-3002"))
 			{
 				if (state.result.cliente.estadoRegistro.toLowerCase() == 'preregistro')
 				{
+					state.info.cliente.telefono.maskedTelefono = "*******" + state.info.cliente.telefono.numeroTelefono.substring(state.info.cliente.telefono.numeroTelefono.lenght - 4, 3);
 					this.state["contractInfo"] = state.info;
 					this.state["stepOneResult"] = state.result;
 					this.state.currentStep = 2;
@@ -49,7 +50,7 @@ class RegisterStore {
 				}
 				else 
 				{
-					Actions.error("Respuesta inesperada.");
+					
 				}
 			}
 			else if (state.result.codigoError == "NMP-3002")

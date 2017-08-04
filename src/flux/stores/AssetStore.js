@@ -94,8 +94,12 @@ class AssetStore {
 			handleFetchAssets: Actions.fetchAssets,
 			handleUpdateAssets: Actions.updateAssets,
 			handleFetchAssetsBalance: Actions.fetchAssetsBalance,
-			handleFetchAssetDetail: Actions.fetchAssetDetail
+			handleFetchAssetDetail: Actions.fetchAssetDetail,
+			handleFilterAssets: Actions.filterAssets
 		});
+	}
+	handleFilterAssets(filter) {
+
 	}
 	handleFetchAssetDetail(state) {
 		if (state && state.asset)

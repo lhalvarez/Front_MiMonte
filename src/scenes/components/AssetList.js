@@ -16,7 +16,7 @@ class AssetList extends Component {
 	filter() {
 		if (this.state.filterPhase)
 		{
-			
+			this.refs.descripcionColumn.applyFilter(this.state.filterPhase);
 		}
 	}
 	setValue(event) {
@@ -41,22 +41,6 @@ class AssetList extends Component {
 
 		return (
 			<div>
-				{
-					this.props.showSearch &&
-					<div className="panel-header nomargin-top nopadding-top">
-						<div className="row">
-							<div className="col-md-4 col-md-offset-8">
-								<div className="form-group">
-									<div className="input-group">
-										<div className="input-group-addon"><i className="material-icons">search</i></div>
-										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.setValue} />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				}
 				<div className="panel-header">
 					<p className="s1 cond w400 col-005 nomargin-bottom nopadding-bottom">{this.props.title}</p>
 				</div>
@@ -65,7 +49,9 @@ class AssetList extends Component {
 						<div className="col-md-12">
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
-								<BootstrapTable data={this.props.assets} pagination={true} options={tableOptions}	>
+								<BootstrapTable data={this.props.assets} pagination={false} options={tableOptions}
+									search={this.props.showSearch}
+									searchPlaceholder='filtrar...'>
 									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="300" dataFormat={(cell, row) =>
 										(
 											<div>
@@ -74,7 +60,7 @@ class AssetList extends Component {
 												<div>Sucursal: {row.prenda.sucursal}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (
+									<TableHeaderColumn columnFilter={true} headerAlign='left' dataField='prenda.descripcion' ref='descripcionColumn' dataAlign='left' width="200" dataFormat={(cell, row) => (
 
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (

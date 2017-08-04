@@ -5,6 +5,18 @@ import Loading from '../../components/Loading';
 
 class AssetListB extends Component {
 	componentDidMount() {
+		this.filter = this.filter.bind(this);
+		this.setValue = this.setValue.bind(this);
+	}
+	filter() {
+		if (this.state.filterPhase) {
+			this.refs.descripcionColumn.applyFilter(this.state.filterPhase);
+		}
+	}
+	setValue(event) {
+		var object = {};
+		object[event.target.id] = event.target.value;
+		this.setState(object);
 	}
 	render() {
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -23,22 +35,6 @@ class AssetListB extends Component {
 		return (
 			
 			<div>
-				{
-					this.props.showSearch &&
-					<div className="panel-header nomargin-top nopadding-top">
-						<div className="row">
-							<div className="col-md-4 col-md-offset-8">
-								<div className="form-group">
-									<div className="input-group">
-										<div className="input-group-addon"><i className="material-icons">search</i></div>
-										<input type="text" className="form-control" placeholder="Filtrar resultados" />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				}
 				<div className="panel-header">
 					<p className="s1 cond w400 col-005 nomargin-bottom nopadding-bottom">{this.props.title}</p>
 				</div>
@@ -50,17 +46,19 @@ class AssetListB extends Component {
 
 							{this.props.loading == false && this.props.assets && (
 
-								<BootstrapTable data={this.props.assets} pagination={true} options={tableOptions}>
+								<BootstrapTable data={this.props.assets} className="table-collapse" pagination={false} options={tableOptions}
+									search={this.props.showSearch}
+									searchPlaceholder='filtrar...'>
+								>
 									<TableHeaderColumn headerAlign='left' isKey dataField='prenda.folio'  dataAlign='left' width="300" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
 												<div>{row.prenda.descripcion}</div>
-												<div>Sucursal: {row.prenda.sucursal}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (<span>no existe el dato</span>)}>Sucursal</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions) }>A la Venta</TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="80" dataFormat={(cell, row) => (<span>{row.prenda.sucursal}</span>)}>Sucursal</TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="150" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions) }>A la Venta</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>

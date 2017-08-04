@@ -6,7 +6,10 @@ import Actions from '../../flux/Actions';
 
 class RegisterStepTwo extends Component {
 	constructor(props) {
+		
 		super(props);
+		this.resendCode = this.resendCode.bind(this);
+		this.resendEmail = this.resendEmail.bind(this);
 		this.continue = this.continue.bind(this);
 		this.setValue = this.setValue.bind(this);
 	}
@@ -57,7 +60,7 @@ class RegisterStepTwo extends Component {
 					}
 				},
 				cliente: {
-					idCliente: this.props.contractInfo.cliente.idCliente
+					idCliente: this.props.stepOneResult.cliente.idCliente
 				}
 			});
 	}
@@ -75,7 +78,7 @@ class RegisterStepTwo extends Component {
 					}
 				},
 				cliente: {
-					idCliente: this.props.contractInfo.cliente.idCliente
+					idCliente: this.props.stepOneResult.cliente.idCliente
 				}
 			});
 	}
@@ -97,7 +100,7 @@ class RegisterStepTwo extends Component {
 					}
 				},
 				cliente: {
-					idCliente: this.props.stepOneResult.cliente.idCliente
+					numCredencial: this.props.contractInfo.cliente.numCredencial
 				}
 			});
 	}
@@ -128,7 +131,7 @@ class RegisterStepTwo extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-6">
-						<p className="col-011">Escribe el código que te llegó por SMS al número de teléfono {this.props.contractInfo.cliente.telefono.numeroTelefono}</p>
+						<p className="col-011">Escribe el código que te llegó por SMS al número de teléfono {this.props.contractInfo.cliente.telefono.maskedTelefono}</p>
 						<FormInput id="smsCode" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 6, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }}  />
 						<p className="text-center"><button className="btn btn-warning btn-raised btn-line btn-sm" onClick={this.resendCode}>Volver a Enviar</button></p>
 						<div className="spacer-24"></div>

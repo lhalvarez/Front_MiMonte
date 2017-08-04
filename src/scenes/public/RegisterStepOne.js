@@ -84,6 +84,13 @@ class RegisterStepOne extends Component {
 			}
 		);
 	}
+	onlyLetter(event) {
+		var inputValue = event.which;
+		// allow letters and whitespaces only.
+		if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+			event.preventDefault();
+		}
+	}
 	render() {
 		return (
 			<div role="tabpanel" className="tab-pane fade in active" id="stp1">
@@ -94,13 +101,13 @@ class RegisterStepOne extends Component {
 				</div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="nombre" label="Nombre" onChange={this.setValue} onLoad={this.setField} />
+						<FormInput id="nombre" label="Nombre" onChange={this.setValue} onLoad={this.setField} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} />
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} />
+						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter}/>
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} />
+						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter}/>
 					</div>
 				</div>
 				<div className="spacer-24"></div>

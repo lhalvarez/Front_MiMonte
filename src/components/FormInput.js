@@ -34,7 +34,7 @@ class FormInput extends Component {
 				control = <Cleave {...common} className="form-control" placeholder={this.props.placeholder} onChange={this.props.onChange} options={this.props.options} />
 				break;
 			default:
-				control = <input {...common} type="text" className="form-control" onChange={this.props.onChange} onLoad={this.props.onLoad} maxLength={this.props.maxLength} />;
+				control = <input {...common} type="text" className="form-control" onChange={this.props.onChange} onLoad={this.props.onLoad} maxLength={this.props.maxLength} pattern={this.props.pattern} onKeyPress={this.props.onKeyPress}/>;
 				break;
 		}
 		return (
