@@ -12,9 +12,7 @@ module.exports = (req, res) => {
 
 	let activationCode = req.query.t;
 	let username = req.query.u;
-
-	console.log('Activation user invoked / Token: ' + activationCode +  ' Username: ' + username);
-
+	
 	appToken(function (error, response, body) {
 		if (error) {
 			console.error(error);
@@ -50,11 +48,10 @@ module.exports = (req, res) => {
 			}, function (e1, r1, b1) {
 
 				if (e1) {
-					console.log(e1);
+					console.error(e1);
 					res.redirect('/activationError');
 				}
 				else if (r1.statusCode == 200) {
-					console.log('Activación... ' + b1);
 					res.statusCode = 307;
 					res.redirect('/activationSucceed');
 				}

@@ -16,7 +16,7 @@ class AssetList extends Component {
 	filter() {
 		if (this.state.filterPhase)
 		{
-			
+			this.refs.descripcionColumn.applyFilter(this.state.filterPhase);
 		}
 	}
 	setValue(event) {
@@ -24,25 +24,29 @@ class AssetList extends Component {
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 	}
+	onSearchChange(searchText, colInfos, multiColumnSearch) {
+		alert(searchText);
+	}
 	render() {
+		const options = {
+			onSearchChange: this.onSearchChange
+		};
+		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+		const tableOptions = {
+			page: 1,  // which page you want to show as default
+			sizePerPage: 5,  // which size per page you want to locate as default
+			pageStartIndex: 1, // where to start counting the pages
+			paginationSize: 3,  // the pagination bar size.
+			prePage: 'Anterior', // Previous page button text
+			nextPage: 'Siguiente', // Next page button text
+			firstPage: 'Primera', // First page button text
+			lastPage: 'Última', // Last page button text
+			paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
+			paginationPosition: 'bottom'  // default is bottom, top and both is all available
+		};
+
 		return (
 			<div>
-				{
-					this.props.showSearch &&
-					<div className="panel-header nomargin-top nopadding-top">
-						<div className="row">
-							<div className="col-md-4 col-md-offset-8">
-								<div className="form-group">
-									<div className="input-group">
-										<div className="input-group-addon"><i className="material-icons">search</i></div>
-										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.setValue} />
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-				}
 				<div className="panel-header">
 					<p className="s1 cond w400 col-005 nomargin-bottom nopadding-bottom">{this.props.title}</p>
 				</div>
@@ -51,22 +55,22 @@ class AssetList extends Component {
 						<div className="col-md-12">
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
-								<BootstrapTable data={this.props.assets} >
-									<TableHeaderColumn isKey dataField='prenda.folio' dataAlign="center" width="30" dataFormat={(cell, row) =>
-										(
-											<input type="checkbox" id="chk10602346" />
-										)}></TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="300" dataFormat={(cell, row) =>
+								<BootstrapTable data={this.props.assets} pagination={false} options={tableOptions}
+									search={this.props.showSearch}
+									searchPlaceholder='filtrar...'>
+									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
 												<div>{row.prenda.descripcion}</div>
+												<div><span className="col-012 italic">{row.prenda.tipoContrato}</span></div>
+												<div>Sucursal: {row.prenda.sucursal}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="200" dataFormat={(cell, row) => (
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => (
 
 										<div>
-											{row.saldos && (
+											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
 												<div>
 													<div className="radio radio-primary">
 														<label className="col-001">
@@ -82,19 +86,19 @@ class AssetList extends Component {
 												</div>)
 											}
 
+											{row.saldos && row.saldos.failed && (
+												<div>
+													no disponible
+													</div>
+											)
+											}
+
 											<Loading visible={!row.saldos} text="cargando saldos" />
 										</div>
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="100" dataFormat={(cell, row) => dateFormat(row.condiciones.fechaLimitePago, "dd/mmmm/yyyy")}>Fecha Limite</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='center' dataAlign='center' width="100" dataFormat={(cell, row) =>
-										(
-											<div>
-												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
-													<i className="material-icons col-001">search</i></Link>
-											</div>
-										)}></TableHeaderColumn>
+									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>

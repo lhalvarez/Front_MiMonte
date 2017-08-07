@@ -16,9 +16,7 @@ module.exports = (req, res) => {
 	};
 
 	let cacheKey = 'assets-' + trazabilidadGuid;
-
-	console.log("Callback url -> " + requestBody.trazabilidad.urlCallBack);
-
+	
 	let cacheObject = cache.get(cacheKey);
 
 	if (cacheObject) {
@@ -39,9 +37,7 @@ module.exports = (req, res) => {
 		if (response && response.statusCode == 200) {
 			let token = JSON.parse(body);
 			let appToken = token.access_token;
-
-			console.log('Getting assets...' + cacheKey);
-
+			
 			request.post({
 				url: config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Cliente',
 				headers: {
@@ -59,7 +55,6 @@ module.exports = (req, res) => {
 					}
 				}
 			}, (e1, r1, b1) => {
-				console.log('Assets output ' + b1);
 
 				if (e1)
 				{
@@ -70,7 +65,6 @@ module.exports = (req, res) => {
 					cacheObject.data = b1;
 					cache.put(cacheKey, cacheObject);
 				}
-				console.log('Cached response with ' + cacheKey);
 				res.json(b1);
 			});
 		}

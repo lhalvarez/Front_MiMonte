@@ -32,10 +32,7 @@ class RegisterStepOne extends Component {
 
 		if (this.state.apellidoPaterno == null || this.state.apellidoPaterno == '')
 			errors.push({ field: 'apellidoPaterno', message: 'El Apellido Paterno es requerido' });
-
-		if (this.state.nombre == null || this.state.nombre == '')
-			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
-
+		
 		if (this.state.celular == null || this.state.celular == '')
 			errors.push({ field: 'celular', message: 'El Número de celular es requerido' });
 
@@ -81,11 +78,18 @@ class RegisterStepOne extends Component {
 					},
 					medioValidacion: 1,
 					datosPrendarios: {
-						numContrato: this.state.boleta //partida
+						numContrato: 0
 					}
 				}
 			}
 		);
+	}
+	onlyLetter(event) {
+		var inputValue = event.which;
+		// allow letters and whitespaces only.
+		if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+			event.preventDefault();
+		}
 	}
 	render() {
 		return (
@@ -97,19 +101,19 @@ class RegisterStepOne extends Component {
 				</div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="nombre" label="Nombre" onChange={this.setValue} onLoad={this.setField} />
+						<FormInput id="nombre" label="Nombre" onChange={this.setValue} onLoad={this.setField} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} />
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} />
+						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter}/>
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} />
+						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter}/>
 					</div>
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" options={{ date: true, datePattern: ['d','m', 'Y'], delimiter: '-' }} />
+						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" placeholder="dd-mm-aaaa" options={{ date: true, datePattern: ['d','m', 'Y'], delimiter: '-' }} />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />
@@ -121,12 +125,9 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 16, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }} />
+						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxLength="16"/>
 					</div>
-					<div className="col-md-4">
-						<FormInput id="boleta" label="No. de Boleta Activa" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 9, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }} />
-					</div>
-
+			
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">

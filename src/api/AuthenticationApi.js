@@ -37,8 +37,6 @@ class AuthenticationApi extends ApiBase {
 			cognitoUser.authenticateUser(authenticationDetails, {
 				onSuccess: function (result) {
 
-					console.log('OAuth Token ->' + result.getAccessToken().getJwtToken());
-
 					let token = result.getAccessToken().getJwtToken();
 					
 					me.getAppToken()
@@ -87,7 +85,7 @@ class AuthenticationApi extends ApiBase {
 			{ usuarioMonte: username });
 	}
 	retrievePassword(username, appToken) {
-		console.log('Retrieve Password ' + appConfig.UseMocks);
+		
 		if (appConfig.UseMocks) {
 			return new Promise((resolve, reject) => {
 				setTimeout(resolve({

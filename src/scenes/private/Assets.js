@@ -31,8 +31,7 @@ class Assets extends Component {
 	render() {
 		return (
 			<div>
-				<Title title="Boletas" />{this.state.tab}
-
+				<Title title="Boletas" />
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">

@@ -39,7 +39,6 @@ const AssetSource = {
 				//}
 
 				if (!shouldProcess) {
-					console.log('Assets Source - Using local');
 					return state;
 				}
 				else {
@@ -87,15 +86,20 @@ class AssetStore {
 			trackingC: uuid(),
 			loading: false,
 			totalBalance: 0,
-			balanceRetries: 0
+			balanceRetries: 0,
+			balanceFailed: false
 		}
 		this.registerAsync(AssetSource);
 		this.bindListeners({
 			handleFetchAssets: Actions.fetchAssets,
 			handleUpdateAssets: Actions.updateAssets,
 			handleFetchAssetsBalance: Actions.fetchAssetsBalance,
-			handleFetchAssetDetail: Actions.fetchAssetDetail
+			handleFetchAssetDetail: Actions.fetchAssetDetail,
+			handleFilterAssets: Actions.filterAssets
 		});
+	}
+	handleFilterAssets(filter) {
+
 	}
 	handleFetchAssetDetail(state) {
 		if (state && state.asset)
@@ -121,8 +125,8 @@ class AssetStore {
 	handleUpdateAssets(state) {
 		if (this.state && this.state.balanceRetries > 10)
 		{
-			clearTimeout(this.timerId);
-			console.log('Assets balance reached max retries');
+			clearInterval(this.timerId);
+			this.state.balanceFailed = true;
 		}
 
 		let finalState = {
@@ -145,12 +149,29 @@ class AssetStore {
 			finalState = state;
 		}
 
+		if (this.state.balanceFailed == true)
+		{
+			finalState.assetsA.forEach((element) => {
+				if (!element.saldos
+					|| !element.saldos.saldoRefrendo
+					|| !element.saldos.saldoDesempeno)
+				{
+					element.saldos = { failed: true }
+				}
+			})
+		}
+		
+
 		localStorage.setItem("assets", JSON.stringify(finalState));
 		this.setState(finalState);
 
-		this.timerId = setTimeout(() => this.refreshBalance(), 5000);
+		if (this.state.balanceRetries == 0) {
+			this.timerId = setInterval(() => this.refreshBalance(), 5000);
+		}
 
 		this.errorMessage = null;
+
+		this.state.balanceRetries++;
 	}
 
 	refreshBalance() {

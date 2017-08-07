@@ -33,7 +33,8 @@ class Actions {
 		console.info('User logged in...');
 		if (state) {
 			this.sessionInfo = state;
-			localStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
+
+			sessionStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
 
@@ -43,7 +44,7 @@ class Actions {
 		}
 	}
 	logout() {
-		localStorage.removeItem('sessionInfo');
+		sessionStorage.removeItem('sessionInfo');
 		alt.recycle();
 		return ({ sessionInfo: { loggedIn: false } });
 	}
@@ -105,7 +106,11 @@ class Actions {
 					this.registerStepCompleted({ info: data, result: result.data });
 				})
 				.catch(error => {
-					this.error(error); this.registerFailed();
+					if (error.response.data && error.response.data.codigoError == "NMP-3002") {
+						this.registerStepCompleted({ info: data, result: error.response.data });
+					} else {
+						this.error(error); this.registerFailed();
+					}
 				});
 		});
 
@@ -124,13 +129,15 @@ class Actions {
 		return true;
 	}
 	registerResendActivationCode(data) {
-		RegisterApi.resendActivationCode({ sessionInfo: this.sessionInfo, data: data })
-			.then(result => {
-				this.registerStepCompleted({ info: data, result: result.data });
-			})
-			.catch(error => {
-				this.error(error); this.registerFailed();
-			});
+		this.getAppToken(token => {
+			RegisterApi.resendActivationCode({ appToken: token, data: data })
+				.then(result => {
+					this.registerStepCompleted({ info: data, result: result.data });
+				})
+				.catch(error => {
+					this.error(error); this.registerFailed();
+				});
+		});
 		return true;
 	}
 	registerStepCompleted(state) {
@@ -208,7 +215,9 @@ class Actions {
 	fetchAssetsBalance() {
 		return { session: this.sessionInfo };
 	}
-
+	filterAssets(filter) {
+		return filter;
+	}
 	fetchAssetDetail(number) {
 		AssetsApi.byNumber(number)
 			.then(result => {

@@ -37,7 +37,6 @@ class Nav extends Component {
 								<li className="w400 cond">
 									<Link to="/home">INICIO</Link></li>
 								<li className="w400 cond"><Link to="/assets">BOLETAS</Link></li>
-								<li className="w400 cond"><Link to="/payments">PAGO EN L&iacute;NEA</Link></li>
 								<li className="w400 cond"><a href="#" onClick={this.logoutClick}>CERRAR SESI&oacute;N</a></li>
 								<li className="cond visible-md visible-lg"><a href="#" className="btn btn-primary btn-fab btn-fab-mini bkg-002 relative" ><i className="material-icons amber-text text-darken-2 z-depth-1">notifications</i></a></li>
 							</ul>

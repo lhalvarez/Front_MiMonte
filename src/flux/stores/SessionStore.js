@@ -37,7 +37,6 @@ class SessionStore {
 		}
 	}
 	onAppToken(state) {
-		console.log('loading');
 		this.state.loading = true;
 	}
 	onAppTokenIssued(token) {
