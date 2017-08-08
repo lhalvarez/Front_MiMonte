@@ -83,8 +83,9 @@ class AssetStore {
 		});
 	}
 	handleFetchAssetDetail(state) {
+		this.state.asset = null;
 		this.state.loading = true;
-		alert('lodin..');
+		this.setState(this.state);
 	}
 	handleUpdateAssetDetail(state) {
 		this.state.loading = false;
