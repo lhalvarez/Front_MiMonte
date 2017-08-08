@@ -2,7 +2,7 @@
   "name": "MiMonteFEB",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://localhost:6003",
+  
   "engines": {
     "node": "6.9.3",
     "npm": "3.10.10"

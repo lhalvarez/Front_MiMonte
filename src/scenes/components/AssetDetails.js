@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import AssetStore from '../../flux/stores/AssetStore'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Loading from '../../components/Loading';
@@ -6,13 +7,7 @@ import Actions from '../../flux/Actions';
 
 class AssetDetails extends Component {
 	componentDidMount() {
-		this.state = {
-			asset: {}
-		}
-		this.state.asset = this.props.assetsA.find((asset) => {
-			return (asset.prenda.folio == this.props.match.params.id);
-		});
-		Actions.fetchAssetDetail(this.props.match.params.id);
+		setTimeout(Actions.fetchAssetDetail(this.props.match.params.id), 1000);
 	}
 	static getStores() {
 		return [AssetStore];
@@ -21,14 +16,29 @@ class AssetDetails extends Component {
 		return AssetStore.getState();
 	}
 	render() {
+		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+		const tableOptions = {
+			page: 1,
+			sizePerPage: 5,
+			pageStartIndex: 1,
+			paginationSize: 3,
+			prePage: 'Anterior',
+			nextPage: 'Siguiente',
+			firstPage: 'Primera',
+			lastPage: 'Última',
+			paginationShowsTotal: this.renderShowsTotal,
+			paginationPosition: 'bottom',
+			onSearchChange: this.props.onFilter,
+			withoutNoDataText: true,
+			noDataText: 'no hay información de boletas disponible'
+		};
+
 		return (
 			<div>
+				<Loading visible={this.props.loading || this.props.asset == null} text="cargando información de boleta" />
 
-				<Loading visible={!(this.state && this.state.asset)} />
-
-				{this.state && this.state.asset && (
+				{this.props.loading == false && this.props.asset && this.props.asset.prenda (
 					<div>
-
 						<div className="container">
 							<div className="row">
 								<div className="col-md-12">
@@ -46,31 +56,25 @@ class AssetDetails extends Component {
 										<div className="panel-body">
 											<div className="col-md-4">
 												<p className="col-005">Prenda</p>
-												<p></p>
+												<p>{this.props.asset.prenda.descripcion}</p>
 												<p className="col-005">Fecha de Empeño</p>
-												<p>...</p>
+												<p>{this.props.asset.condiciones && (<span>{new Date(this.props.asset.condiciones.fechaIngreso).toLocaleString("es-MX", dateOptions)}</span>)}</p>
 												<p className="col-005">Tipo de Empeño</p>
-												<p>...</p>
-												<p className="col-005">Fecha de Comercialización (Desempeño)</p>
-												<p>{this.state.asset.condiciones.fechaComercializacion}</p>
-												{this.state.asset.saldos && this.state.asset.saldos.saldoRefrendo && (
-													<div>
-														<p className="col-005">Monto de desempeño</p>
-														<p>${this.state.asset.saldos.saldoRefrendo}</p>
-													</div>
-												)}
+												<p>{this.props.asset.prenda.tipoContrato}</p>
+												<p className="col-005">Fecha Limite de Pago (Desempeño)</p>
+												<p>{this.props.asset.condiciones && (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}</p>
+												
 											</div>
 											<div className="col-md-8">
 												<p className="w700">FECHAS Y MONTOS DE PAGO</p>
 												<div className="table-responsive">
 
-													<hr className="nopadding nomargin" />
-													<p className="text-right">
-														<a className="btn btn-default btn-raised btn-line btn-sm">&nbsp;&nbsp;&nbsp;&nbsp;PAGAR&nbsp;&nbsp;&nbsp;&nbsp;</a>
-													</p>
+													<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
+														<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>falta el dato</span>)}>Fecha de Pago</TableHeaderColumn>
+														<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' isKey={true} dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
+														<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>${row.monto}</span>)}>Monto</TableHeaderColumn>
+													</BootstrapTable>
 												</div>
-												<p className="w700">PAGOS PARCIALES</p>
-
 											</div>
 										</div>
 									</div>

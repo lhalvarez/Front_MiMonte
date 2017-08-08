@@ -20,24 +20,7 @@ const AssetSource = {
 				else {
 					shouldProcess = true;
 				}
-
-				//if (state.assetsB && !shouldProcess) {
-				//	state.assetsB.forEach((element) => {
-				//		if (!element.saldos
-				//			|| !element.saldos.saldoRefrendo
-				//			|| !element.saldos.saldoDesempeno)
-				//			shouldProcess = true;
-				//	})
-				//}
-				//if (state.assetsC && !shouldProcess) {
-				//	state.assetsC.forEach((element) => {
-				//		if (!element.saldos
-				//			|| !element.saldos.saldoRefrendo
-				//			|| !element.saldos.saldoDesempeno)
-				//			shouldProcess = true;
-				//	})
-				//}
-
+				
 				if (!shouldProcess) {
 					return state;
 				}
@@ -49,8 +32,7 @@ const AssetSource = {
 				return null;
 			}
 		},
-		remote: (state) => {
-			
+		remote: (state) => {	
 			return Promise.all([
 				AssetsApi.byClient(state.session.clientId, 1, state.trackingA),
 				AssetsApi.byClient(state.session.clientId, 2, state.trackingB),
@@ -87,34 +69,47 @@ class AssetStore {
 			loading: false,
 			totalBalance: 0,
 			balanceRetries: 0,
-			balanceFailed: false
+			balanceFailed: false,
+			filter: '',
+			filterSource: []
 		}
 		this.registerAsync(AssetSource);
 		this.bindListeners({
 			handleFetchAssets: Actions.fetchAssets,
 			handleUpdateAssets: Actions.updateAssets,
 			handleFetchAssetsBalance: Actions.fetchAssetsBalance,
-			handleFetchAssetDetail: Actions.fetchAssetDetail,
-			handleFilterAssets: Actions.filterAssets
+			handleUpdateAssetDetail: Actions.updateAsset,
+			handleFetchAssetDetail: Actions.fetchAssetDetail
 		});
 	}
-	handleFilterAssets(filter) {
-
-	}
 	handleFetchAssetDetail(state) {
+		this.state.loading = true;
+		alert('lodin..');
+	}
+	handleUpdateAssetDetail(state) {
+		this.state.loading = false;
 		if (state && state.asset)
 		{
-			debugger;
 			this.state.asset = state.asset.partidas.partida[0];
 		}
 	}
 	handleFetchAssets(state) {
-		if (this.getInstance().isLoading() == false) {
-
-			this.state.session = state.session;
-			this.state.loading = true;
-
-			this.getInstance().load(this.state);
+		
+		if (state.filter && state.filterSource)
+		{
+			
+			this.state.filteredAssetsA = [this.state.assetsA[0]];
+			this.handleUpdateAssets(this.state);
+		}
+		else 
+		{
+			if (this.getInstance().isLoading() == false && this.loading == false) {
+				this.state.filter = state.filter;
+				this.state.filterSource = state.filterSource;
+				this.state.session = state.session;
+				this.state.loading = true;
+				this.getInstance().load(this.state);
+			}
 		}
 	}
 	handleFetchAssetsBalance() {
@@ -130,11 +125,15 @@ class AssetStore {
 		}
 
 		let finalState = {
+			asset: null,
 			assetsA: [],
 			assetsB: [],
 			assetsC: [],
+			filteredAssetsA: [],
 			loading: false,
-			totalBalance: 0
+			totalBalance: 0,
+			filter: '',
+			filterSource: []
 		};
 
 		if (state.length > 0) {
@@ -160,7 +159,23 @@ class AssetStore {
 				}
 			})
 		}
+
+		finalState.filteredAssetsA = this.state.filteredAssetsA ? this.state.filteredAssetsA : finalState.assetsA;
 		
+		//if (this.state.filter && this.state.filter != '' && this.state.filterSource) {
+		//	if (this.state.assetsA === this.state.filterSource) {
+
+		//		finalState.filteredAssetsA = [finalState.assetsA[0]];
+		//		finalState.filter = this.state.filter;
+		//		finalState.filterSource = this.state.filterSource;
+
+		//		let foo = finalState.assetsA.filter((asset) => {
+		//			return asset.prenda.descripcion.indexOf(this.state.filter) >= 0;
+		//		});	
+
+		//		debugger;
+		//	}
+		//}
 
 		localStorage.setItem("assets", JSON.stringify(finalState));
 		this.setState(finalState);

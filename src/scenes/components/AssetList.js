@@ -7,42 +7,32 @@ import Loading from '../../components/Loading';
 class AssetList extends Component {
 	constructor(props) {
 		super(props);
-		this.filter = this.filter.bind(this);
 		this.setValue = this.setValue.bind(this);
 	}
 	componentDidMount() {
 		this.setState({});
-	}
-	filter() {
-		if (this.state.filterPhase)
-		{
-			this.refs.descripcionColumn.applyFilter(this.state.filterPhase);
-		}
 	}
 	setValue(event) {
 		var object = {};
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 	}
-	onSearchChange(searchText, colInfos, multiColumnSearch) {
-		alert(searchText);
-	}
 	render() {
-		const options = {
-			onSearchChange: this.onSearchChange
-		};
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 		const tableOptions = {
-			page: 1,  // which page you want to show as default
-			sizePerPage: 5,  // which size per page you want to locate as default
-			pageStartIndex: 1, // where to start counting the pages
-			paginationSize: 3,  // the pagination bar size.
-			prePage: 'Anterior', // Previous page button text
-			nextPage: 'Siguiente', // Next page button text
-			firstPage: 'Primera', // First page button text
-			lastPage: 'Última', // Last page button text
-			paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
-			paginationPosition: 'bottom'  // default is bottom, top and both is all available
+			page: 1,
+			sizePerPage: 5,
+			pageStartIndex: 1,
+			paginationSize: 3,
+			prePage: 'Anterior',
+			nextPage: 'Siguiente',
+			firstPage: 'Primera',
+			lastPage: 'Última',
+			paginationShowsTotal: this.renderShowsTotal,
+			paginationPosition: 'bottom',
+			onSearchChange: this.props.onFilter,
+			withoutNoDataText: true,
+			noDataText: 'no hay información de boletas disponible'
 		};
 
 		return (
@@ -58,7 +48,7 @@ class AssetList extends Component {
 								<BootstrapTable data={this.props.assets} pagination={false} options={tableOptions}
 									search={this.props.showSearch}
 									searchPlaceholder='filtrar...'>
-									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
+									<TableHeaderColumn isKey={true} dataField='prenda.folio' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
@@ -67,7 +57,7 @@ class AssetList extends Component {
 												<div>Sucursal: {row.prenda.sucursal}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => (
+									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => (
 
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
@@ -98,7 +88,14 @@ class AssetList extends Component {
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} headerAlign='center' dataAlign='center' width="100" dataFormat={(cell, row) =>
+										(
+											<div>
+												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
+													<i className="material-icons col-001">search</i></Link>
+											</div>
+										)}></TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>

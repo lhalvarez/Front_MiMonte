@@ -7,7 +7,7 @@ import appConfig from '../api/ApiConfig'
 
 class Actions {
 	constructor() {
-		this.generateActions("updateAssets", "registerFailed", "assetLoaded");
+		this.generateActions("updateAssets", "registerFailed", "updateAsset");
 		this.sessionInfo = {};
 		this.initAxios();
 	}
@@ -209,19 +209,16 @@ class Actions {
 		//TODO: also validate token expirations.
 		return this.sessionInfo.loggedIn;
 	}
-	fetchAssets() {
-		return { session: this.sessionInfo };
+	fetchAssets(filter, type) {
+		return { session: this.sessionInfo, filter: filter, filterSource: type };
 	}
 	fetchAssetsBalance() {
 		return { session: this.sessionInfo };
 	}
-	filterAssets(filter) {
-		return filter;
-	}
 	fetchAssetDetail(number) {
 		AssetsApi.byNumber(number)
 			.then(result => {
-				this.assetLoaded({ asset: result.data });
+				this.updateAsset({ asset: result.data });
 			})
 			.catch(error => this.error(error));
 

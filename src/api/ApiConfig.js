@@ -12,6 +12,7 @@ export default {
 
 	AppTokenApiMethod: '/token',
 	AssetsByClientApiMethod: '/assets',
+	AssetsByNumberApiMethod: '/asset',
 
 	UsuariosApiMethod: '/GestionClientes/Cliente/v2/usuarioMonte',
 	RegisterVerifyInformationApiMethod: '/GestionClientes/UsuariosMonte/v1/validarDatos',

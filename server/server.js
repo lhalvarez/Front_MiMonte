@@ -13,6 +13,7 @@ const fs = require('fs');
 const activation = require('./routes/Activation')
 const token = require('./routes/Token')
 const assets = require('./routes/Assets')
+const asset = require('./routes/Asset')
 const assetsCallBack = require('./routes/AssetsCallback')
 
 const log4js = require('log4js');
@@ -27,10 +28,9 @@ log4js.configure({
 const logger = log4js.getLogger('default');
 const config = require('./config')
 
-if (config.request_debug == 1)
-{
-	require('request-debug')(request);
-}
+
+require('request-debug')(request);
+
 
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
@@ -46,6 +46,7 @@ app.post('/srv/token', token);
 
 app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);
+app.post('/srv/asset', asset);
 
 
 app.get('/', function (req, res) {

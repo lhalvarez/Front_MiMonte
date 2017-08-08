@@ -2,6 +2,7 @@
 const config = require('../config')
 const log4js = require('log4js');
 const logger = log4js.getLogger('file');
+const cache = require('memory-cache');
 
 module.exports = (callback) => {
 	logger.info('Getting application token');

@@ -145,7 +145,7 @@ class RegisterStepOne extends Component {
 				<div className="row">
 					<div className="col-md-4">
 						<div className="">
-							<input type="checkbox" id="privacidad" onChange={this.setValue} /> He le&iacute;do y aceptado el <a className="cond col-003">aviso de privacidad</a>
+							<input type="checkbox" id="privacidad" onChange={this.setValue} /> He le&iacute;do y aceptado el <a className="cond col-003" href="http://www.montepiedad.com.mx/portal/storage/Aviso-de-Privacidad-Jul-MiMonte.pdf" target="_blank">aviso de privacidad</a>
 						</div>
 					</div>
 					<div className="col-md-4 text-center center-block">
