@@ -18,7 +18,7 @@ class AssetList extends Component {
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 
-		if (this.state.filterPhase && this.state.filterPhase.length > 2) {
+		if (this.state.filterPhase) {
 			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
 		}
 	}
@@ -36,7 +36,8 @@ class AssetList extends Component {
 			paginationShowsTotal: this.renderShowsTotal,
 			paginationPosition: 'bottom',
 			withoutNoDataText: true,
-			noDataText: 'no hay información de boletas disponible'
+			noDataText: 'no hay información de boletas disponible',
+			hideSizePerPage: true
 		};
 
 		return (
@@ -66,18 +67,20 @@ class AssetList extends Component {
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
 
-								<BootstrapTable data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
+								<BootstrapTable tableContainerClass="table-responsive" data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
 									
-									<TableHeaderColumn dataField='descripcion' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
+									<TableHeaderColumn dataField='descripcion' headerAlign='left' dataAlign='left' className="assets-table-description" columnClassName="assets-table-description" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
-												<div>{row.prenda.descripcion}</div>
+												<div><Link to={'/asset/details/' + row.prenda.folio} >{row.prenda.descripcion}</Link></div>
 												<div><span className="col-012 italic">{row.prenda.tipoContrato}</span></div>
 												<div>Sucursal: {row.prenda.sucursal}</div>
+												<div className="visible-sm visible-xs">Fecha Limite: {new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</div>
+												<div className="visible-sm visible-xs">[<Link to={'/asset/details/' + row.prenda.folio} >Ver Detalle</Link>]</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => (
+									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' className="assets-table-balance" columnClassName="assets-table-balance" dataFormat={(cell, row) => (
 
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
@@ -111,8 +114,8 @@ class AssetList extends Component {
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' width="15%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} headerAlign='center' dataAlign='center' width="10%" dataFormat={(cell, row) =>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center'  dataFormat={(cell, row) =>
 										(
 											<div>
 												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">

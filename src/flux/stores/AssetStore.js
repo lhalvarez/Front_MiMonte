@@ -103,8 +103,13 @@ class AssetStore {
 			handleUpdateAssets: Actions.updateAssets,
 			handleFetchAssetsBalance: Actions.fetchAssetsBalance,
 			handleUpdateAssetDetail: Actions.updateAsset,
-			handleFetchAssetDetail: Actions.fetchAssetDetail
+			handleFetchAssetDetail: Actions.fetchAssetDetail,
+			handleLogout: Actions.logout
 		});
+	}
+	handleLogout()
+	{
+		clearInterval(this.timerId);
 	}
 	handleFetchAssetDetail(state) {
 		this.state.asset = null;
