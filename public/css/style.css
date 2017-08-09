@@ -308,3 +308,22 @@ i.left {
 		transform: scale(1);
 	}
 }
+
+.assets-table-description {
+	width:50%
+}
+.assets-table-balance {
+	width: 25%
+}
+.assets-table-commands {
+	width: 50px;
+}
+
+.pagination a {
+	font-size: 1.2rem !important;
+	color: #C9003C !important;
+}
+.pagination .active a {
+	background-color:lightgray !important;
+	border-color: white;
+}

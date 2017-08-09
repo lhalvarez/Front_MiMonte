@@ -15,12 +15,12 @@ class AssetSummaryTitle extends Component {
 				<div className="row">
 					<div className="col-md-12">
 						<div className="spacer-24"></div>
-						{this.props.loading == false && this.props.assetsA && (
+						{this.props.loading == false && this.props.assetsB && (
 							<p className="s4 col-005 w400">
 								{this.props.totalBalance > 0 && (
 									<span>Tu saldo es de ${this.props.totalBalance} | </span>
 								)}
-								Tienes {this.props.assetsA.length} Boletas Activas</p>
+								Tienes {this.props.assetsB.length} Boletas Activas</p>
 						)}
 						<div className="spacer-24"></div>
 					</div>

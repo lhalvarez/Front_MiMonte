@@ -7,38 +7,21 @@ const uuidv4 = require('uuid/v4')
 module.exports = (req, res) => {
 
 	let requestBody = req.body;
+	let folio = requestBody.folios.folio;
 	
-	let trazabilidadGuid = requestBody.trazabilidad.GUID ? requestBody.trazabilidad.GUID : uuidv4(); 
-
-	requestBody.trazabilidad = {
-		GUID: trazabilidadGuid,
-		urlCallBack: config.baseLocalUrl + '/srv/balance'
-	};
-
-	let persistentCacheKey = 'assets-' + requestBody.idClient + requestBody.criterios.criterioBoleta;
-	let cacheKey = 'assets-' + trazabilidadGuid;
+	let cacheKey = 'asset-' + folio;
 	
 	let cacheObject = cache.get(cacheKey);
-	let persistentCacheObject = cache.get(persistentCacheKey);
 
 	if (cacheObject) {
-		res.json(cacheObject.data);
+		res.json(cacheObject);
 		return;
-	}
-	else {
-		cacheObject = {
-			clientId: requestBody.idCliente,
-			criteria: requestBody.criterios.criterioBoleta,
-			trackingId: trazabilidadGuid,
-			data: null
-		};
 	}
 	
 	appToken(req, (appToken) => {
 		if (appToken) {
-			
 			request.post({
-				url: config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Cliente',
+				url: config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Folio',
 				headers: {
 					'Content-Type': 'application/json',
 					'usuario': req.headers.usuario,
@@ -60,16 +43,12 @@ module.exports = (req, res) => {
 					console.error(e1);
 				}
 				if (b1) {
-					b1.requestGUID = trazabilidadGuid;
-					cacheObject.data = b1;
-					cache.put(cacheKey, cacheObject);
+					cache.put(cacheKey, b1);
 				}
 				res.json(b1);
 			});
 		}
 		else {
-			console.error('App token failed...');
-			console.error(error);
 			res.json({
 				codigoError: "FEB-0001",
 				descripcionError: "No pudo obtenerse el token de aplicación",

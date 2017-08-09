@@ -12,7 +12,7 @@ class RegisterStepOne extends Component {
 		this.setState({});
 	}
 	setValue(event) {
-		
+
 		var object = {};
 		object[event.target.id] = event.target.value;
 		this.setState(object);
@@ -23,16 +23,13 @@ class RegisterStepOne extends Component {
 		if (this.state.privacidad == null || this.state.privacidad != 'on') {
 			errors.push({ field: 'privacidad', message: 'Debe firmar el acuerdo de privacidad' });
 		}
-		
+
 		if (this.state.nombre == null || this.state.nombre == '')
 			errors.push({ field: 'nombre', message: 'El Nombre es requerido' });
 
-		if (this.state.apellidoMaterno == null || this.state.apellidoMaterno == '')
-			errors.push({ field: 'apellidoMaterno', message: 'El Apellido Materno es requerido' });
-
 		if (this.state.apellidoPaterno == null || this.state.apellidoPaterno == '')
 			errors.push({ field: 'apellidoPaterno', message: 'El Apellido Paterno es requerido' });
-		
+
 		if (this.state.celular == null || this.state.celular == '')
 			errors.push({ field: 'celular', message: 'El Número de celular es requerido' });
 
@@ -71,7 +68,7 @@ class RegisterStepOne extends Component {
 					apellidoPaterno: this.state.apellidoPaterno,
 					apellidoMaterno: this.state.apellidoMaterno,
 					nombres: this.state.nombre,
-					fechaNacimiento: fn.toISOString().substring(0,10),
+					fechaNacimiento: fn.toISOString().substring(0, 10),
 					correoElectronico: this.state.email,
 					telefono: {
 						numeroTelefono: this.state.celular
@@ -86,8 +83,8 @@ class RegisterStepOne extends Component {
 	}
 	onlyLetter(event) {
 		var inputValue = event.which;
-		// allow letters and whitespaces only.
-		if (!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)) {
+		if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)
+			&& inputValue != 241 && inputValue != 209) {
 			event.preventDefault();
 		}
 	}
@@ -104,16 +101,16 @@ class RegisterStepOne extends Component {
 						<FormInput id="nombre" label="Nombre" onChange={this.setValue} onLoad={this.setField} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} />
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter}/>
+						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} />
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter}/>
+						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} />
 					</div>
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" placeholder="dd-mm-aaaa" options={{ date: true, datePattern: ['d','m', 'Y'], delimiter: '-' }} />
+						<FormInput id="fechaNacimiento" label="Fecha de Nacimiento" format="dtp_fNC7M" onChange={this.setValue} type="format" placeholder="dd-mm-aaaa" options={{ date: true, datePattern: ['d', 'm', 'Y'], delimiter: '-' }} />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />
@@ -125,9 +122,9 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxLength="16"/>
+						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxLength="16" />
 					</div>
-			
+
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
@@ -145,7 +142,7 @@ class RegisterStepOne extends Component {
 				<div className="row">
 					<div className="col-md-4">
 						<div className="">
-							<input type="checkbox" id="privacidad" onChange={this.setValue} /> He le&iacute;do y aceptado el <a className="cond col-003">aviso de privacidad</a>
+							<input type="checkbox" id="privacidad" onChange={this.setValue} /> He le&iacute;do y aceptado el <a className="cond col-003" href="http://www.montepiedad.com.mx/portal/storage/Aviso-de-Privacidad-Jul-MiMonte.pdf" target="_blank">aviso de privacidad</a>
 						</div>
 					</div>
 					<div className="col-md-4 text-center center-block">

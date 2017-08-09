@@ -8,41 +8,36 @@ class AssetList extends Component {
 	constructor(props) {
 		super(props);
 		this.filter = this.filter.bind(this);
-		this.setValue = this.setValue.bind(this);
 	}
 	componentDidMount() {
 		this.setState({});
 	}
-	filter() {
-		if (this.state.filterPhase)
-		{
-			this.refs.descripcionColumn.applyFilter(this.state.filterPhase);
-		}
-	}
-	setValue(event) {
+	filter(event)
+	{
 		var object = {};
 		object[event.target.id] = event.target.value;
 		this.setState(object);
-	}
-	onSearchChange(searchText, colInfos, multiColumnSearch) {
-		alert(searchText);
+
+		if (this.state.filterPhase) {
+			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
+		}
 	}
 	render() {
-		const options = {
-			onSearchChange: this.onSearchChange
-		};
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 		const tableOptions = {
-			page: 1,  // which page you want to show as default
-			sizePerPage: 5,  // which size per page you want to locate as default
-			pageStartIndex: 1, // where to start counting the pages
-			paginationSize: 3,  // the pagination bar size.
-			prePage: 'Anterior', // Previous page button text
-			nextPage: 'Siguiente', // Next page button text
-			firstPage: 'Primera', // First page button text
-			lastPage: 'Última', // Last page button text
-			paginationShowsTotal: this.renderShowsTotal,  // Accept bool or function
-			paginationPosition: 'bottom'  // default is bottom, top and both is all available
+			page: 1,
+			sizePerPage: 10,
+			pageStartIndex: 1,
+			paginationSize: 8,
+			prePage: 'Anterior',
+			nextPage: 'Siguiente',
+			firstPage: 'Primera',
+			lastPage: 'Última',
+			paginationShowsTotal: this.renderShowsTotal,
+			paginationPosition: 'bottom',
+			withoutNoDataText: true,
+			noDataText: 'no hay información de boletas disponible',
+			hideSizePerPage: true
 		};
 
 		return (
@@ -50,24 +45,42 @@ class AssetList extends Component {
 				<div className="panel-header">
 					<p className="s1 cond w400 col-005 nomargin-bottom nopadding-bottom">{this.props.title}</p>
 				</div>
+				{
+					this.props.showSearch &&
+					<div className="panel-header nomargin-top nopadding-top">
+						<div className="row">
+							<div className="col-md-4 col-md-offset-8">
+								<div className="form-group">
+									<div className="input-group">
+										<div className="input-group-addon"><i className="material-icons" onClick={this.filter}>search</i></div>
+										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.filter} />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				}
 				<div className="panel-body">
 					<div className="row">
 						<div className="col-md-12">
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
-								<BootstrapTable data={this.props.assets} pagination={false} options={tableOptions}
-									search={this.props.showSearch}
-									searchPlaceholder='filtrar...'>
-									<TableHeaderColumn isKey dataField='prenda.folio' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
+
+								<BootstrapTable tableContainerClass="table-responsive" data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
+									
+									<TableHeaderColumn dataField='descripcion' headerAlign='left' dataAlign='left' className="assets-table-description" columnClassName="assets-table-description" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
-												<div>{row.prenda.descripcion}</div>
+												<div><Link to={'/asset/details/' + row.prenda.folio} >{row.prenda.descripcion}</Link></div>
 												<div><span className="col-012 italic">{row.prenda.tipoContrato}</span></div>
 												<div>Sucursal: {row.prenda.sucursal}</div>
+												<div className="visible-sm visible-xs">Fecha Limite: {new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</div>
+												<div className="visible-sm visible-xs">[<Link to={'/asset/details/' + row.prenda.folio} >Ver Detalle</Link>]</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => (
+									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' className="assets-table-balance" columnClassName="assets-table-balance" dataFormat={(cell, row) => (
 
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
@@ -93,12 +106,22 @@ class AssetList extends Component {
 											)
 											}
 
-											<Loading visible={!row.saldos} text="cargando saldos" />
+											{!row.saldos && (
+												<span>cargando saldos...</span>
+																					)}
+											
 										</div>
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center'  dataFormat={(cell, row) =>
+										(
+											<div>
+												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
+													<i className="material-icons col-001">search</i></Link>
+											</div>
+										)}></TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>

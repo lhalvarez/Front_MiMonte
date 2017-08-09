@@ -1,4 +1,4 @@
-import alt from '../Alt'
+﻿import alt from '../Alt'
 import AuthenticationApi from '../api/AuthenticationApi'
 import RegisterApi from '../api/RegisterApi'
 import AssetsApi from '../api/AssetsApi'
@@ -7,7 +7,7 @@ import appConfig from '../api/ApiConfig'
 
 class Actions {
 	constructor() {
-		this.generateActions("updateAssets", "registerFailed", "assetLoaded");
+		this.generateActions("updateAssets", "registerFailed", "updateAsset");
 		this.sessionInfo = {};
 		this.initAxios();
 	}
@@ -26,7 +26,6 @@ class Actions {
 		return true;
 	}
 	loginFailed(state) {
-		debugger;
 		this.error(state); return state;
 	}
 	loggedIn(state) {
@@ -158,7 +157,6 @@ class Actions {
 	}
 	error(error) {
 		var message = '';
-		debugger;
 		console.error(error);
 		if (error.response) {
 			if (error.response.data) {
@@ -181,11 +179,29 @@ class Actions {
 			}
 		}
 		else if (error.code) {
-
 			try {
 				let cod = error.code;
 				let description = error.message;
-				message = "VERSION DESARROLLO - Error: (" + cod + ") " + description;
+
+				switch (error.code) {
+					case 'NotAuthorizedException':
+						{
+							switch (error.message)
+							{
+								case 'Incorrect username or password.':
+									description = "Usuario o contraseña incorrecta";
+									break;
+								case "User is disabled":
+								case "Password attempts exceeded":
+									description = "Verifica que tus datos sean correctos e inténtalo nuevamente o llamanos al 01 800 EL MONTE (35 66683)";
+									break;
+							}
+						}
+						break;
+					case 'UserNotFoundException':
+						description = 'Usuario o contraseña incorrecta';
+				}
+				message = description;
 			} catch (e) {
 				message = e;
 			}
@@ -209,19 +225,16 @@ class Actions {
 		//TODO: also validate token expirations.
 		return this.sessionInfo.loggedIn;
 	}
-	fetchAssets() {
-		return { session: this.sessionInfo };
+	fetchAssets(filter, type) {
+		return { session: this.sessionInfo, filter: filter, filterSource: type };
 	}
 	fetchAssetsBalance() {
 		return { session: this.sessionInfo };
 	}
-	filterAssets(filter) {
-		return filter;
-	}
 	fetchAssetDetail(number) {
 		AssetsApi.byNumber(number)
 			.then(result => {
-				this.assetLoaded({ asset: result.data });
+				this.updateAsset({ asset: result.data });
 			})
 			.catch(error => this.error(error));
 

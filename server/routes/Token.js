@@ -5,16 +5,13 @@ const logger = log4js.getLogger('default');
 
 module.exports = (req, res) =>
 {
-	appToken(function (error, response, body) {
-		
-		if (error) {
-			console.error(error);
-		}
-
-		if (response && response.statusCode == 200) {
+	appToken(req, (appToken) => {
+		if (appToken) {
 			logger.info('Application Token Successful Issued.');
-			res.status(200);
-			res.json(JSON.parse(body));
+			res.json(
+				{
+					"access_token": appToken
+				});
 		}
 		else {
 			logger.error('Application Token ERROR. Unable to get a valid token.');

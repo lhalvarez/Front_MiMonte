@@ -13,14 +13,8 @@ module.exports = (req, res) => {
 	let activationCode = req.query.t;
 	let username = req.query.u;
 	
-	appToken(function (error, response, body) {
-		if (error) {
-			console.error(error);
-		}
-
-		if (response && response.statusCode == 200) {
-			let token = JSON.parse(body);
-			let appToken = token.access_token;
+	appToken(req, (appToken) => {
+		if (appToken) {
 
 			request.put({
 				url: config.mmendpoint + '/NMP/GestionClientes/UsuariosMonte/v1/solicitarActivacion',

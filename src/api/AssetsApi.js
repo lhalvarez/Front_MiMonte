@@ -20,10 +20,10 @@ class AssetsApi extends ApiBase {
 	}
 	byNumber(number) {
 		return super.buildPost(
-			ApiConfig.BackendEndpoint + ApiConfig.AssetsByClientApiMethod,
+			ApiConfig.BackendEndpoint + ApiConfig.AssetsByNumberApiMethod,
 			{
 				folios: {
-					folio: number
+					folio: [ number ]
 				}
 			}
 		);
