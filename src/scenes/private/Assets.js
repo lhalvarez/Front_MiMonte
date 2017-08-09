@@ -39,8 +39,8 @@ class Assets extends Component {
 								<div className="panel-body">
 									<div className="col-md-12">
 										<ul className="nav nav-pills " id="tabBoletas">
-											<li role="presentation" className="active cond w400"><a href="#" onClick={this.prevTab}  >Prendas en Empe&Ntilde;o</a></li>
-											<li role="presentation" className="cond w400"><a href="#" onClick={this.nextTab}  >Prendas en Comercializaci&oacute;n</a></li>
+											<li role="presentation" className={'cond w400 ' + (this.state.tab == 1 && 'active')}><a href="#" onClick={this.prevTab}  >Prendas en Empe&Ntilde;o</a></li>
+											<li role="presentation" className={'cond w400 ' + (this.state.tab == 2 && 'active')}><a href="#" onClick={this.nextTab}  >Prendas en Comercializaci&oacute;n</a></li>
 										</ul>
 									</div>
 								</div>
