@@ -207,9 +207,9 @@ class AssetStore {
 		sessionStorage.setItem("assetsStoreState", JSON.stringify(finalState));
 		this.setState(finalState);
 
-		//if (this.state.balanceRetries == 0) {
-		//	this.timerId = setInterval(() => this.refreshBalance(), 5000);
-		//}
+		if (this.state.balanceRetries == 0) {
+			this.timerId = setInterval(() => this.refreshBalance(), 5000);
+		}
 
 		this.errorMessage = null;
 	}
