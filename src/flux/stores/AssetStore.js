@@ -201,15 +201,18 @@ class AssetStore {
 			finalState.sourceAssetsA = finalState.assetsA;
 			finalState.sourceAssetsB = finalState.assetsB;
 			finalState.sourceAssetsC = finalState.assetsC;
+
+			if (this.state.balanceRetries == 0) {
+				this.timerId = setInterval(() => this.refreshBalance(), 5000);
+			}
+
 			this.state.balanceRetries++;
 		}
 
 		sessionStorage.setItem("assetsStoreState", JSON.stringify(finalState));
 		this.setState(finalState);
 
-		if (this.state.balanceRetries == 0) {
-			this.timerId = setInterval(() => this.refreshBalance(), 5000);
-		}
+		
 
 		this.errorMessage = null;
 	}
