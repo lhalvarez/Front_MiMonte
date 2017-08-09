@@ -20,6 +20,18 @@ const AssetSource = {
 				else {
 					shouldProcess = true;
 				}
+
+				if (shouldProcess == false && state.assetsB) {
+					state.assetsB.forEach((element) => {
+						if (!element.saldos
+							|| !element.saldos.saldoRefrendo
+							|| !element.saldos.saldoDesempeno)
+							shouldProcess = true;
+					})
+				}
+				else {
+					shouldProcess = true;
+				}
 				
 				if (!shouldProcess) {
 					return state;
@@ -58,14 +70,20 @@ const AssetSource = {
 }
 class AssetStore {
 	constructor() {
+
+		let trackingA = sessionStorage.getItem("assetsTrackingA");
+		let trackingB = sessionStorage.getItem("assetsTrackingB");
+		let trackingC = sessionStorage.getItem("assetsTrackingC");
+
 		this.loading = false;
 		this.errorMessage = null;
+
 		this.state = {
 			asset: {},
 			assets: [],
-			trackingA: uuid(),
-			trackingB: uuid(),
-			trackingC: uuid(),
+			trackingA: (trackingA) ? trackingA : uuid(),
+			trackingB: (trackingB) ? trackingB : uuid(),
+			trackingC: (trackingC) ? trackingC : uuid(),
 			loading: false,
 			totalBalance: 0,
 			balanceRetries: 0,
@@ -73,7 +91,13 @@ class AssetStore {
 			filter: '',
 			filterSource: []
 		}
+
+		sessionStorage.setItem("assetsTrackingA", this.state.trackingA);
+		sessionStorage.setItem("assetsTrackingB", this.state.trackingB);
+		sessionStorage.setItem("assetsTrackingC", this.state.trackingC);
+
 		this.registerAsync(AssetSource);
+
 		this.bindListeners({
 			handleFetchAssets: Actions.fetchAssets,
 			handleUpdateAssets: Actions.updateAssets,
@@ -98,15 +122,14 @@ class AssetStore {
 		
 		if (state.filter && state.filterSource)
 		{
-			
-			this.state.filteredAssetsA = [this.state.assetsA[0]];
+			this.state.filter = state.filter;
+			this.state.filterSource = state.filterSource;
 			this.handleUpdateAssets(this.state);
 		}
 		else 
 		{
 			if (this.getInstance().isLoading() == false && this.loading == false) {
-				this.state.filter = state.filter;
-				this.state.filterSource = state.filterSource;
+
 				this.state.session = state.session;
 				this.state.loading = true;
 				this.getInstance().load(this.state);
@@ -119,7 +142,7 @@ class AssetStore {
 		}
 	}
 	handleUpdateAssets(state) {
-		if (this.state && this.state.balanceRetries > 10)
+		if (this.state && this.state.balanceRetries > 5)
 		{
 			clearInterval(this.timerId);
 			this.state.balanceFailed = true;
@@ -130,7 +153,9 @@ class AssetStore {
 			assetsA: [],
 			assetsB: [],
 			assetsC: [],
-			filteredAssetsA: [],
+			sourceAssetsA: [],
+			sourceAssetsB: [],
+			sourceAssetsC: [],
 			loading: false,
 			totalBalance: 0,
 			filter: '',
@@ -160,34 +185,33 @@ class AssetStore {
 				}
 			})
 		}
-
-		finalState.filteredAssetsA = this.state.filteredAssetsA ? this.state.filteredAssetsA : finalState.assetsA;
 		
-		//if (this.state.filter && this.state.filter != '' && this.state.filterSource) {
-		//	if (this.state.assetsA === this.state.filterSource) {
-
-		//		finalState.filteredAssetsA = [finalState.assetsA[0]];
-		//		finalState.filter = this.state.filter;
-		//		finalState.filterSource = this.state.filterSource;
-
-		//		let foo = finalState.assetsA.filter((asset) => {
-		//			return asset.prenda.descripcion.indexOf(this.state.filter) >= 0;
-		//		});	
-
-		//		debugger;
-		//	}
-		//}
-
-		localStorage.setItem("assets", JSON.stringify(finalState));
-		this.setState(finalState);
-
-		if (this.state.balanceRetries == 0) {
-			this.timerId = setInterval(() => this.refreshBalance(), 5000);
+		finalState.filter = this.state.filter;
+		finalState.filterSource = this.state.filterSource;
+		
+		if (this.state.filter && this.state.filter != '' && this.state.filterSource) {
+			if (this.state.assetsA === this.state.filterSource) {
+				let filter = this.state.filter;
+				finalState.assetsA = finalState.sourceAssetsA.filter((asset) => {
+					return asset.prenda.descripcion.toLowerCase().indexOf(filter) >= 0;
+				});	
+			}
+		}
+		else {
+			finalState.sourceAssetsA = finalState.assetsA;
+			finalState.sourceAssetsB = finalState.assetsB;
+			finalState.sourceAssetsC = finalState.assetsC;
+			this.state.balanceRetries++;
 		}
 
-		this.errorMessage = null;
+		sessionStorage.setItem("assetsStoreState", JSON.stringify(finalState));
+		this.setState(finalState);
 
-		this.state.balanceRetries++;
+		//if (this.state.balanceRetries == 0) {
+		//	this.timerId = setInterval(() => this.refreshBalance(), 5000);
+		//}
+
+		this.errorMessage = null;
 	}
 
 	refreshBalance() {
@@ -198,6 +222,12 @@ class AssetStore {
 	}
 	parseState(state) {
 		if (state && state.data && state.data.partidas) {
+
+			state.data.partidas.partida.forEach((element) => {
+				element.folio = element.prenda.folio;
+				element.descripcion = element.prenda.descripcion;
+			});
+
 			return state.data.partidas.partida;
 		}
 		else {

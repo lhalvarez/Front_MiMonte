@@ -56,7 +56,7 @@ class Assets extends Component {
 								<div className="tab-content">
 									<div role="tabpanel" className="tab-pane active" id="bol1">
 										<div className="panel panel-default well nopadding-bottom">
-											<AssetList showSearch={true} loading={this.props.loading} assets={this.props.filteredAssetsA} onFilter={(filter) => Actions.fetchAssets(filter, this.props.assetsA)} />
+											<AssetList showSearch={true} loading={this.props.loading} assets={this.props.assetsA} onFilter={(filter) => Actions.fetchAssets(filter, this.props.assetsA)} />
 										</div>
 									</div>
 								</div>
@@ -73,7 +73,7 @@ class Assets extends Component {
 										<div className="panel panel-default well nopadding-bottom">
 											<div className="panel-body">
 												<div className="col-md-8">
-													<AssetListB showSearch={true} loading={this.props.loading} assets={this.props.assetsB} />
+													<AssetListB showSearch={true} loading={this.props.loading} assets={this.props.assetsC} />
 												</div>
 												<div className="col-md-4">
 													<p>Recupera tu prenda</p>

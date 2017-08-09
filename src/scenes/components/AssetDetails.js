@@ -74,7 +74,7 @@ class AssetDetails extends Component {
 												<div className="table-responsive">
 
 													<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
-														<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>falta el dato</span>)}>Fecha de Pago</TableHeaderColumn>
+														<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
 														<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
 														<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>${row.monto}</span>)}>Monto</TableHeaderColumn>
 													</BootstrapTable>

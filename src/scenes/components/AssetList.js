@@ -7,30 +7,34 @@ import Loading from '../../components/Loading';
 class AssetList extends Component {
 	constructor(props) {
 		super(props);
-		this.setValue = this.setValue.bind(this);
+		this.filter = this.filter.bind(this);
 	}
 	componentDidMount() {
 		this.setState({});
 	}
-	setValue(event) {
+	filter(event)
+	{
 		var object = {};
 		object[event.target.id] = event.target.value;
 		this.setState(object);
+
+		if (this.state.filterPhase && this.state.filterPhase.length > 2) {
+			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
+		}
 	}
 	render() {
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
 		const tableOptions = {
 			page: 1,
-			sizePerPage: 5,
+			sizePerPage: 10,
 			pageStartIndex: 1,
-			paginationSize: 3,
+			paginationSize: 8,
 			prePage: 'Anterior',
 			nextPage: 'Siguiente',
 			firstPage: 'Primera',
 			lastPage: 'Última',
 			paginationShowsTotal: this.renderShowsTotal,
 			paginationPosition: 'bottom',
-			onSearchChange: this.props.onFilter,
 			withoutNoDataText: true,
 			noDataText: 'no hay información de boletas disponible'
 		};
@@ -40,15 +44,31 @@ class AssetList extends Component {
 				<div className="panel-header">
 					<p className="s1 cond w400 col-005 nomargin-bottom nopadding-bottom">{this.props.title}</p>
 				</div>
+				{
+					this.props.showSearch &&
+					<div className="panel-header nomargin-top nopadding-top">
+						<div className="row">
+							<div className="col-md-4 col-md-offset-8">
+								<div className="form-group">
+									<div className="input-group">
+										<div className="input-group-addon"><i className="material-icons" onClick={this.filter}>search</i></div>
+										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.filter} />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				}
 				<div className="panel-body">
 					<div className="row">
 						<div className="col-md-12">
 							<Loading visible={this.props.loading} text="cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
-								<BootstrapTable data={this.props.assets} pagination={false} options={tableOptions}
-									search={this.props.showSearch}
-									searchPlaceholder='filtrar...'>
-									<TableHeaderColumn isKey={true} dataField='prenda.folio' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
+
+								<BootstrapTable data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
+									
+									<TableHeaderColumn dataField='descripcion' headerAlign='left' dataAlign='left' width="50%" dataFormat={(cell, row) =>
 										(
 											<div>
 												<span className="col-003">{row.prenda.folio}</span>
@@ -83,13 +103,16 @@ class AssetList extends Component {
 											)
 											}
 
-											<Loading visible={!row.saldos} text="cargando saldos" />
+											{!row.saldos && (
+												<span>cargando saldos...</span>
+																					)}
+											
 										</div>
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' width="25%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} headerAlign='center' dataAlign='center' width="100" dataFormat={(cell, row) =>
+									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' width="15%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} headerAlign='center' dataAlign='center' width="10%" dataFormat={(cell, row) =>
 										(
 											<div>
 												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">

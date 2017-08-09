@@ -15,9 +15,11 @@ module.exports = (req, res) => {
 		urlCallBack: config.baseLocalUrl + '/srv/balance'
 	};
 
+	let persistentCacheKey = 'assets-' + requestBody.idClient + requestBody.criterios.criterioBoleta;
 	let cacheKey = 'assets-' + trazabilidadGuid;
 	
 	let cacheObject = cache.get(cacheKey);
+	let persistentCacheObject = cache.get(persistentCacheKey);
 
 	if (cacheObject) {
 		res.json(cacheObject.data);

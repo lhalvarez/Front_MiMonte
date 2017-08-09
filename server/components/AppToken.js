@@ -15,7 +15,8 @@ module.exports = (req, callback) => {
 	let cachedAppToken = cache.get(cacheKey);
 
 	if (cachedAppToken) {
-		callback(cacheObject);
+		callback(cachedAppToken);
+		logger.info('App Token cached');
 	} else {
 		request.post({
 			url: config.mmendpoint + '/NMP/oauth/token',
@@ -28,6 +29,7 @@ module.exports = (req, callback) => {
 			if (response && response.statusCode == 200) {
 				let token = JSON.parse(body);
 				let appToken = token.access_token;
+				cache.put(cacheKey, appToken, 120 * 1000);
 				callback(appToken);
 			}
 			else {
