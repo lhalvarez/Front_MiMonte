@@ -16,7 +16,7 @@ class AssetListB extends Component {
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 
-		if (this.state.filterPhase && this.state.filterPhase.length > 2) {
+		if (this.state.filterPhase) {
 			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
 		}
 	}
