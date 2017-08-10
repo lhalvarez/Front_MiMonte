@@ -6,6 +6,9 @@ class ApiBase {
 	buildPost(apiMethod, data, config) {
 		return axios.create().post(apiMethod, data, config);
 	}
+	buildPut(apiMethod, data, config) {
+		return axios.create().put(apiMethod, data, config);
+	}
 	getAppToken() {
 		return axios.create().post(
 			ApiConfig.BackendEndpoint + ApiConfig.AppTokenApiMethod,

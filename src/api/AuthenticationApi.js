@@ -85,7 +85,6 @@ class AuthenticationApi extends ApiBase {
 			{ usuarioMonte: username });
 	}
 	retrievePassword(username, appToken) {
-		alert(appToken);
 		if (appConfig.UseMocks) {
 			return new Promise((resolve, reject) => {
 				setTimeout(resolve({
@@ -132,7 +131,7 @@ class AuthenticationApi extends ApiBase {
 			});
 		}
 		else {
-			return super.buildPost(
+			return super.buildPut(
 				appConfig.AuthenticationChangePasswordApiMethod,
 				{
 					usuario: {
