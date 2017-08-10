@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import Actions from '../flux/Actions'
 import SessionStore from '../flux/stores/SessionStore'
 import connectToStores from 'alt-utils/lib/connectToStores';
+import { Nav, Navbar, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-class Nav extends Component {
+class MMNav extends Component {
 	componentDidMount() {
 	}
 	static getStores() {
@@ -23,25 +24,19 @@ class Nav extends Component {
 			&& this.props.sessionInfo != null
 			&& this.props.sessionInfo.loggedIn) {
 
-			navBar = <nav className="navbar navbar-default nomargin-bottom">
-						<div className="navbar-header">
-							<button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#mnuPpal" aria-expanded="false">
-								<span className="sr-only">Toggle navigation</span>
-								<span className="icon-bar"></span>
-								<span className="icon-bar"></span>
-								<span className="icon-bar"></span>
-							</button>
-						</div>
-						<div className="collapse navbar-collapse" id="mnuPpal">
-							<ul className="nav navbar-nav navbar-right">
-								<li className="w400 cond">
-									<Link to="/home">INICIO</Link></li>
-								<li className="w400 cond"><Link to="/assets">BOLETAS</Link></li>
-								<li className="w400 cond"><a href="#" onClick={this.logoutClick}>CERRAR SESI&oacute;N</a></li>
-								<li className="cond visible-md visible-lg"><a href="#" className="btn btn-primary btn-fab btn-fab-mini bkg-002 relative" ><i className="material-icons amber-text text-darken-2 z-depth-1">notifications</i></a></li>
-							</ul>
-						</div>
-					</nav>;
+			navBar =
+				<Navbar collapseOnSelect>
+					<Navbar.Header>
+						<Navbar.Toggle />
+					</Navbar.Header>
+					<Navbar.Collapse>
+						<Nav pullRight>
+							<NavItem eventKey={1}><Link to="/home">INICIO</Link></NavItem>
+							<NavItem eventKey={2} ><Link to="/assets">BOLETAS</Link></NavItem>
+							<NavItem eventKey={2} onClick={this.logoutClick}>CERRAR SESIÓN</NavItem>
+						</Nav>
+					</Navbar.Collapse>
+				</Navbar>;
 		}
 		else {
 			navBar = <div className="spacer-48">&nbsp;</div>;
@@ -63,4 +58,4 @@ class Nav extends Component {
 	}
 }
 
-export default connectToStores(Nav);
+export default connectToStores(MMNav);

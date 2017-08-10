@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import UserInfo from './UserInfo';
-import Nav from './Nav';
+import MMNav from './Nav';
 import { Link } from 'react-router-dom'
 
 class Header extends Component {
@@ -39,7 +39,7 @@ class Header extends Component {
 						</div>
 					</div>
 				</div>
-				<Nav />
+				<MMNav />
 				<div className="spacer-24"></div>
 			</div>
 

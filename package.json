@@ -2,7 +2,6 @@
   "name": "MiMonteFEB",
   "version": "1.0.0",
   "private": true,
-  
   "engines": {
     "node": "6.9.3",
     "npm": "3.10.10"
@@ -29,6 +28,8 @@
     "npm-run-all": "^4.0.2",
     "react": "^15.6.1",
     "react-async-script": "^0.9.1",
+    "react-bootstrap": "^0.31.2",
+    "react-bootstrap-date-picker": "^5.1.0",
     "react-bootstrap-table": "^3.4.1",
     "react-bootstrap-validation": "^0.1.11",
     "react-confirm-alert": "^1.0.7",

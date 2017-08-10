@@ -9,7 +9,6 @@ class RegisterStepTwo extends Component {
 		
 		super(props);
 		this.resendCode = this.resendCode.bind(this);
-		this.resendEmail = this.resendEmail.bind(this);
 		this.continue = this.continue.bind(this);
 		this.setValue = this.setValue.bind(this);
 	}
@@ -48,24 +47,6 @@ class RegisterStepTwo extends Component {
 	}
 	resendCode() {
 		Actions.registerResendActivationCode(
-			{
-				usuario: {
-					nombreUsuario: this.props.contractInfo.cliente.correoElectronico,
-					medioContacto: {
-						contactoPor: 1,
-						valorContacto: this.props.contractInfo.cliente.telefono.numeroTelefono
-					},
-					datosValidacion: {
-						"@reenvioToken": true
-					}
-				},
-				cliente: {
-					idCliente: this.props.stepOneResult.cliente.idCliente
-				}
-			});
-	}
-	resendEmail() {
-		Actions.registerResendEmail(
 			{
 				usuario: {
 					nombreUsuario: this.props.contractInfo.cliente.correoElectronico,
