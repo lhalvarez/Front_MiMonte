@@ -20,6 +20,7 @@ class Dashboard extends Component {
 		return (
 			<div>
 				<AssetSummaryTitle />
+
 				<div className="container">
 					<div className="tab-content">
 						<div role="tabpanel" className="tab-pane fade in active" id="bol1">

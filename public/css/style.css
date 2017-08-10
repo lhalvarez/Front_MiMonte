@@ -327,3 +327,17 @@ i.left {
 	background-color:lightgray !important;
 	border-color: white;
 }
+.navbar{
+	margin-bottom:0px;
+}
+.navbar a {
+	color:white;
+}
+.popover, .tooltip-inner {
+	 color: black;
+	line-height: 1em;
+	background: white;
+	border: none;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12);
+	box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12);

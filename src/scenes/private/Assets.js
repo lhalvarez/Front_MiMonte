@@ -32,6 +32,7 @@ class Assets extends Component {
 		return (
 			<div>
 				<Title title="Boletas" />
+
 				<div className="container">
 					<div className="row">
 						<div className="col-md-12">
