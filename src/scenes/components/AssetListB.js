@@ -51,7 +51,7 @@ class AssetListB extends Component {
 							<div className="col-md-4 col-md-offset-8">
 								<div className="form-group">
 									<div className="input-group">
-										<div className="input-group-addon"><i className="material-icons" onClick={this.filter}>search</i></div>
+										<div className="input-group-addon"><i className="material-icons" >search</i></div>
 										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.filter} />
 									</div>
 								</div>
@@ -68,7 +68,7 @@ class AssetListB extends Component {
 
 							{this.props.loading == false && this.props.assets && (
 
-								<BootstrapTable data={this.props.assets} className="table-collapse" pagination={true} options={tableOptions}
+								<BootstrapTable data={this.props.assets} tableContainerClass="table-responsive" className="table-collapse" pagination={true} options={tableOptions}
 									ref='table'>
 
 									<TableHeaderColumn headerAlign='left' isKey={true} dataField='folio' dataAlign='left' width="50%" dataFormat={(cell, row) =>
