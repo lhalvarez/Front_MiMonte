@@ -62,7 +62,7 @@ class RecoveryPassword extends Component {
 		e.preventDefault();
 		if (!this.validateRegisterPassword())
 			return;
-		Actions.registerPassword(this.state.username, this.state.newPassord, this.state.token);
+		Actions.registerPassword(this.state.username, this.state.newPassword, this.state.token);
 	}
 	setValue(event) {
 		var object = {};

@@ -81,14 +81,14 @@ class Actions {
 		return true;
 	}
 	registerPassword(username, newPassword, token) {
-		this.getAppToken(token => {
-			AuthenticationApi.registerPassword(username, newPassword, token, this.sessionInfo.appToken)
+		this.getAppToken(appToken => {
+			AuthenticationApi.registerPassword(username, newPassword, token, appToken)
 				.then(result => {
 					if (this.verifyApiState(result.data)) {
 						this.registerPasswordCompleted(result.data)
 					}
 				})
-				.catch(error => this.error(error));
+				.catch(error => this.loginFailed(error));
 		});
 		return true;
 	}

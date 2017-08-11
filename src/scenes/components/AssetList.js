@@ -52,7 +52,7 @@ class AssetList extends Component {
 							<div className="col-md-4 col-md-offset-8">
 								<div className="form-group">
 									<div className="input-group">
-										<div className="input-group-addon"><i className="material-icons" onClick={this.filter}>search</i></div>
+										<div className="input-group-addon"><i className="material-icons" >search</i></div>
 										<input type="text" id="filterPhase" className="form-control" placeholder="Filtrar resultados" onChange={this.filter} />
 									</div>
 								</div>
