@@ -118,7 +118,7 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" value={this.state ? this.state.fechaNacimiento : new Date().toISOString()} maxDate={new Date().toISOString()} onChange={this.birthdateChange} type="calendar" />
+						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" value={this.state ? this.state.fechaNacimiento : new Date().toISOString()} onChange={this.birthdateChange} type="calendar" />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />
