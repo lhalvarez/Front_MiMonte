@@ -3,6 +3,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
 import Loading from '../../components/Loading';
+import NumberFormat from 'react-number-format';
 
 class AssetList extends Component {
 	constructor(props) {
@@ -87,13 +88,12 @@ class AssetList extends Component {
 												<div>
 													<div className="radio radio-primary">
 														<label className="col-001">
-															<input name="grp10602346" type="radio" id="10602346OpcR" />
-															Refrendo - ${row.saldos.saldoRefrendo}</label>
+															
+															Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} /></label>
 													</div>
 													<div className="radio radio-primary">
 														<label>
-															<input name="grp10602346" type="radio" id="10602346OpcD" />
-															Desempeño - ${row.saldos.saldoDesempeno}
+															Desempeño - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 														</label>
 													</div>
 												</div>)

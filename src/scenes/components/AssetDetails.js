@@ -4,6 +4,7 @@ import AssetStore from '../../flux/stores/AssetStore'
 import connectToStores from 'alt-utils/lib/connectToStores';
 import Loading from '../../components/Loading';
 import Actions from '../../flux/Actions';
+import NumberFormat from 'react-number-format';
 
 class AssetDetails extends Component {
 	componentDidMount() {
@@ -76,7 +77,7 @@ class AssetDetails extends Component {
 													<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
 														<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
 														<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
-														<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>${row.monto}</span>)}>Monto</TableHeaderColumn>
+														<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span> <NumberFormat value={row.monto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></span>)}>Monto</TableHeaderColumn>
 													</BootstrapTable>
 												</div>
 											</div>
