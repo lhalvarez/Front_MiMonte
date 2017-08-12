@@ -71,9 +71,9 @@ const AssetSource = {
 class AssetStore {
 	constructor() {
 
-		let trackingA = sessionStorage.getItem("assetsTrackingA");
-		let trackingB = sessionStorage.getItem("assetsTrackingB");
-		let trackingC = sessionStorage.getItem("assetsTrackingC");
+		let trackingA = uuid();// sessionStorage.getItem("assetsTrackingA");
+		let trackingB = uuid();// sessionStorage.getItem("assetsTrackingB");
+		let trackingC = uuid();//sessionStorage.getItem("assetsTrackingC");
 
 		this.loading = false;
 		this.errorMessage = null;
@@ -92,9 +92,9 @@ class AssetStore {
 			filterSource: []
 		}
 
-		sessionStorage.setItem("assetsTrackingA", this.state.trackingA);
-		sessionStorage.setItem("assetsTrackingB", this.state.trackingB);
-		sessionStorage.setItem("assetsTrackingC", this.state.trackingC);
+		//sessionStorage.setItem("assetsTrackingA", this.state.trackingA);
+		//sessionStorage.setItem("assetsTrackingB", this.state.trackingB);
+		//sessionStorage.setItem("assetsTrackingC", this.state.trackingC);
 
 		this.registerAsync(AssetSource);
 
@@ -147,7 +147,7 @@ class AssetStore {
 		}
 	}
 	handleUpdateAssets(state) {
-		if (this.state && this.state.balanceRetries > 5)
+		if (this.state && this.state.balanceRetries > 15)
 		{
 			clearInterval(this.timerId);
 			this.state.balanceFailed = true;
