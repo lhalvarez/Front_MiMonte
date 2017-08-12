@@ -86,16 +86,12 @@ class AssetList extends Component {
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
 												<div>
-													<div className="radio radio-primary">
-														<label className="col-001">
-															
-															Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} /></label>
+													<div>
+															Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 													</div>
-													<div className="radio radio-primary">
-														<label>
-															Desempeño - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-														</label>
-													</div>
+													<div>
+															Desempeño - <NumberFormat value={row.saldos.saldoDesempeno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+														</div>
 												</div>)
 											}
 
