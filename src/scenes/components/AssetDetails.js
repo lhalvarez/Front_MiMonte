@@ -36,12 +36,12 @@ class AssetDetails extends Component {
 
 		return (
 			<div>
-				<Loading visible={this.props.loading || (this.props.asset == null ||
-						(this.props.asset.prenda && this.props.asset.prenda.folio != this.props.match.params.id))} text="cargando información de boleta" />
 
-				{this.props.asset != null && this.props.asset.prenda &&  this.props.asset.prenda.folio == this.props.match.params.id && (
-					<div>
-						<div className="container">
+				<div>
+
+
+					<div className="container">
+						<div className="row">
 							<div className="row">
 								<div className="col-md-12">
 									<div className="spacer-24"></div>
@@ -49,46 +49,54 @@ class AssetDetails extends Component {
 									<div className="spacer-24"></div>
 								</div>
 							</div>
-						</div>
 
-						<div className="container">
-							<div className="row">
-								<div className="col-md-12">
-									<div className="panel panel-default well nopadding-bottom">
-										<div className="panel-body">
-											<div className="col-md-4">
-												{this.props.asset.prenda && (
-													<div>
-														<p className="col-005">Prenda</p>
-														<p>{this.props.asset.prenda.descripcion}</p>
-														<p className="col-005">Fecha de Empeño</p>
-														<p>{this.props.asset.condiciones && (<span>{new Date(this.props.asset.condiciones.fechaIngreso).toLocaleString("es-MX", dateOptions)}</span>)}</p>
-														<p className="col-005">Tipo de Empeño</p>
-														<p>{this.props.asset.prenda.tipoContrato}</p>
-														<p className="col-005">Fecha Limite de Pago (Desempeño)</p>
-														<p>{this.props.asset.condiciones && (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}</p>
+
+
+							<div className="col-md-12">
+								<div className="panel panel-default well nopadding-bottom">
+									<div className="panel-body">
+
+										<Loading visible={this.props.loadingDetails || this.props.asset == null} text="cargando información de boleta" />
+
+										{this.props.asset != null && this.props.asset.prenda && this.props.asset.prenda.folio == this.props.match.params.id && (
+											<div>
+												<div className="col-md-4">
+													{this.props.asset.prenda && (
+														<div>
+															<p className="col-005">Prenda</p>
+															<p>{this.props.asset.prenda.descripcion}</p>
+															<p className="col-005">Fecha de Empeño</p>
+															<p>{this.props.asset.condiciones && (<span>{new Date(this.props.asset.condiciones.fechaIngreso).toLocaleString("es-MX", dateOptions)}</span>)}</p>
+															<p className="col-005">Tipo de Empeño</p>
+															<p>{this.props.asset.prenda.tipoContrato}</p>
+															<p className="col-005">Fecha Limite de Pago (Desempeño)</p>
+															<p>{this.props.asset.condiciones && (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}</p>
+														</div>
+													)}
+												</div>
+												<div className="col-md-8">
+													<p className="w700">FECHAS Y MONTOS DE PAGO</p>
+													<div className="table-responsive">
+
+														<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
+															<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
+															<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
+															<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span> <NumberFormat value={row.monto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></span>)}>Monto</TableHeaderColumn>
+														</BootstrapTable>
 													</div>
-												)}
-											</div>
-											<div className="col-md-8">
-												<p className="w700">FECHAS Y MONTOS DE PAGO</p>
-												<div className="table-responsive">
-
-													<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
-														<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
-														<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
-														<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span> <NumberFormat value={row.monto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></span>)}>Monto</TableHeaderColumn>
-													</BootstrapTable>
 												</div>
 											</div>
-										</div>
+										)}
 									</div>
 								</div>
 							</div>
 
-						</div >
-					</div>
-				)}
+						</div>
+
+					</div >
+
+				</div>
+
 			</div>
 		);
 	}

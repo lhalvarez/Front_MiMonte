@@ -36,7 +36,7 @@ class Actions {
 			sessionStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
-
+			debugger;
 			this.fetchAssets();
 
 			return state;
@@ -158,6 +158,7 @@ class Actions {
 	error(error) {
 		var message = '';
 		console.error(error);
+		debugger;
 		if (error.response) {
 			if (error.response.data) {
 				try {

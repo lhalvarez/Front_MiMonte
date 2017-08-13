@@ -19,7 +19,7 @@ class AssetList extends Component {
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 
-		if (this.state.filterPhase) {
+		if (this.state.filterPhase && this.refs.table) {
 			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
 		}
 	}
@@ -38,6 +38,7 @@ class AssetList extends Component {
 			paginationPosition: 'bottom',
 			withoutNoDataText: true,
 			noDataText: 'no hay información de boletas disponible',
+			
 			hideSizePerPage: true
 		};
 
