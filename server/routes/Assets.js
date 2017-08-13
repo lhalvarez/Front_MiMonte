@@ -66,7 +66,7 @@ module.exports = (req, res) => {
 				if (b1) {
 					b1.requestGUID = trazabilidadGuid;
 					cacheObject.data = b1;
-					cache.put(cacheKey, cacheObject);
+					cache.put(cacheKey, cacheObject, 300000);
 				}
 				res.json(b1);
 			});

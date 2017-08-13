@@ -8,7 +8,7 @@ import NumberFormat from 'react-number-format';
 
 class AssetDetails extends Component {
 	componentDidMount() {
-		setTimeout(Actions.fetchAssetDetail(this.props.match.params.id), 1000);
+		Actions.fetchAssetDetail(this.props.match.params.id);
 	}
 	static getStores() {
 		return [AssetStore];

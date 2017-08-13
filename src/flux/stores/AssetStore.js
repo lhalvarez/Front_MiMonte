@@ -102,6 +102,7 @@ class AssetStore {
 			trackingB: (trackingB) ? trackingB : uuid(),
 			trackingC: (trackingC) ? trackingC : uuid(),
 			loading: false,
+			loadingDetails: false,
 			totalBalance: 0,
 			balanceRetries: 0,
 			balanceFailed: false,
@@ -119,7 +120,6 @@ class AssetStore {
 		this.initializeState();
 	}
 	handleFetchAssetDetail(state) {
-		debugger;
 		this.state.asset = null;
 		this.state.loadingDetails = true;
 		this.setState(this.state);
@@ -132,7 +132,6 @@ class AssetStore {
 		}
 	}
 	handleFetchAssets(state) {
-		debugger;
 		if (state.filter && state.filterSource) {
 			this.state.filter = state.filter;
 			this.state.filterSource = state.filterSource;
@@ -140,7 +139,6 @@ class AssetStore {
 		}
 		else {
 			if (this.getInstance().isLoading() == false && this.loading == false) {
-
 				this.state.session = state.session;
 				this.state.loading = true;
 				this.setState(this.state);
@@ -167,6 +165,7 @@ class AssetStore {
 			sourceAssetsB: [],
 			sourceAssetsC: [],
 			loading: false,
+			loadingDetails: this.state.loadingDetails ? this.state.loadingDetails : false,
 			totalBalance: 0,
 			filter: '',
 			filterSource: []
@@ -219,9 +218,7 @@ class AssetStore {
 
 		sessionStorage.setItem("assetsStoreState", JSON.stringify(finalState));
 		this.setState(finalState);
-
-
-
+		
 		this.errorMessage = null;
 	}
 
