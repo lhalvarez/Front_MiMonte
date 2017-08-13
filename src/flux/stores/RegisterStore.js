@@ -33,7 +33,7 @@ class RegisterStore {
 			{
 				if (state.result.cliente.estadoRegistro.toLowerCase() == 'preregistro')
 				{
-					state.info.cliente.telefono.maskedTelefono = "*******" + state.info.cliente.telefono.numeroTelefono.substring(state.info.cliente.telefono.numeroTelefono.lenght - 4, 3);
+					state.info.cliente.telefono.maskedTelefono = "*******" + state.info.cliente.telefono.numeroTelefono.substring(state.info.cliente.telefono.numeroTelefono.length - 4);
 					this.state["contractInfo"] = state.info;
 					this.state["stepOneResult"] = state.result;
 					this.state.currentStep = 2;

@@ -3,6 +3,7 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
 import Loading from '../../components/Loading';
+import NumberFormat from 'react-number-format';
 
 class AssetList extends Component {
 	constructor(props) {
@@ -18,7 +19,7 @@ class AssetList extends Component {
 		object[event.target.id] = event.target.value;
 		this.setState(object);
 
-		if (this.state.filterPhase) {
+		if (this.state.filterPhase && this.refs.table) {
 			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
 		}
 	}
@@ -37,6 +38,7 @@ class AssetList extends Component {
 			paginationPosition: 'bottom',
 			withoutNoDataText: true,
 			noDataText: 'no hay información de boletas disponible',
+			
 			hideSizePerPage: true
 		};
 
@@ -85,17 +87,12 @@ class AssetList extends Component {
 										<div>
 											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
 												<div>
-													<div className="radio radio-primary">
-														<label className="col-001">
-															<input name="grp10602346" type="radio" id="10602346OpcR" />
-															Refrendo - ${row.saldos.saldoRefrendo}</label>
+													<div>
+															Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 													</div>
-													<div className="radio radio-primary">
-														<label>
-															<input name="grp10602346" type="radio" id="10602346OpcD" />
-															Desempeño - ${row.saldos.saldoDesempeno}
-														</label>
-													</div>
+													<div>
+															Desempeño - <NumberFormat value={row.saldos.saldoDesempeno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+														</div>
 												</div>)
 											}
 

@@ -11,8 +11,8 @@ class Promotions extends Component {
 					<img src="images/promo-01.jpg" className="img-responsive" alt="Promo" />
 				</div>
 				<div className="panel-footer text-right nopadding">
-					<a className="btn btn-flat btn-default">Ir a la tienda<div className="ripple-container"></div></a>
-					<a className="btn btn-flat btn-warning">Ver todas las promociones<div className="ripple-container"></div></a>
+					<a className="btn btn-flat btn-default" href="https://tienda.montepiedad.com.mx/" target="_blank">Ir a la tienda<div className="ripple-container"></div></a>
+					<a className="btn btn-flat btn-warning" href="https://www.montepiedad.com.mx/portal/tienda-monte-sucursal.html" target="_blank">Ver todas las promociones<div className="ripple-container"></div></a>
 				</div>
 			</div>
 		)

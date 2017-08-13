@@ -44,7 +44,6 @@ class AuthenticationApi extends ApiBase {
 							Actions.appTokenIssued(result.data.access_token);
 							me.retrieveUserInfo(username)
 								.then(result => {
-									
 									let sessionInfo = {
 										id: 1,
 										email: username,

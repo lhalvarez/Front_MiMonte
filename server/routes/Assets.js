@@ -3,6 +3,8 @@ const appToken = require('../components/AppToken');
 const config = require('../config')
 const cache = require('memory-cache');
 const uuidv4 = require('uuid/v4')
+const log4js = require('log4js');
+const logger = log4js.getLogger('default');
 
 module.exports = (req, res) => {
 
@@ -17,11 +19,13 @@ module.exports = (req, res) => {
 
 	let persistentCacheKey = 'assets-' + requestBody.idClient + requestBody.criterios.criterioBoleta;
 	let cacheKey = 'assets-' + trazabilidadGuid;
-	
+
+	logger.info("Fetching assets - cache key " + cacheKey);
 	let cacheObject = cache.get(cacheKey);
 	let persistentCacheObject = cache.get(persistentCacheKey);
 
 	if (cacheObject) {
+		logger.info('Found cached');
 		res.json(cacheObject.data);
 		return;
 	}
@@ -62,7 +66,7 @@ module.exports = (req, res) => {
 				if (b1) {
 					b1.requestGUID = trazabilidadGuid;
 					cacheObject.data = b1;
-					cache.put(cacheKey, cacheObject);
+					cache.put(cacheKey, cacheObject, 300000);
 				}
 				res.json(b1);
 			});

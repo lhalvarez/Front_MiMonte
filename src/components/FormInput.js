@@ -35,7 +35,7 @@ class FormInput extends Component {
 				control = <Cleave {...common} className="form-control" placeholder={this.props.placeholder} onChange={this.props.onChange} options={this.props.options} />
 				break;
 			case 'calendar':
-				control = <DatePicker {...common} dateFormat="DD-MM-YYYY" maxDate={this.props.maxDate} className="form-control" placeholder="DD-MM-AAAA"
+				control = <DatePicker {...common} dateFormat="DD-MM-YYYY" maxDate={this.props.maxDate} className="form-control" placeholder="DD-MM-YYYY"
 					onChange={(v, fv) => {
 
 						this.value = new Date().toISOString();
