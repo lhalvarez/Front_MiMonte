@@ -158,7 +158,7 @@ class AssetStore {
 
 		let finalState = this.state;
 
-		if (this.state && this.state.balanceRetries > 3) {
+		if (this.state && this.state.balanceRetries > 10) {
 			clearInterval(this.timerId);
 			finalState.balanceFailed = true;
 		}
@@ -189,13 +189,13 @@ class AssetStore {
 		if (finalState.balanceFailed) {
 			finalState.assetsB.forEach((element) => {
 				element.saldos = {
-					failed: element.saldos == null || element.saldos.saldoRefrendo == null || element.saldos.saldoDesempeno == null
+					failed: element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null)
 				}
 			});
 
 			finalState.assetsA.forEach((element) => {
 				element.saldos = {
-					failed: element.saldos == null || element.saldos.saldoRefrendo == null || element.saldos.saldoDesempeno == null
+					failed: element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null)
 				}
 			})
 		}
