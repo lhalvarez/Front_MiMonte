@@ -92,9 +92,9 @@ class AssetStore {
 	}
 	initializeState() {
 
-		let trackingA = uuid();// sessionStorage.getItem("assetsTrackingA");
+		let trackingA = "ace3db22-6d87-414c-9b9c-3f85eb1a438b";//uuid();// sessionStorage.getItem("assetsTrackingA");
 		let trackingB = uuid();// sessionStorage.getItem("assetsTrackingB");
-		let trackingC = uuid();//sessionStorage.getItem("assetsTrackingC");
+		let trackingC = "ace3db22-6d87-414c-9b9c-3f85eb1a444b";//sessionStorage.getItem("assetsTrackingC");
 
 		this.state = {
 			asset: {},
@@ -158,9 +158,9 @@ class AssetStore {
 
 		let finalState = this.state;
 
-		if (this.state && this.state.balanceRetries > 10) {
+		if (this.state && this.state.balanceRetries > 3) {
 			clearInterval(this.timerId);
-			finalState.balanceFailed = true;
+			finalState.balanceRetriesCompleted = true;
 		}
 
 		if (state) {
@@ -186,25 +186,38 @@ class AssetStore {
 			})
 		}
 
-		if (finalState.balanceFailed) {
+		if (finalState.balanceRetriesCompleted) {
+			console.info('Balance fetch completed.');
+
 			finalState.assetsB.forEach((element) => {
+				if (element.saldos == null)
+					element.saldos = {};
 				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
+
+				if (element.saldos.failed)
+					console.error('B element ' + element.prenda.folio + ' ' + element.saldos.failed);
 			});
 
 			finalState.assetsA.forEach((element) => {
-				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);				
+				
+				if (element.saldos == null)
+					element.saldos = {};
+					element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
+
+				if (element.saldos.failed)
+					console.error('A element ' + element.prenda.folio + ' ' + element.saldos.failed);
 			})
 		}
 
 		finalState.filter = this.state.filter;
 		finalState.filterSource = this.state.filterSource;
-		
+
 		if (finalState.balanceRetries == 0) {
 			this.timerId = setInterval(() => this.refreshBalance(), 5000);
 		}
 
 		finalState.balanceRetries++;
-		
+
 		this.setState(finalState);
 	}
 
