@@ -188,15 +188,11 @@ class AssetStore {
 
 		if (finalState.balanceFailed) {
 			finalState.assetsB.forEach((element) => {
-				element.saldos = {
-					failed: element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null)
-				}
+				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
 			});
 
 			finalState.assetsA.forEach((element) => {
-				element.saldos = {
-					failed: element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null)
-				}
+				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);				
 			})
 		}
 
