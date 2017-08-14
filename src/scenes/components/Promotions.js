@@ -8,7 +8,7 @@ class Promotions extends Component {
 					<p className="s1 cond w400 col-005 nomargin-bottom nopadding-bottom" >Promoción del mes</p>
 				</div>
 				<div className="panel-body">
-					<img src="images/promo-01.jpg" className="img-responsive" alt="Promo" />
+					<img src="https://www.montepiedad.com.mx/storage/bnr-promo-mm.jpg" className="img-responsive" alt="Promo" />
 				</div>
 				<div className="panel-footer text-right nopadding">
 					<a className="btn btn-flat btn-default" href="https://tienda.montepiedad.com.mx/" target="_blank">Ir a la tienda<div className="ripple-container"></div></a>

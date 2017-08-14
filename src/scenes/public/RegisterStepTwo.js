@@ -120,7 +120,7 @@ class RegisterStepTwo extends Component {
 					</div>
 					<div className="col-md-5 col-md-offset-1">
 						<div className="embed-responsive embed-responsive-16by9">
-							<iframe className="embed-responsive-item" src="//www.youtube.com/embed/IhFJrJIasx0"></iframe>
+							<iframe className="embed-responsive-item" src="https://youtu.be/5Jp-y5M6v9A"></iframe>
 						</div>
 					</div>
 				</div>

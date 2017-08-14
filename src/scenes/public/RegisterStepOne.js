@@ -132,7 +132,13 @@ class RegisterStepOne extends Component {
 					<div className="col-md-4">
 						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxLength="16" onKeyPress={this.onlyNumbers} />
 					</div>
-
+					<div className="col-md-4">
+						
+					</div>
+					<div className="col-md-4">
+						<div className="spacer-24"></div>
+						<p className="col-011">¿Aún no eres cliente?&nbsp;&nbsp;<a href="http://www.montepiedad.com.mx/portal/preregistro.html" target="_blank" class="cond col-003">PREREGÍSTRATE</a></p>
+					</div>
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
