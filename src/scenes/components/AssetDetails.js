@@ -8,13 +8,16 @@ import NumberFormat from 'react-number-format';
 
 class AssetDetails extends Component {
 	componentDidMount() {
-		Actions.fetchAssetDetail(this.props.match.params.id);
+		setTimeout(Actions.fetchAssetDetail(this.props.match.params.id), 1000);
 	}
 	static getStores() {
 		return [AssetStore];
 	}
 	static getPropsFromStores() {
 		return AssetStore.getState();
+	}
+	static componentDidConnect() {
+		
 	}
 	render() {
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -56,7 +59,7 @@ class AssetDetails extends Component {
 								<div className="panel panel-default well nopadding-bottom">
 									<div className="panel-body">
 
-										<Loading visible={this.props.loadingDetails || this.props.asset == null} text="cargando información de boleta" />
+										<Loading visible={this.props.asset == null} text="cargando información de boleta" />
 
 										{this.props.asset != null && this.props.asset.prenda && this.props.asset.prenda.folio == this.props.match.params.id && (
 											<div>

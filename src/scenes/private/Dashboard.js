@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import connectToStores from 'alt-utils/lib/connectToStores';
+import Actions from '../../flux/Actions';
 import AssetList from '../components/AssetList';
 import AssetSummaryTitle from '../components/AssetSummaryTitle';
 import Promotions from '../components/Promotions';
@@ -9,6 +10,9 @@ import AssetListB from '../components/AssetListB';
 class Dashboard extends Component {
 	componentDidMount() {
 
+	}
+	static componentDidConnect() {
+		
 	}
 	static getStores() {
 		return [AssetStore];
@@ -26,7 +30,7 @@ class Dashboard extends Component {
 						<div role="tabpanel" className="tab-pane fade in active" id="bol1">
 							<div className="panel panel-default well nopadding-bottom">
 
-								<AssetList showSearch={true} loading={this.props.loading && this.props.assetsB == null} assets={this.props.assetsB} title="Tus boletas próximas a vencer" />
+								<AssetList showSearch={true} loading={this.props.assetsB == null} assets={this.props.assetsB} title="Tus boletas próximas a vencer" />
 							</div>
 						</div>
 					</div>
@@ -38,7 +42,7 @@ class Dashboard extends Component {
 								<div role="tabpanel" className="tab-pane fade in active" id="bol1">
 									<div className="panel panel-default well nopadding-bottom">
 
-										<AssetListB showSearch={true} loading={this.props.loading && this.props.assetsC == null} assets={this.props.assetsC} title="Prendas en Comercializacion" />
+										<AssetListB showSearch={true} loading={this.props.assetsC == null} assets={this.props.assetsC} title="Prendas en Comercializacion" />
 									</div></div></div>
 						</div>
 						<div className="col-md-6">

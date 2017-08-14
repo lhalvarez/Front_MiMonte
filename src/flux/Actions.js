@@ -29,18 +29,14 @@ class Actions {
 		this.error(state); return state;
 	}
 	loggedIn(state) {
-		console.info('User logged in...');
 		if (state) {
 			this.sessionInfo = state;
-
 			sessionStorage.setItem('sessionInfo', JSON.stringify(this.sessionInfo));
 			axios.defaults.headers.common['usuario'] = this.sessionInfo.username;
 			axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.sessionInfo.appToken;
-			
 			this.fetchAssets();
-
-			return state;
 		}
+		return state;
 	}
 	logout() {
 		sessionStorage.removeItem('sessionInfo');
