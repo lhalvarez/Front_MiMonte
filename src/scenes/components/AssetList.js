@@ -130,8 +130,8 @@ class AssetList extends Component {
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center' dataFormat={(cell, row) =>
 										(
 											<div>
-												<a onClick={this.onViewDetails} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
-													<i className="material-icons col-001">search</i></a>
+												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
+													<i className="material-icons col-001">search</i></Link>
 											</div>
 										)}></TableHeaderColumn>
 								</BootstrapTable>
