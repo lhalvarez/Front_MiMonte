@@ -32,7 +32,10 @@ class RegisterStepTwo extends Component {
 		
 		if (this.state.smsCode == null || this.state.smsCode == '')
 			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
-		
+
+		if (this.state.password.length < 8)
+			errors.push({ field: 'password', message: 'La contraseña debe tener al menos 8 caracteres' });
+
 		if (this.state.password == null || this.state.password !=this.state.passwordConfirmacion)
 			errors.push({ field: 'password', message: 'Confirmación de Contraseña no coincide' });
 

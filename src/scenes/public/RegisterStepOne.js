@@ -41,6 +41,9 @@ class RegisterStepOne extends Component {
 		if (this.state.email == null || this.state.email == '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
+		if (/^\d{10}$/.test(this.state.celular) == false)
+			errors.push({ field: 'celular', message: 'El número de celular debe ser de 10 dígitos' });
+
 		if (this.state.celular == null || this.state.celular != this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 

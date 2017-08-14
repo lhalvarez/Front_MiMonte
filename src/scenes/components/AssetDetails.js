@@ -17,7 +17,7 @@ class AssetDetails extends Component {
 		return AssetStore.getState();
 	}
 	static componentDidConnect() {
-		
+		console.log('conected...');
 	}
 	render() {
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -80,12 +80,19 @@ class AssetDetails extends Component {
 												<div className="col-md-8">
 													<p className="w700">FECHAS Y MONTOS DE PAGO</p>
 													<div className="table-responsive">
-
-														<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
-															<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
-															<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
-															<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span> <NumberFormat value={row.monto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></span>)}>Monto</TableHeaderColumn>
-														</BootstrapTable>
+														{this.props.asset.prenda.operable && (
+															<div>
+																<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
+																	<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
+																	<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
+																	<TableHeaderColumn dataField='monto' headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span> <NumberFormat value={row.monto} displayType={'text'} thousandSeparator={true} prefix={'$'} /></span>)}>Monto</TableHeaderColumn>
+																</BootstrapTable>
+															</div>
+														)}
+														{this.props.asset.prenda.operable == false && (
+															<div>La prenda aún no es candidata para el desempeño, no cumple con los días especificados en depósito
+													</div>
+														)}
 													</div>
 												</div>
 											</div>
