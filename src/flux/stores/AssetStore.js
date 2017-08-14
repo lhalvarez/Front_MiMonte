@@ -92,9 +92,9 @@ class AssetStore {
 	}
 	initializeState() {
 
-		let trackingA = "ace3db22-6d87-414c-9b9c-3f85eb1a438b";//uuid();// sessionStorage.getItem("assetsTrackingA");
-		let trackingB = uuid();// sessionStorage.getItem("assetsTrackingB");
-		let trackingC = "ace3db22-6d87-414c-9b9c-3f85eb1a444b";//sessionStorage.getItem("assetsTrackingC");
+		let trackingA = uuid();
+		let trackingB = uuid();
+		let trackingC = uuid();
 
 		this.state = {
 			asset: {},
@@ -131,8 +131,8 @@ class AssetStore {
 		this.state.loadingDetails = false;
 		if (state && state.asset) {
 			this.state.asset = state.asset.partidas.partida[0];
-			this.setState(this.state);
 		}
+		this.setState(this.state);
 	}
 	handleFetchAssets(state) {
 		if (state.filter && state.filterSource) {
@@ -158,7 +158,7 @@ class AssetStore {
 
 		let finalState = this.state;
 
-		if (this.state && this.state.balanceRetries > 3) {
+		if (this.state && this.state.balanceRetries > 100) {
 			clearInterval(this.timerId);
 			finalState.balanceRetriesCompleted = true;
 		}
