@@ -3,6 +3,8 @@ const appToken = require('../components/AppToken');
 const config = require('../config')
 const cache = require('memory-cache');
 var _ = require('underscore');
+const log4js = require('log4js');
+const logger = log4js.getLogger('default');
 
 module.exports = (req, res) => {
 
@@ -22,7 +24,7 @@ module.exports = (req, res) => {
 				if (!match.saldos) {
 					match.saldos = {};
 				}
-
+				
 				if (newestPrenda.saldos.saldoRefrendo)
 				{
 					match.saldos.saldoRefrendo = newestPrenda.saldos.saldoRefrendo;

@@ -4,6 +4,8 @@ import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
 import Loading from '../../components/Loading';
 import NumberFormat from 'react-number-format';
+import History from '../../components/History';
+
 
 class AssetList extends Component {
 	constructor(props) {
@@ -13,8 +15,7 @@ class AssetList extends Component {
 	componentDidMount() {
 		this.setState({});
 	}
-	filter(event)
-	{
+	filter(event) {
 		var object = {};
 		object[event.target.id] = event.target.value;
 		this.setState(object);
@@ -22,6 +23,9 @@ class AssetList extends Component {
 		if (this.state.filterPhase && this.refs.table) {
 			setTimeout(this.refs.table.handleFilterData({ descripcion: { value: this.state.filterPhase, type: 'RegexFilter' } }), 2000);
 		}
+	}
+	onViewDetails(number) {
+		History.replace('/asset/details/' + number);
 	}
 	render() {
 		const dateOptions = { year: "numeric", month: "long", day: "numeric" };
@@ -38,7 +42,7 @@ class AssetList extends Component {
 			paginationPosition: 'bottom',
 			withoutNoDataText: true,
 			noDataText: 'no hay información de boletas disponible',
-			
+
 			hideSizePerPage: true
 		};
 
@@ -70,7 +74,7 @@ class AssetList extends Component {
 							{this.props.loading == false && this.props.assets && (
 
 								<BootstrapTable tableContainerClass="table-responsive" data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
-									
+
 									<TableHeaderColumn dataField='descripcion' headerAlign='left' dataAlign='left' className="assets-table-description" columnClassName="assets-table-description" dataFormat={(cell, row) =>
 										(
 											<div>
@@ -85,34 +89,45 @@ class AssetList extends Component {
 									<TableHeaderColumn isKey={false} headerAlign='left' dataAlign='left' className="assets-table-balance" columnClassName="assets-table-balance" dataFormat={(cell, row) => (
 
 										<div>
-											{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
-												<div>
+											{row.prenda.operable && (
+											<div>
+												{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
 													<div>
-															Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-													</div>
+														{row.saldos.saldoRefrendo && (
+															<div>
+																Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+															</div>
+														)}
+														{row.saldos.saldoDesempeno && (
+															<div>
+																Desempeño - <NumberFormat value={row.saldos.saldoDesempeno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+															</div>
+														)}
+													</div>)
+												}
+
+												{row.saldos && row.saldos.failed && (
 													<div>
-															Desempeño - <NumberFormat value={row.saldos.saldoDesempeno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+														no disponible
 														</div>
-												</div>)
-											}
+												)
+												}
 
-											{row.saldos && row.saldos.failed && (
-												<div>
-													no disponible
+												{!row.saldos && (
+													<span>cargando saldos...</span>
+												)}
+												</div>
+											)}
+											{row.prenda.operable == false && (
+												<div>La prenda aún no es candidata para el desempeño, no cumple con los días especificados en depósito
 													</div>
-											)
-											}
-
-											{!row.saldos && (
-												<span>cargando saldos...</span>
-																					)}
-											
+												)}
 										</div>
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center'  dataFormat={(cell, row) =>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center' dataFormat={(cell, row) =>
 										(
 											<div>
 												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
@@ -129,4 +144,5 @@ class AssetList extends Component {
 		)
 	}
 }
+
 export default AssetList;

@@ -13,36 +13,37 @@ const AssetSource = {
 					state.assetsA.forEach((element) => {
 						if (!element.saldos
 							|| !element.saldos.saldoRefrendo
-							|| !element.saldos.saldoDesempeno)
+							|| !element.saldos.saldoDesempeno) {
 							shouldProcess = true;
+						}
 					})
 				}
-				else {
-					shouldProcess = true;
-				}
 
-				if (shouldProcess == false && state.assetsB) {
+				if (shouldProcess)
+					return null;
+
+				if (state.assetsB) {
 					state.assetsB.forEach((element) => {
 						if (!element.saldos
 							|| !element.saldos.saldoRefrendo
-							|| !element.saldos.saldoDesempeno)
+							|| !element.saldos.saldoDesempeno) {
 							shouldProcess = true;
+						}
 					})
 				}
-				else {
-					shouldProcess = true;
-				}
 
-				if (!shouldProcess) {
-					return state;
-				}
-				else {
+				if (shouldProcess)
+					return null;
+
+				if (state.assetsA == null || state.assetsB == null) {
 					return null;
 				}
+				else {
+					return state;
+				}
 			}
-			else {
-				return null;
-			}
+
+			return null;
 		},
 		remote: (state) => {
 			if (state.session) {
@@ -91,9 +92,9 @@ class AssetStore {
 	}
 	initializeState() {
 
-		let trackingA = uuid();// sessionStorage.getItem("assetsTrackingA");
-		let trackingB = uuid();// sessionStorage.getItem("assetsTrackingB");
-		let trackingC = uuid();//sessionStorage.getItem("assetsTrackingC");
+		let trackingA = uuid();
+		let trackingB = uuid();
+		let trackingC = uuid();
 
 		this.state = {
 			asset: {},
@@ -110,8 +111,10 @@ class AssetStore {
 			filterSource: []
 		}
 	}
+	refresh() {
+		this.setState(this.state);
+	}
 	handleLogin() {
-		this.initializeState();
 		clearInterval(this.timerId);
 	}
 	handleLogout() {
@@ -128,8 +131,8 @@ class AssetStore {
 		this.state.loadingDetails = false;
 		if (state && state.asset) {
 			this.state.asset = state.asset.partidas.partida[0];
-			this.setState(this.state);
 		}
+		this.setState(this.state);
 	}
 	handleFetchAssets(state) {
 		if (state.filter && state.filterSource) {
@@ -152,74 +155,70 @@ class AssetStore {
 		}
 	}
 	handleUpdateAssets(state) {
-		if (this.state && this.state.balanceRetries > 15) {
+
+		let finalState = this.state;
+
+		if (this.state && this.state.balanceRetries > 100) {
 			clearInterval(this.timerId);
-			this.state.balanceFailed = true;
+			finalState.balanceRetriesCompleted = true;
 		}
 
-		let finalState = {
-			assetsA: [],
-			assetsB: [],
-			assetsC: [],
-			sourceAssetsA: [],
-			sourceAssetsB: [],
-			sourceAssetsC: [],
-			loading: false,
-			loadingDetails: this.state.loadingDetails ? this.state.loadingDetails : false,
-			totalBalance: 0,
-			filter: '',
-			filterSource: []
-		};
+		if (state) {
+			if (Array.isArray(state) == false) {
+				state = [state];
+			}
+			let me = this;
+			state.forEach(s => {
+				if (s.data) {
+					let assetsData = s.data;
+					let parsedDate = this.parseState(s);
 
-		if (state.length > 0) {
-			finalState.assetsA = this.parseState(state[0]);
-
-			if (state.length >= 1)
-				finalState.assetsB = this.parseState(state[1]);
-			if (state.length >= 2)
-				finalState.assetsC = this.parseState(state[2]);
-		}
-		else {
-			finalState = state;
-		}
-
-		if (this.state.balanceFailed == true) {
-			finalState.assetsA.forEach((element) => {
-				if (!element.saldos
-					|| !element.saldos.saldoRefrendo
-					|| !element.saldos.saldoDesempeno) {
-					element.saldos = { failed: true }
+					if (assetsData.requestGUID == me.state.trackingA) {
+						finalState.assetsA = parsedDate;
+					}
+					else if (assetsData.requestGUID == me.state.trackingB) {
+						finalState.assetsB = parsedDate;
+					}
+					else if (assetsData.requestGUID == me.state.trackingC) {
+						finalState.assetsC = parsedDate;
+					}
 				}
+			})
+		}
+
+		if (finalState.balanceRetriesCompleted) {
+			console.info('Balance fetch completed.');
+
+			finalState.assetsB.forEach((element) => {
+				if (element.saldos == null)
+					element.saldos = {};
+				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
+
+				if (element.saldos.failed)
+					console.error('B element ' + element.prenda.folio + ' ' + element.saldos.failed);
+			});
+
+			finalState.assetsA.forEach((element) => {
+				
+				if (element.saldos == null)
+					element.saldos = {};
+					element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
+
+				if (element.saldos.failed)
+					console.error('A element ' + element.prenda.folio + ' ' + element.saldos.failed);
 			})
 		}
 
 		finalState.filter = this.state.filter;
 		finalState.filterSource = this.state.filterSource;
 
-		if (this.state.filter && this.state.filter != '' && this.state.filterSource) {
-			if (this.state.assetsA === this.state.filterSource) {
-				let filter = this.state.filter;
-				finalState.assetsA = finalState.sourceAssetsA.filter((asset) => {
-					return asset.prenda.descripcion.toLowerCase().indexOf(filter) >= 0;
-				});
-			}
-		}
-		else {
-			finalState.sourceAssetsA = finalState.assetsA;
-			finalState.sourceAssetsB = finalState.assetsB;
-			finalState.sourceAssetsC = finalState.assetsC;
-
-			if (this.state.balanceRetries == 0) {
-				this.timerId = setInterval(() => this.refreshBalance(), 5000);
-			}
-
-			this.state.balanceRetries++;
+		if (finalState.balanceRetries == 0) {
+			this.timerId = setInterval(() => this.refreshBalance(), 5000);
 		}
 
-		sessionStorage.setItem("assetsStoreState", JSON.stringify(finalState));
+		finalState.balanceRetries++;
+
 		this.setState(finalState);
-		
-		this.errorMessage = null;
 	}
 
 	refreshBalance() {

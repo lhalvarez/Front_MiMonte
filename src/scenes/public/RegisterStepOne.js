@@ -41,6 +41,9 @@ class RegisterStepOne extends Component {
 		if (this.state.email == null || this.state.email == '')
 			errors.push({ field: 'email', message: 'El Correo Electrónico es requerido' });
 
+		if (/^\d{10}$/.test(this.state.celular) == false)
+			errors.push({ field: 'celular', message: 'El número de celular debe ser de 10 dígitos' });
+
 		if (this.state.celular == null || this.state.celular != this.state.celularConfirmacion)
 			errors.push({ field: 'celular', message: 'Confirmación de Número de celular no coincide' });
 
@@ -132,7 +135,13 @@ class RegisterStepOne extends Component {
 					<div className="col-md-4">
 						<FormInput id="credencial" label="No. de Credencial Monte" onChange={this.setValue} maxLength="16" onKeyPress={this.onlyNumbers} />
 					</div>
-
+					<div className="col-md-4">
+						
+					</div>
+					<div className="col-md-4">
+						<div className="spacer-24"></div>
+						<p className="col-011">¿Aún no eres cliente?&nbsp;&nbsp;<a href="http://www.montepiedad.com.mx/portal/preregistro.html" target="_blank" class="cond col-003">PREREGÍSTRATE</a></p>
+					</div>
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
