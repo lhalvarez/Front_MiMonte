@@ -101,6 +101,7 @@ class Login extends Component {
 										</div>
 
 										<div className="panel-footer text-right nopadding">
+											
 											<Link className="btn btn-flat btn-default btn-sm" to="/recoverypassword">¿Olvidaste tu Contraseña?<div className="ripple-container"></div></Link>
 											<Link className="btn btn-flat btn-warning btn-sm" to="/register">Regístrate Aquí<div className="ripple-container"></div></Link>
 										</div>

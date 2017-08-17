@@ -109,7 +109,8 @@ class RegisterStepTwo extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-8 col-md-offset-2">
-						<p className="col-005 valign-wrapper"><i className="material-icons left s0">error_outline</i> La contraseña debe tener un mínimo de 8 caracteres, que podrán ser números, letras y símbolos. Los números y letras no podrán ser consecutivos y debes incluir mínimo una mayúscula y un símbolo.</p>
+						<p className="col-005 valign-wrapper"><i className="material-icons left s0">error_outline</i> La contraseña debe tener un mínimo de 8 caracteres, que podrán ser números, letras y símbolos. Los números y letras no podrán ser consecutivos y debes incluir mínimo una mayúscula y un símbolo.
+							Tu contraseña deberá contener al menos uno de los siguientes símbolos: {'^ $ * . [ ] {} ( ) ? - " ! @ # % & / \ , > < \' : ; | _ ~'} </p>
 					</div>
 				</div>
 				<div className="spacer-24"></div>

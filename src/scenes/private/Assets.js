@@ -82,10 +82,7 @@ class Assets extends Component {
 												</div>
 												<div className="col-md-4">
 													<p>Recupera tu prenda</p>
-													<p>Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu empeño y realiza tu <a>Desempeño Extemporáneo</a>.</p>
-													<p>Deberás presentar tu identificación oficial y boleta original, asó como realizar el pago de tu préstamo otorgado más intereses, y se te pueda entregar tu prenda en ventanilla.</p>
-													<p>Si tu prenda ya no aparece en el listado es probable que se haya comercializado.</p>
-													<p>Corrobora esta información en la sucursal en donde la empeñaste y pide más información en ventanilla.</p>
+													Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu empeño y realiza tu Desempeño Extemporáneo. Deberás presentar tu identificación oficial y boleta original, así como realizar el pago de tu préstamo otorgado, intereses y comisión por desempeño extemporáneo. Si tu prenda ya no aparece en el listado es probable que ya se haya vendido. Corrobora esta información en la sucursal en donde la empeñaste y pide más información en ventanilla.
 												</div>
 											</div>
 										</div>

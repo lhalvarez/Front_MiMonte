@@ -104,7 +104,7 @@ class RegisterStepOne extends Component {
 			<div role="tabpanel" className="tab-pane fade in active" id="stp1">
 				<div className="row">
 					<div className="col-md-8 col-xs-12 col-md-offset-2">
-						<div className="bg-info pad-24 shadow">Bienvenido!. Para registrarte ten a la mano tu tarjeta Monte y boleta activa. Cerci&oacute;rate de que toda la informaci&oacute;n coincida con la de tu contrato. Todos los campos son obligatorios.</div>
+						<div className="bg-info pad-24 shadow">Para registrarte ten a la mano tu tarjeta Monte y boleta activa. Cerci&oacute;rate de que toda la informaci&oacute;n coincida con la de tu contrato. Todos los campos son obligatorios.</div>
 					</div>
 				</div>
 				<div className="row">
@@ -121,7 +121,7 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" value={this.state ? this.state.fechaNacimiento : new Date().toISOString()} onChange={this.birthdateChange} type="calendar" />
+						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" onChange={this.birthdateChange} type="calendar" />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />
