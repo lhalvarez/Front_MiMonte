@@ -82,7 +82,7 @@ class AssetListB extends Component {
 											</div>
 										)}>Prenda</TableHeaderColumn>
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' width="20%" dataFormat={(cell, row) => (<span>{row.prenda.sucursal}</span>)}>Sucursal</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' width="30%" dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>A la Venta</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' width="30%" dataFormat={(cell, row) => new Date(row.condiciones.fechaComercializacion).toLocaleString("es-MX", dateOptions)}>A la Venta</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>
