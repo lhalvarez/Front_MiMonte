@@ -74,7 +74,7 @@ class Login extends Component {
 							<div className="col-md-4 col-xs-12 col-md-offset-4">
 								<div className="bg-info pad-12 shadow">
 									<p className="s4 col-005 w400 cond">¡Ocurrio un error durante la activación!</p>
-									<p>Comunicate con la mesa de ayuda.</p>
+									<p>Comunícate al 01 800 EL MONTE, para que podamos ayudarte.</p>
 								</div>
 							</div>
 						</div>
