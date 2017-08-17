@@ -49,7 +49,7 @@ class AssetListB extends Component {
 					this.props.showSearch &&
 					<div className="panel-header nomargin-top nopadding-top">
 						<div className="row">
-							<div className="col-md-4 col-md-offset-8">
+							<div className="col-md-6 col-md-offset-6">
 								<div className="form-group">
 									<div className="input-group">
 										<div className="input-group-addon"><i className="material-icons" >search</i></div>

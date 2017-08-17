@@ -42,7 +42,7 @@ class Dashboard extends Component {
 								<div role="tabpanel" className="tab-pane fade in active" id="bol1">
 									<div className="panel panel-default well nopadding-bottom">
 
-										<AssetListB showSearch={true} loading={this.props.assetsC == null} assets={this.props.assetsC} title="Prendas en Comercializacion" />
+										<AssetListB showSearch={true} loading={this.props.assetsC == null} assets={this.props.assetsC} title="Prendas en Comercialización" />
 									</div></div></div>
 						</div>
 						<div className="col-md-6">
