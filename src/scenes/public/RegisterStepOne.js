@@ -20,7 +20,8 @@ class RegisterStepOne extends Component {
 	}
 	setValue(event) {
 		let object = {}; object[event.target.id] = event.target.value;
-		event.target.value = event.target.value.toUpperCase();
+		if (event.target.className.indexOf("upperCase") >= 0)
+			event.target.value = event.target.value.toUpperCase();
 		this.setState(object);
 	}
 	validate() {
@@ -90,7 +91,7 @@ class RegisterStepOne extends Component {
 	onlyLetter(event) {
 		var inputValue = event.which;
 		if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)
-			&& inputValue != 241 && inputValue != 209 && !(inputValue >= 193 && inputValue <=250)) {
+			&& inputValue != 241 && inputValue != 209 && !(inputValue >= 193 && inputValue <= 250)) {
 			event.preventDefault();
 		}
 		return String.fromCharCode(inputValue).toUpperCase();
@@ -106,7 +107,7 @@ class RegisterStepOne extends Component {
 			<div role="tabpanel" className="tab-pane fade in active" id="stp1">
 				<div className="row">
 					<div className="col-md-8 col-xs-12 col-md-offset-2">
-						<div className="bg-info pad-24 shadow">¡Bienvenido!<br/>Te recordamos que para registrarte es necesario que tengas a la mano tu Tarjeta Monte. Por favor verifica que toda la información coincida con la de tu boleta de empeño.</div>
+						<div className="bg-info pad-24 shadow">¡Bienvenido!<br />Te recordamos que para registrarte es necesario que tengas a la mano tu Tarjeta Monte. Por favor verifica que toda la información coincida con la de tu boleta de empeño.</div>
 					</div>
 				</div>
 				<div className="row">
@@ -114,16 +115,16 @@ class RegisterStepOne extends Component {
 						<FormInput id="nombre" label="Nombre(s)" onChange={this.setValue} onLoad={this.setField} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} upperCase={true} />
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} upperCase={true}/>
+						<FormInput id="apellidoPaterno" label="Apellido Paterno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} upperCase={true} />
 					</div>
 					<div className="col-md-4">
-						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} upperCase={true}/>
+						<FormInput id="apellidoMaterno" label="Apellido Materno" onChange={this.setValue} pattern="[A-Za-z]" onKeyPress={this.onlyLetter} upperCase={true} />
 					</div>
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" onChange={this.birthdateChange} type="calendar" value={this.state ? this.state.fechaNacimiento : ''}  />
+						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" onChange={this.birthdateChange} type="calendar" value={this.state ? this.state.fechaNacimiento : ''} />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />
@@ -142,7 +143,7 @@ class RegisterStepOne extends Component {
 					</div>
 					<div className="col-md-4">
 						<div className="spacer-24"></div>
-						<p className="col-011">¿Aún no eres cliente?&nbsp;&nbsp;<a href="http://www.montepiedad.com.mx/portal/preregistro.html" target="_blank" className	="cond col-003">PREREGÍSTRATE</a></p>
+						<p className="col-011">¿Aún no eres cliente?&nbsp;&nbsp;<a href="http://www.montepiedad.com.mx/portal/preregistro.html" target="_blank" className="cond col-003">PREREGÍSTRATE</a></p>
 					</div>
 				</div>
 				<div className="spacer-24"></div>

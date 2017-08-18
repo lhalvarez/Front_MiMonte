@@ -59,7 +59,7 @@ class FormInput extends Component {
 				/>
 				break;
 			default:
-				control = <input {...common} type="text" className="form-control" onChange={this.props.onChange} onLoad={this.props.onLoad} maxLength={this.props.maxLength} onKeyPress={this.props.onKeyPress}/>;
+				control = <input {...common} type="text" className={'form-control ' + (this.props.upperCase ? " upperCase" : "") + (this.props.lowerCase ? " lowerCase" : "")} onChange={this.props.onChange} onLoad={this.props.onLoad} maxLength={this.props.maxLength} onKeyPress={this.props.onKeyPress}/>;
 				break;
 		}
 		return (
@@ -78,7 +78,9 @@ FormInput.propTypes = {
 	label: PropTypes.string,
 	subLabel: PropTypes.string,
 	options: PropTypes.any,
-	placeholder: PropTypes.string
+	placeholder: PropTypes.string,
+	upperCase: PropTypes.string,
+	lowerCase: PropTypes.string
 };
 
 export default FormInput
