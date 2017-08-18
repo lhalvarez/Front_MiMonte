@@ -70,7 +70,7 @@ class AssetList extends Component {
 				<div className="panel-body">
 					<div className="row">
 						<div className="col-md-12">
-							<Loading visible={this.props.loading} text="cargando información de boletas" />
+							<Loading visible={this.props.loading} text="Cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
 
 								<BootstrapTable tableContainerClass="table-responsive" data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
@@ -90,43 +90,49 @@ class AssetList extends Component {
 
 										<div>
 											{row.prenda.operable && (
-											<div>
-												{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
-													<div>
-														{row.saldos.saldoRefrendo && (
-															<div>
-																Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-															</div>
-														)}
-														{row.saldos.saldoDesempeno && (
-															<div>
-																Desempeño - <NumberFormat value={row.saldos.saldoDesempeno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-															</div>
-														)}
-													</div>)
-												}
+												<div>
+													{row.saldos && (row.saldos.saldoRefrendo || row.saldos.saldoDesempeno) && (
+														<div>
 
-												{row.saldos && row.saldos.failed && (
-													<div>
-														no disponible
+															{row.saldos.saldoDesempeno && (
+																<div>
+																	Desempeño - <NumberFormat value={row.saldos.saldoDesempeno} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+																</div>
+															)}
+															{row.saldos.saldoRefrendo && (
+																<div>
+																	Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+																</div>
+															)}
+															{row.prenda.tipoContrato.toLowerCase() == 'pagos libres' && (
+																<div>
+																	Abonos desde - $1.00
+																</div>
+															)}
+														</div>)
+													}
+
+													{row.saldos && row.saldos.failed && (
+														<div>
+															no disponible
 														</div>
-												)
-												}
+													)
+													}
 
-												{!row.saldos && (
-													<span>cargando saldos...</span>
-												)}
+													{!row.saldos && (
+														<span>Cargando saldos...</span>
+													)}
 												</div>
 											)}
 											{row.prenda.operable == false && (
 												<div>La prenda aún no es candidata para el desempeño, no cumple con los días especificados en depósito
 													</div>
-												)}
+											)}
 										</div>
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Límite de Pago</TableHeaderColumn>
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center' dataFormat={(cell, row) =>
 										(
 											<div>

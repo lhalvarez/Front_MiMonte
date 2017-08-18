@@ -84,7 +84,7 @@ class RecoveryPassword extends Component {
 							<div className="panel-header">
 								<p className="s2 cond w700 col-005 nomargin-bottom nopadding-bottom" >Recuperar contraseña</p>
 							</div>
-							
+
 							<Loading visible={this.props.loading} />
 
 							{this.props.loading == false && (
@@ -93,7 +93,7 @@ class RecoveryPassword extends Component {
 										<div className="panel-body nomargin-top nopadding-top">
 											<form onSubmit={this.retrievePassword} >
 												<div className="spacer-12"></div>
-												<p><span className="w400">Recupera tu contraseña ingresando tu correo electrónico de usuario. Verificaremos que exista y te enviaremos un código de desbloqueo vía SMS al teléfono enlazado a tu cuenta.</span></p>
+												<p><span className="w400">Recupera tu contraseña ingresando el correo electrónico que registraste como usuario y te enviaremos un SMS con tu código de desbloqueo al celular que proporcionaste en tu registro.</span></p>
 
 												<FormInput id="username" label="Usuario" subLabel="(Correo Electrónico)" onChange={this.setValue} />
 

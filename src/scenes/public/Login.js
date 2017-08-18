@@ -62,7 +62,7 @@ class Login extends Component {
 							<div className="col-md-4 col-xs-12 col-md-offset-4">
 								<div className="bg-info pad-12 shadow">
 									<p className="s4 col-005 w400 cond">¡Tu usuario ya está activo!</p>
-									<p>Ahora podrás consultar el estatus de tus empeños y pagar en línea.</p>
+									<p>Entra y consulta el estatus de tus boletas de empeño.</p>
 								</div>
 							</div>
 						</div>
@@ -74,7 +74,7 @@ class Login extends Component {
 							<div className="col-md-4 col-xs-12 col-md-offset-4">
 								<div className="bg-info pad-12 shadow">
 									<p className="s4 col-005 w400 cond">¡Ocurrio un error durante la activación!</p>
-									<p>Comunicate con la mesa de ayuda.</p>
+									<p>Comunícate al 01 800 EL MONTE, para que podamos ayudarte.</p>
 								</div>
 							</div>
 						</div>
@@ -101,6 +101,7 @@ class Login extends Component {
 										</div>
 
 										<div className="panel-footer text-right nopadding">
+
 											<Link className="btn btn-flat btn-default btn-sm" to="/recoverypassword">¿Olvidaste tu Contraseña?<div className="ripple-container"></div></Link>
 											<Link className="btn btn-flat btn-warning btn-sm" to="/register">Regístrate Aquí<div className="ripple-container"></div></Link>
 										</div>

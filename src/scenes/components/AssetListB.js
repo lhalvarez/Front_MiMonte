@@ -35,7 +35,7 @@ class AssetListB extends Component {
 			paginationPosition: 'bottom',
 			withoutNoDataText: true,
 			noDataText: 'no hay información de boletas disponible',
-			
+
 			hideSizePerPage: true
 		};
 
@@ -49,7 +49,7 @@ class AssetListB extends Component {
 					this.props.showSearch &&
 					<div className="panel-header nomargin-top nopadding-top">
 						<div className="row">
-							<div className="col-md-4 col-md-offset-8">
+							<div className="col-md-6 col-md-offset-6">
 								<div className="form-group">
 									<div className="input-group">
 										<div className="input-group-addon"><i className="material-icons" >search</i></div>
@@ -65,7 +65,7 @@ class AssetListB extends Component {
 					<div className="row">
 						<div className="col-md-12">
 
-							<Loading visible={this.props.loading} text="cargando información de prendas en comercialización" />
+							<Loading visible={this.props.loading} text="Cargando información de prendas en comercialización" />
 
 							{this.props.loading == false && this.props.assets && (
 

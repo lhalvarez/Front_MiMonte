@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Cleave from 'cleave.js/react';
 import DatePicker from 'react-bootstrap-date-picker';
+import DateTimeField from "react-bootstrap-datetimepicker";
 
 class FormInput extends Component {
 	getValue() {
@@ -34,6 +35,17 @@ class FormInput extends Component {
 			case 'format':
 				control = <Cleave {...common} className="form-control" placeholder={this.props.placeholder} onChange={this.props.onChange} options={this.props.options} />
 				break;
+			case 'calendar1':
+				control = <DateTimeField
+					{...common}
+					format="YYYY-MM-DD"
+					inputFormat="DD-MM-YYYY"
+					onChange={this.props.onChange}
+					viewMode="date"
+					maxDate={this.props.maxDate}
+					defaultText="DD-MM-AAAA"
+				/>
+				break;
 			case 'calendar':
 				control = <DatePicker {...common} dateFormat="DD-MM-YYYY" maxDate={this.props.maxDate} className="form-control" placeholder="DD-MM-YYYY"
 					onChange={(v, fv) => {
@@ -47,7 +59,7 @@ class FormInput extends Component {
 				/>
 				break;
 			default:
-				control = <input {...common} type="text" className="form-control" onChange={this.props.onChange} onLoad={this.props.onLoad} maxLength={this.props.maxLength} onKeyPress={this.props.onKeyPress}/>;
+				control = <input {...common} type="text" className={'form-control ' + (this.props.upperCase ? " upperCase" : "") + (this.props.lowerCase ? " lowerCase" : "")} onChange={this.props.onChange} onLoad={this.props.onLoad} maxLength={this.props.maxLength} onKeyPress={this.props.onKeyPress}/>;
 				break;
 		}
 		return (
@@ -66,7 +78,9 @@ FormInput.propTypes = {
 	label: PropTypes.string,
 	subLabel: PropTypes.string,
 	options: PropTypes.any,
-	placeholder: PropTypes.string
+	placeholder: PropTypes.string,
+	upperCase: PropTypes.string,
+	lowerCase: PropTypes.string
 };
 
 export default FormInput
