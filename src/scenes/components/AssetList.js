@@ -70,7 +70,7 @@ class AssetList extends Component {
 				<div className="panel-body">
 					<div className="row">
 						<div className="col-md-12">
-							<Loading visible={this.props.loading} text="cargando información de boletas" />
+							<Loading visible={this.props.loading} text="Cargando información de boletas" />
 							{this.props.loading == false && this.props.assets && (
 
 								<BootstrapTable tableContainerClass="table-responsive" data={this.props.assets} pagination={true} options={tableOptions} remote={false} keyField='folio' ref='table' >
@@ -104,9 +104,11 @@ class AssetList extends Component {
 																	Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 																</div>
 															)}
-															<div>
-																Abonos desde - $1.00
-														</div>
+															{row.prenda.tipoContrato.toLowerCase() != 'clasico' && (
+																<div>
+																	Abonos desde - $1.00
+																</div>
+															)}
 														</div>)
 													}
 
@@ -118,7 +120,7 @@ class AssetList extends Component {
 													}
 
 													{!row.saldos && (
-														<span>cargando saldos...</span>
+														<span>Cargando saldos...</span>
 													)}
 												</div>
 											)}
@@ -130,7 +132,7 @@ class AssetList extends Component {
 
 									)}
 									>Operacion y Monto</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Limite Pago</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' dataFormat={(cell, row) => new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}>Fecha Límite de Pago</TableHeaderColumn>
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center' dataFormat={(cell, row) =>
 										(
 											<div>

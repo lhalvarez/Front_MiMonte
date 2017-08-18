@@ -14,11 +14,11 @@ class Assets extends Component {
 		this.nextTab = this.nextTab.bind(this);
 	}
 	componentDidMount() {
-		
+
 	}
 	static componentDidConnect() {
-		
-		
+
+
 	}
 	prevTab() {
 		this.state.tab = 1;
@@ -81,8 +81,8 @@ class Assets extends Component {
 													<AssetListB showSearch={true} loading={this.props.assetsC == null} assets={this.props.assetsC} />
 												</div>
 												<div className="col-md-4">
-													<p>Recupera tu prenda</p>
-													Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu empeño y realiza tu Desempeño Extemporáneo. Deberás presentar tu identificación oficial y boleta original, así como realizar el pago de tu préstamo otorgado, intereses y comisión por desempeño extemporáneo. Si tu prenda ya no aparece en el listado es probable que ya se haya vendido. Corrobora esta información en la sucursal en donde la empeñaste y pide más información en ventanilla.
+													<p>¡Aún puedes recuperar tu prenda!</p>
+													<p>Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu empeño y realiza tu Desempeño Extemporáneo. Deberás presentar tu identificación oficial y boleta original, así como realizar el pago de tu préstamo otorgado, intereses y comisión por desempeño extemporáneo. Si tu prenda ya no aparece en el listado es probable que ya se haya vendido. Corrobora esta información en la sucursal en donde la empeñaste y pide más información en ventanilla.</p>
 												</div>
 											</div>
 										</div>

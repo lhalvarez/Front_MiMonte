@@ -59,7 +59,7 @@ class AssetDetails extends Component {
 								<div className="panel panel-default well nopadding-bottom">
 									<div className="panel-body">
 
-										<Loading visible={this.props.asset == null} text="cargando información de boleta" />
+										<Loading visible={this.props.asset == null} text="Cargando información de boleta" />
 
 										{this.props.asset != null && this.props.asset.prenda && this.props.asset.prenda.folio == this.props.match.params.id && (
 											<div>

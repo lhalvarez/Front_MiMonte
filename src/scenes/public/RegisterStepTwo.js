@@ -6,7 +6,7 @@ import Actions from '../../flux/Actions';
 
 class RegisterStepTwo extends Component {
 	constructor(props) {
-		
+
 		super(props);
 		this.resendCode = this.resendCode.bind(this);
 		this.continue = this.continue.bind(this);
@@ -29,7 +29,7 @@ class RegisterStepTwo extends Component {
 	validate() {
 
 		let errors = [];
-		
+
 		if (this.state.smsCode == null || this.state.smsCode == '')
 			errors.push({ field: 'email', message: 'El Código SMS es requerido' });
 
@@ -118,20 +118,20 @@ class RegisterStepTwo extends Component {
 					<div className="col-md-6">
 						<p className="col-011">Escribe el código que te llegó por SMS al número de teléfono {this.props.contractInfo.cliente.telefono.maskedTelefono}</p>
 						<FormInput id="smsCode" onChange={this.setValue} type="format" options={{ numeral: true, numeralIntegerScale: 6, numeralPositiveOnly: true, numeralDecimalMark: '', delimiter: '' }}  />
-						<p className="text-center"><button className="btn btn-warning btn-raised btn-line btn-sm" onClick={this.resendCode}>Volver a Enviar</button></p>
+						<p className="text-center"><button className="btn btn-danger btn-raised btn-sm" onClick={this.continue}>Terminar Registro</button>&nbsp;&nbsp;<button className="btn btn-warning btn-raised btn-line btn-sm" onClick={this.resendCode}>Volver a Enviar</button> </p>
 						<div className="spacer-24"></div>
 						<p className="col-005 small text-center">Si has intentado volver a enviar el SMS y no tuviste respuesta, comunícate al 01 800 EL MONTE (01 800 35 666 83).</p>
 					</div>
 					<div className="col-md-5 col-md-offset-1">
 						<div className="embed-responsive embed-responsive-16by9">
-							<iframe className="embed-responsive-item" src="https://youtu.be/5Jp-y5M6v9A"></iframe>
+							<iframe className="embed-responsive-item" src="https://www.youtube.com/embed/5Jp-y5M6v9A"></iframe>
 						</div>
 					</div>
 				</div>
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4 col-md-offset-8 text-right">
-						<button className="btn btn-danger btn-raised btn-sm" onClick={this.continue}>Terminar Registro</button>
+
 					</div>
 				</div>
 			</div>

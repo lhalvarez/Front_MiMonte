@@ -35,7 +35,7 @@ class AssetListB extends Component {
 			paginationPosition: 'bottom',
 			withoutNoDataText: true,
 			noDataText: 'no hay información de boletas disponible',
-			
+
 			hideSizePerPage: true
 		};
 
@@ -65,7 +65,7 @@ class AssetListB extends Component {
 					<div className="row">
 						<div className="col-md-12">
 
-							<Loading visible={this.props.loading} text="cargando información de prendas en comercialización" />
+							<Loading visible={this.props.loading} text="Cargando información de prendas en comercialización" />
 
 							{this.props.loading == false && this.props.assets && (
 
