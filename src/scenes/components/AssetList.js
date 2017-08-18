@@ -104,7 +104,7 @@ class AssetList extends Component {
 																	Refrendo - <NumberFormat value={row.saldos.saldoRefrendo} displayType={'text'} thousandSeparator={true} prefix={'$'} />
 																</div>
 															)}
-															{row.prenda.tipoContrato.toLowerCase() != 'clasico' && (
+															{row.prenda.tipoContrato.toLowerCase() == 'pagos libres' && (
 																<div>
 																	Abonos desde - $1.00
 																</div>
