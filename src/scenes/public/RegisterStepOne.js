@@ -11,7 +11,7 @@ class RegisterStepOne extends Component {
 	}
 	componentDidMount() {
 		this.setState({
-			fechaNacimiento: new Date().toISOString()
+			fechaNacimiento: ''
 		});
 	}
 	birthdateChange(v, fv) {
@@ -89,7 +89,6 @@ class RegisterStepOne extends Component {
 	}
 	onlyLetter(event) {
 		var inputValue = event.which;
-		debugger;
 		if (!(inputValue >= 65 && inputValue <= 122) && (inputValue != 32 && inputValue != 0)
 			&& inputValue != 241 && inputValue != 209 && !(inputValue >= 193 && inputValue <=250)) {
 			event.preventDefault();
@@ -124,7 +123,7 @@ class RegisterStepOne extends Component {
 				<div className="spacer-24"></div>
 				<div className="row">
 					<div className="col-md-4">
-						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" onChange={this.birthdateChange} type="calendar" />
+						<FormInput id="fechaNacimiento" label="Fecha Nacimiento" onChange={this.birthdateChange} type="calendar" value={this.state ? this.state.fechaNacimiento : ''}  />
 					</div>
 					<div className="col-md-4">
 						<FormInput id="email" label="Correo Electr&oacute;nico" subLabel="(Este será tu usuario)" type="email" onChange={this.setValue} />

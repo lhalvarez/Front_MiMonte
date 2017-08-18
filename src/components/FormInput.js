@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import Cleave from 'cleave.js/react';
 import DatePicker from 'react-bootstrap-date-picker';
+import DateTimeField from "react-bootstrap-datetimepicker";
 
 class FormInput extends Component {
 	getValue() {
@@ -33,6 +34,17 @@ class FormInput extends Component {
 				break;
 			case 'format':
 				control = <Cleave {...common} className="form-control" placeholder={this.props.placeholder} onChange={this.props.onChange} options={this.props.options} />
+				break;
+			case 'calendar1':
+				control = <DateTimeField
+					{...common}
+					format="YYYY-MM-DD"
+					inputFormat="DD-MM-YYYY"
+					onChange={this.props.onChange}
+					viewMode="date"
+					maxDate={this.props.maxDate}
+					defaultText="DD-MM-AAAA"
+				/>
 				break;
 			case 'calendar':
 				control = <DatePicker {...common} dateFormat="DD-MM-YYYY" maxDate={this.props.maxDate} className="form-control" placeholder="DD-MM-YYYY"

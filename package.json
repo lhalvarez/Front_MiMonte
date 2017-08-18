@@ -30,6 +30,7 @@
     "react-async-script": "^0.9.1",
     "react-bootstrap": "^0.31.2",
     "react-bootstrap-date-picker": "^5.1.0",
+    "react-bootstrap-datetimepicker": "0.0.22",
     "react-bootstrap-table": "^3.4.1",
     "react-bootstrap-validation": "^0.1.11",
     "react-confirm-alert": "^1.0.7",
