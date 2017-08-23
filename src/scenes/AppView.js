@@ -1,72 +1,68 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 
 import {
 	BrowserRouter as Router,
 	Route,
-	Link
+	Switch
 } from 'react-router-dom'
+import History from '../flux/History'
 
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-
-import Assets from './Assets';
-import AssetDetails from './assets/AssetDetails';
-import Payments from './Payments';
-import Promotions from './Promotions';
-import Dashboard from './Dashboard';
+import LoggedInContainer from './private/Container'
+import connectToStores from 'alt-utils/lib/connectToStores';
+import Login from './public/Login'
+import Register from './public/Register'
+import RecoveryPassword from './public/RecoveryPassword'
+import Header from '../components/Header'
+import Footer from '../components/Footer'
+import 'react-confirm-alert/src/react-confirm-alert.css'
+import GlobalStore from '../flux/stores/GlobalStore'
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
+import Actions from '../flux/Actions';
 
 class AppView extends Component {
+	static getStores() {
+		return [GlobalStore];
+	}
+	static getPropsFromStores() {
+		return GlobalStore.getState();
+	}
 	render() {
 		return (
-
 			<div className="App">
-
-				<Header />
-				<Router>
+				<Router history={History}>
 					<div>
-						<div className="container-fluid bkg-000 inshadow">
-							<div className="container">
-								<div className="row">
-									<div className="col-md-12">
-										<nav className="navbar navbar-default nomargin-bottom">
-											<div className="navbar-header">
-												<button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#mnuPpal" aria-expanded="false">
-													<span className="sr-only">Toggle navigation</span>
-													<span className="icon-bar"></span>
-													<span className="icon-bar"></span>
-													<span className="icon-bar"></span>
-												</button>
-											</div>
-											<div className="collapse navbar-collapse" id="mnuPpal">
-												<ul className="nav navbar-nav navbar-right">
-													<li className="w400 cond">
-														<Link to="/home">INICIO</Link></li>
-													<li className="w400 cond"><Link to="/assets">BOLETAS</Link></li>
-													<li className="w400 cond"><Link to="/payments">PAGO EN L&iacute;NEA</Link></li>
-													<li className="w400 cond"><a href="./login/">CERRAR SESI&oacute;N</a></li>
-													<li className="cond visible-md visible-lg"><a className="btn btn-primary btn-fab btn-fab-mini bkg-002 relative" ><i className="material-icons amber-text text-darken-2 z-depth-1">notifications</i></a></li>
-												</ul>
-											</div>
-										</nav>
-									</div>
-								</div>
-							</div>
-						</div>
+						<Header />
+						<Modal show={this.props.showErrorsDialog}>
+							<Modal.Header>
+								<Modal.Title>Atención</Modal.Title>
+							</Modal.Header>
 
-						<Route path="/" />
-						<Route path="/home" component={Dashboard} />
-						<Route path="/assets" component={Assets} />
-						<Route path="/asset/details/:id" component={AssetDetails} />
-						<Route path="/payments" component={Payments} />
-						<Route path="/promotions" component={Promotions} />
+							<Modal.Body>
+								{this.props.error}
+							</Modal.Body>
+
+							<Modal.Footer>
+								<Button onClick={Actions.cleanError}>Continuar</Button>
+							</Modal.Footer>
+						</Modal>
+
+						<Switch>
+							<Route path="/activationSucceed" component={Login} />
+							<Route path="/activationError" component={Login} />
+							<Route path="/login" component={Login} />
+							<Route path="/register" component={Register} />
+							<Route path="/recoverypassword" component={RecoveryPassword} />
+							<Route component={LoggedInContainer} />
+						</Switch>
+						<Footer />
 					</div>
 				</Router>
-				<Footer/>
-			</div>
 
+			</div>
 		);
 	}
 }
 
 
-export default AppView;
+export default connectToStores(AppView);
