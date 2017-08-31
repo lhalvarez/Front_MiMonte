@@ -47,27 +47,9 @@ app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);
 app.post('/srv/asset', asset);
 
-
-//app.get('/', function (req, res) {
-//	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-//	res.header("Pragma", "no-cache");
-//	res.header("Expires", 0);
-//	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
-//});
-
-
-
-
-
 app.get('/static/js/*.*.js', function (req, res, next) {
 	req.url = req.url + '.gz';
 	res.set('Content-Encoding', 'gzip');
-	//res.json({
-	//	"codigoError": "FEB-0001",
-	//	"descripcionError": "No pudo obtenerse el token de aplicación",
-	//	"tipoError": "Error de Servicio",
-	//	"severidad": "1"
-	//});
 	next();
 });
 
