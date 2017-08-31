@@ -31,14 +31,13 @@ const config = require('./config')
 
 require('request-debug')(request);
 
-
 app.use(morgan(':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] :response-time ms'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, '..', 'build')));
+
 
 
 app.all('/srv/activate', activation);
@@ -49,23 +48,40 @@ app.post('/srv/balance', assetsCallBack);
 app.post('/srv/asset', asset);
 
 
-app.get('/', function (req, res) {
+//app.get('/', function (req, res) {
+//	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+//	res.header("Pragma", "no-cache");
+//	res.header("Expires", 0);
+//	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
+//});
 
-	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
-	res.header("Pragma", "no-cache");
-	res.header("Expires", 0);
 
-	res.sendfile('index.html', { root: path.join(__dirname, '..', 'build') });
+
+
+
+app.get('/static/js/*.*.js', function (req, res, next) {
+	req.url = req.url + '.gz';
+	res.set('Content-Encoding', 'gzip');
+	//res.json({
+	//	"codigoError": "FEB-0001",
+	//	"descripcionError": "No pudo obtenerse el token de aplicación",
+	//	"tipoError": "Error de Servicio",
+	//	"severidad": "1"
+	//});
+	next();
 });
 
-app.get('*', function (req, res) {
+app.use(express.static(path.join(__dirname, '..', 'build')));
 
+app.get('*', function (req, res, next) {
 	res.header("Cache-Control", "no-cache, no-store, must-revalidate");
 	res.header("Pragma", "no-cache");
 	res.header("Expires", 0);
-
 	res.sendFile('index.html', { root: path.join(__dirname, '..', 'build') });
 });
+
+
+
 
 var appEnv = cfenv.getAppEnv();
 
