@@ -204,7 +204,7 @@ class Actions {
 			}
 		}
 		else if (error.message) {
-			message = "VERSION DESARROLLO - Error: " + error.message;
+			message = "Error: " + error.message;
 		}
 		else {
 			return error;
