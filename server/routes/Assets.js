@@ -17,12 +17,11 @@ module.exports = (req, res) => {
 		urlCallBack: config.baseLocalUrl + '/srv/balance'
 	};
 
-	let persistentCacheKey = 'assets-' + requestBody.idClient + requestBody.criterios.criterioBoleta;
 	let cacheKey = 'assets-' + trazabilidadGuid;
 
 	logger.info("Fetching assets - cache key " + cacheKey);
+
 	let cacheObject = cache.get(cacheKey);
-	let persistentCacheObject = cache.get(persistentCacheKey);
 
 	if (cacheObject) {
 		logger.info('Found cached');
@@ -66,7 +65,7 @@ module.exports = (req, res) => {
 				if (b1) {
 					b1.requestGUID = trazabilidadGuid;
 					cacheObject.data = b1;
-					cache.put(cacheKey, cacheObject, 300000);
+					cache.put(cacheKey, cacheObject, 120000); // 2min cache
 				}
 				res.json(b1);
 			});

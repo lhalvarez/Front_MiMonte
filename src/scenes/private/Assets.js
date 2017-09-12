@@ -14,11 +14,9 @@ class Assets extends Component {
 		this.nextTab = this.nextTab.bind(this);
 	}
 	componentDidMount() {
-
+		Actions.fetchAssets.defer();
 	}
 	static componentDidConnect() {
-
-
 	}
 	prevTab() {
 		this.state.tab = 1;

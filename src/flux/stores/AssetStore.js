@@ -3,10 +3,14 @@ import Actions from '../Actions'
 import AssetsApi from '../../api/AssetsApi'
 import uuid from 'uuid/v4'
 
+const balanceMaxRetries = 50;
+
 const AssetSource = {
 	load: {
 		local: (state) => {
+			debugger;
 			if (state) {
+
 				let shouldProcess = false;
 
 				if (state.assetsA) {
@@ -39,7 +43,18 @@ const AssetSource = {
 					return null;
 				}
 				else {
-					return state;
+					if (state.lastUpdate) {
+						let currentTime = new Date();
+						let timeDiff = currentTime - state.lastUpdate;
+						timeDiff /= 1000;
+						if (Math.round(timeDiff % 60) > 60) {
+							console.info("Updating store");
+							return null;
+						}
+					}
+					else {
+						return state;
+					}
 				}
 			}
 
@@ -108,7 +123,8 @@ class AssetStore {
 			balanceRetries: 0,
 			balanceFailed: false,
 			filter: '',
-			filterSource: []
+			filterSource: [],
+			lastUpdate: null
 		}
 	}
 	refresh() {
@@ -144,6 +160,8 @@ class AssetStore {
 			if (this.getInstance().isLoading() == false && this.loading == false) {
 				this.state.session = state.session;
 				this.state.loading = true;
+				this.state.asset = {};
+				this.state.assets = [];
 				this.setState(this.state);
 				this.getInstance().load(this.state);
 			}
@@ -158,7 +176,7 @@ class AssetStore {
 
 		let finalState = this.state;
 
-		if (this.state && this.state.balanceRetries > 100) {
+		if (this.state && this.state.balanceRetries > balanceMaxRetries) {
 			clearInterval(this.timerId);
 			finalState.balanceRetriesCompleted = true;
 		}
@@ -193,20 +211,16 @@ class AssetStore {
 				if (element.saldos == null)
 					element.saldos = {};
 				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
-
-				if (element.saldos.failed)
-					console.error('B element ' + element.prenda.folio + ' ' + element.saldos.failed);
 			});
 
 			finalState.assetsA.forEach((element) => {
-				
+
 				if (element.saldos == null)
 					element.saldos = {};
-					element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
-
-				if (element.saldos.failed)
-					console.error('A element ' + element.prenda.folio + ' ' + element.saldos.failed);
+				element.saldos.failed = element.saldos == null || (element.saldos.saldoRefrendo == null && element.saldos.saldoDesempeno == null);
 			})
+
+			finalState.lastUpdate = new Date();
 		}
 
 		finalState.filter = this.state.filter;

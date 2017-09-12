@@ -223,6 +223,7 @@ class Actions {
 		return this.sessionInfo.loggedIn;
 	}
 	fetchAssets(filter, type) {
+		console.info('fetch assets called');
 		return { session: this.sessionInfo, filter: filter, filterSource: type };
 	}
 	fetchAssetsBalance() {
