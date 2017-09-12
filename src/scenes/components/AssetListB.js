@@ -78,11 +78,11 @@ class AssetListB extends Component {
 												<span className="col-003">{row.prenda.folio}</span>
 												<div>{row.prenda.descripcion}</div>
 												<div>Sucursal: {row.prenda.sucursal}</div>
-												<div className="visible-sm visible-xs">A la venta: {new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</div>
+												<div className="visible-sm visible-xs">En comercialización desde: {new Date(row.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</div>
 											</div>
 										)}>Prenda</TableHeaderColumn>
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' width="20%" dataFormat={(cell, row) => (<span>{row.prenda.sucursal}</span>)}>Sucursal</TableHeaderColumn>
-									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' width="30%" dataFormat={(cell, row) => new Date(row.condiciones.fechaComercializacion).toLocaleString("es-MX", dateOptions)}>A la Venta</TableHeaderColumn>
+									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm" columnClassName="hidden-xs hidden-sm" headerAlign='left' dataAlign='left' width="30%" dataFormat={(cell, row) => new Date(row.condiciones.fechaComercializacion).toLocaleString("es-MX", dateOptions)}>En comercialización desde</TableHeaderColumn>
 								</BootstrapTable>
 							)}
 						</div>
