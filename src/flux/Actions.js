@@ -160,7 +160,7 @@ class Actions {
 				try {
 					let cod = error.response.data.codigoError;
 					let description = error.response.data.descripcionError;
-					message = "VERSION DESARROLLO - Error: (" + cod + ") " + description;
+					message = "Error: (" + cod + ") " + description;
 				} catch (e) {
 					message = e;
 				}
@@ -169,7 +169,7 @@ class Actions {
 					let r1 = JSON.parse(error.response.text)
 					let cod = r1.codigoError;
 					let description = r1.descripcionError;
-					message = "VERSION DESARROLLO - Error: (" + cod + ") " + description;
+					message = "Error: (" + cod + ") " + description;
 				} catch (e) {
 					message = e;
 				}
@@ -204,7 +204,7 @@ class Actions {
 			}
 		}
 		else if (error.message) {
-			message = "VERSION DESARROLLO - Error: " + error.message;
+			message = "Error: " + error.message;
 		}
 		else {
 			return error;

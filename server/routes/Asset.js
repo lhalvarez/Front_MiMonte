@@ -43,7 +43,7 @@ module.exports = (req, res) => {
 					console.error(e1);
 				}
 				if (b1) {
-					cache.put(cacheKey, b1);
+					cache.put(cacheKey, b1, 120 * 1000);
 				}
 				res.json(b1);
 			});
