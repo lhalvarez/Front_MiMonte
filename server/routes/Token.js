@@ -6,6 +6,8 @@ const logger = log4js.getLogger('default');
 module.exports = (req, res) =>
 {
 	appToken(req, (appToken) => {
+		console.log("Token server/routes/Token.js   appToken");
+
 		if (appToken) {
 			logger.info('Application Token Successful Issued.');
 			res.json(

@@ -51,7 +51,7 @@ module.exports = (req, res) => {
 		else {
 			res.json({
 				codigoError: "FEB-0001",
-				descripcionError: "No pudo obtenerse el token de aplicación",
+				descripcionError: "No pudo obtenerse el token de aplicaciï¿½n",
 				tipoError: "Error de Servicio",
 				severidad: "1"
 			});

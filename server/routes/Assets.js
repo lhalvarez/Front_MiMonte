@@ -38,8 +38,16 @@ module.exports = (req, res) => {
 	}
 	
 	appToken(req, (appToken) => {
+		console.log("2 server/routes/Assets.js   appToken");
+
+
 		if (appToken) {
-			
+
+
+			console.log("appToken " + appToken);
+			logger.info("appToken " + appToken);
+
+
 			request.post({
 				url: config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Cliente',
 				headers: {
@@ -67,6 +75,9 @@ module.exports = (req, res) => {
 					cacheObject.data = b1;
 					cache.put(cacheKey, cacheObject, 120000); // 2min cache
 				}
+
+				console.log();
+				
 				res.json(b1);
 			});
 		}
@@ -75,7 +86,7 @@ module.exports = (req, res) => {
 			console.error(error);
 			res.json({
 				codigoError: "FEB-0001",
-				descripcionError: "No pudo obtenerse el token de aplicación",
+				descripcionError: "No pudo obtenerse el token de aplicaciï¿½n",
 				tipoError: "Error de Servicio",
 				severidad: "1"
 			});

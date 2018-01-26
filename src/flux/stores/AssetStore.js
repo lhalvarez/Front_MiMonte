@@ -1,6 +1,7 @@
 import alt from '../../Alt'
 import Actions from '../Actions'
 import AssetsApi from '../../api/AssetsApi'
+import FeatureApi from '../../api/FeatureApi'
 import uuid from 'uuid/v4'
 
 const balanceMaxRetries = 50;
@@ -48,7 +49,7 @@ const AssetSource = {
 						let timeDiff = currentTime - state.lastUpdate;
 						timeDiff /= 1000;
 						if (Math.round(timeDiff % 60) > 60) {
-							console.info("Updating store");
+							//console.info("Updating store");
 							return null;
 						}
 					}
@@ -143,13 +144,22 @@ class AssetStore {
 		this.state.loadingDetails = true;
 		this.setState(this.state);
 	}
+	/**
+	 * 
+	 * Mapping handleUpdateAssetDetail: Actions.updateAsset,
+	 */
 	handleUpdateAssetDetail(state) {
+
 		this.state.loadingDetails = false;
 		if (state && state.asset) {
 			this.state.asset = state.asset.partidas.partida[0];
 		}
 		this.setState(this.state);
 	}
+
+	/**
+	 * @param state 
+	 */
 	handleFetchAssets(state) {
 		if (state.filter && state.filterSource) {
 			this.state.filter = state.filter;
@@ -168,6 +178,7 @@ class AssetStore {
 		}
 	}
 	handleFetchAssetsBalance() {
+
 		if (this.getInstance().isLoading() == false) {
 			this.getInstance().load(this.state);
 		}
@@ -205,7 +216,6 @@ class AssetStore {
 		}
 
 		if (finalState.balanceRetriesCompleted) {
-			console.info('Balance fetch completed.');
 
 			finalState.assetsB.forEach((element) => {
 				if (element.saldos == null)
@@ -239,8 +249,14 @@ class AssetStore {
 		Actions.fetchAssetsBalance();
 	}
 	isLoading() {
+
 		return this.getInstance().isLoading();
 	}
+	/** Method for assets
+	 * 
+	 * @param state is Object
+	 * with data -> partidas -> [partida]	
+	 */
 	parseState(state) {
 		if (state && state.data && state.data.partidas) {
 
