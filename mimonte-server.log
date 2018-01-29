@@ -1,0 +1,11 @@
+[2018-01-29T12:38:57.031] [INFO] default - Env configuration -> 
+[2018-01-29T12:38:57.034] [INFO] default - Static resources @ /home/master/Documentos/Interware/Monte-PDF-SOAP/Front_MiMonte/server/client/build
+[2018-01-29T12:38:57.034] [INFO] default - config.env undefined
+[2018-01-29T12:38:57.034] [INFO] default - hostname localhost
+[2018-01-29T12:38:57.034] [INFO] default - mmendpoint https://iamdr.montepiedad.com.mx:4444
+[2018-01-29T12:38:57.034] [INFO] default - mmdestinationId 14
+[2018-01-29T12:38:57.034] [INFO] default - mmconsumerId 25
+[2018-01-29T12:38:57.035] [INFO] default - baseLocalUrl http://localhost
+[2018-01-29T12:38:57.035] [INFO] default - token_client_id undefined
+[2018-01-29T12:38:57.035] [INFO] default - token_client_secret undefined
+[2018-01-29T12:38:57.035] [INFO] default - server started on http://localhost:6001
