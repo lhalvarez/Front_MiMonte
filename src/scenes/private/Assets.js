@@ -6,6 +6,10 @@ import AssetListB from '../components/AssetListB';
 import AssetStore from '../../flux/stores/AssetStore'
 import connectToStores from 'alt-utils/lib/connectToStores';
 
+/**
+ * host/assets
+ * with 2 tabs "PRENDAS EN EMPEÑO - PRENDAS EN COMERCIALIZACIÓN"
+ */
 class Assets extends Component {
 	constructor(props) {
 		super(props);
@@ -14,11 +18,9 @@ class Assets extends Component {
 		this.nextTab = this.nextTab.bind(this);
 	}
 	componentDidMount() {
-
+		Actions.fetchAssets.defer();
 	}
 	static componentDidConnect() {
-
-
 	}
 	prevTab() {
 		this.state.tab = 1;
