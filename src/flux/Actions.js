@@ -6,8 +6,6 @@ import FeatureApi from '../api/FeatureApi'
 import axios from 'axios';
 import appConfig from '../api/ApiConfig'
 
-import FileDownload from 'react-file-download';
-
 class Actions {
 	constructor() {
 		this.generateActions("updateAssets", "registerFailed", "updateAsset");
