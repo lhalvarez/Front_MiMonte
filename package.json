@@ -37,8 +37,6 @@
     "react-confirm-bootstrap": "^3.1.4",
     "react-confirm-dialog": "^1.0.5",
     "react-dom": "^15.6.1",
-    "react-file-base64": "^1.0.3",
-    "react-file-download": "^0.3.5",
     "react-google-recaptcha": "^0.8.1",
     "react-loading-bar": "0.0.4",
     "react-number-format": "^2.0.3",
@@ -48,7 +46,8 @@
     "request": "^2.81.0",
     "request-debug": "^0.2.0",
     "underscore": "^1.8.3",
-    "uuid": "^3.1.0"
+    "uuid": "^3.1.0",
+    "compression-webpack-plugin": "^1.0.0"
   },
   "devDependencies": {
     "autoprefixer": "7.1.0",
