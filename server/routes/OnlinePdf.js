@@ -8,7 +8,7 @@ const logger = log4js.getLogger('default');
 
 
 /**
- * @param {*} req [linedownload, cliente, folio, token]
+ * @param {*} req [cliente, folio, token]
  * @param {*} res 
  */
 module.exports = (req, res) => {
@@ -16,8 +16,7 @@ module.exports = (req, res) => {
 	let requestBody = {
 		numeroFolio: req.query.folio,
 		numeroCliente: req.query.cliente,
-		tokenTemporal: req.query.token, 
-		lineDownload: req.query.linedownload ? 'inline' : 'attachment'
+		tokenTemporal: req.query.token
 	}
 
 			request.post({
@@ -37,10 +36,6 @@ module.exports = (req, res) => {
 					}
 				}
 			}, (e1, r1, b1) => {
-
-
-				logger.error("------------------------------b1");
-				logger.error(b1);
 
 				if (e1)
 				{
