@@ -41,53 +41,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 
-/**
- * Llamada para crear PDF localhost:6001/pdf
- */
-app.get('/pdf', function(req, res){
-
-	let fileBase64String = req.body.archivoBase64;
-
-	res.set('Content-Disposition', 'attachment; filename="mimonte.pdf"'); // attachment/inline
-	res.set('Content-Type', 'application/pdf');
-
-	//pdf is my base64 encoded string that represents a document
-	let buffer = new Buffer(fileBase64String, 'base64');
-	res.send(buffer);
-
-
-});
-
-
-
-/**
- * http://localhost:6001/pdf/gfd=453
- */
-app.post('/pdf/:archivoBase64', function(req, res){
-
-	var fileBase64String = req.params.archivoBase64;
-
-	res.header('Access-Control-Allow-Origin', '*'); // attachment/inline
-	res.header('Access-Control-Allow-Headers', 'X-Requested-With'); // attachment/inline
-	res.header('Content-Type', 'application/pdf');
-
-	//pdf is my base64 encoded string that represents a document
-	let buffer = new Buffer(fileBase64String, 'base64').toString();
-	res.send(buffer);
-});
-
-
-app.get('/pdf2', function(req, res){
-	
-	var filePath = "/ver.pdf";
-
-    fs.readFile(__dirname + filePath , function (err,data){
-        res.contentType("application/pdf");
-        res.send(data);
-	});
-
-});
-
 app.all('/srv/activate', activation);
 app.post('/srv/token', token);
 

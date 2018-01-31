@@ -16,9 +16,10 @@ module.exports = (req, res) => {
 	//let requestBody = req.body;
 	let requestBody = {
 		numeroFolio: req.query.folio,
-		numeroCliente: req.query.cliente,
-		tokenTemporal: req.query.token
+		numeroCliente: req.query.cliente
 	}
+
+	let tokenTemporal= req.query.token;
 
 		request.post({
 			url: config.pdfenpoint,
@@ -27,7 +28,7 @@ module.exports = (req, res) => {
 				'usuario': req.headers.usuario,
 				'idConsumidor': config.mmconsumerId,
 				'idDestino': config.mmdestinationId,
-				Authorization: 'Bearer ' + requestBody.tokenTemporal//appToken
+				Authorization: 'Bearer ' + tokenTemporal//appToken
 			},
 			json: true,
 			body: requestBody,
@@ -43,7 +44,13 @@ module.exports = (req, res) => {
 				logger.log("error:" + e1);
 
 			}
-					
+		
+			logger.error("----- e1:");
+			logger.error(e1);
+			logger.error("----- b1:");
+			logger.error(b1);
+
+
 
 			let fileBase64String = b1.archivoBase64;
 			/**Procesamiento de dato para descarga PDF */

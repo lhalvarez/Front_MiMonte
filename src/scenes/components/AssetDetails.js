@@ -122,7 +122,7 @@ class AssetDetails extends Component {
 
 																			<OverlayTrigger placement="bottom" overlay={tooltip}>
 																				<div className="btn btn-purple btn-fab btn-fab-mini bkg-002">
-																					<a onClick={ () => window.open( process.env.REACT_APP_BACKEND_SERVER +'/srv/online?lineDownload=1&cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.session.token ) } >
+																					<a onClick={ () => window.open( process.env.REACT_APP_BACKEND_SERVER +'/srv/online?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.session.token ) } >
 																						
 																							<i className="material-icons col-001">  visibility </i>
 																					</a>
@@ -131,7 +131,7 @@ class AssetDetails extends Component {
 
 																			<OverlayTrigger placement="bottom" overlay={tooltip2}>
 																				<div className="btn btn-yellow btn-fab btn-fab-mini bkg-007">
-																					<a href={ process.env.REACT_APP_BACKEND_SERVER +'/srv/download?lineDownload=1&cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.session.token} >
+																					<a href={ process.env.REACT_APP_BACKEND_SERVER +'/srv/download?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.session.token} >
 																						<i className="material-icons col-001">  file_download  </i>
 																					</a>
 																				</div>
