@@ -209,16 +209,27 @@ body .container .jumbotron p, body .container .well p, body .container-fluid .ju
 	}
 
 
+.btn-purple {
+	color:#fff;
+	background-color:#7B2882;
+	background: -webkit-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	background: -o-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	background: -moz-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	background: linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	border:none;
+	border-bottom:#7B2882 3px solid
+}
+
 
 .btn-yellow {
 	color:#fff;
-	background-color:#FCB415;
-	background: -webkit-linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
-  	background: -o-linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
-  	background: -moz-linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
-  	background: linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
+	background-color:#7B2882;
+	background: -webkit-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+  	background: -o-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+  	background: -moz-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+  	background: linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
 	border:none;
-	border-bottom:#FFD359 3px solid
+	border-bottom:#7B2882 3px solid
 	}
 
 .btn-yellow:hover {
@@ -228,7 +239,7 @@ body .container .jumbotron p, body .container .well p, body .container-fluid .ju
   	background: linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
 	background-color:#FCB415;
 	border-bottom:#FFD359 3px solid;
-	color:#000;
+	color:#FFD359;
 	}
 
 .btn:not(.btn-raised).btn-warning, .input-group-btn .btn:not(.btn-raised).btn-warning {
