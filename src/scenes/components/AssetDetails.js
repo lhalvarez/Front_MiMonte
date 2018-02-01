@@ -68,8 +68,6 @@ class AssetDetails extends Component {
 								</div>
 							</div>
 
-
-
 							<div className="col-md-12">
 								<div className="panel panel-default well nopadding-bottom">
 									<div className="panel-body">
@@ -114,7 +112,7 @@ class AssetDetails extends Component {
 																			
 																			<OverlayTrigger placement="bottom" overlay={tooltip}>
 																				<div className="btn btn-purple btn-fab btn-fab-mini bkg-002">
-																					<a onClick={ () => window.open( process.env.REACT_APP_BACKEND_SERVER +'/srv/online?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+sessionStorage.getItem('token_pdf_service') ) } >
+																					<a onClick={ () => window.open( process.env.REACT_APP_BACKEND_SERVER +'/srv/online?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.tokenpdf ) } >
 																						
 																							<i className="material-icons col-001">  visibility </i>
 																					</a>
@@ -123,7 +121,7 @@ class AssetDetails extends Component {
 
 																			<OverlayTrigger placement="bottom" overlay={tooltip2}>
 																				<div className="btn btn-yellow btn-fab btn-fab-mini bkg-007">
-																					<a href={ process.env.REACT_APP_BACKEND_SERVER +'/srv/download?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+sessionStorage.getItem('token_pdf_service')} >
+																					<a href={ process.env.REACT_APP_BACKEND_SERVER +'/srv/download?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.tokenpdf } >
 																						<i className="material-icons col-001">  file_download  </i>
 																					</a>
 																				</div>
