@@ -44,13 +44,6 @@ module.exports = (req, res) => {
 				logger.log("error:" + e1);
 
 			}
-		
-			logger.error("----- e1:");
-			logger.error(e1);
-			logger.error("----- b1:");
-			logger.error(b1);
-
-
 
 			let fileBase64String = b1.archivoBase64;
 			/**Procesamiento de dato para descarga PDF */

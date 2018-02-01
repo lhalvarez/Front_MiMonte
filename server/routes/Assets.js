@@ -38,15 +38,8 @@ module.exports = (req, res) => {
 	}
 	
 	appToken(req, (appToken) => {
-		console.log("2 server/routes/Assets.js   appToken");
-
 
 		if (appToken) {
-
-
-			console.log("appToken " + appToken);
-			logger.info("appToken " + appToken);
-
 
 			request.post({
 				url: config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Cliente',
