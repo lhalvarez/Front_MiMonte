@@ -37,11 +37,6 @@ module.exports = (req, res) => {
 					}
 				}
 			}, (e1, r1, b1) => {
-				
-				logger.error("----- e1:");
-				logger.error(e1);
-				logger.error("----- b1:");
-				logger.error(b1);
 
 				if (e1)
 				{

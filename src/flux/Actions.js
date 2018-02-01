@@ -34,7 +34,9 @@ class Actions {
 
 	login(username, password) {
 		AuthenticationApi.login(username, password)
-			.then(result => this.loggedIn(result))
+			.then(result =>{ 
+
+				this.loggedIn(result) })
 			.catch(error => this.loginFailed(error));
 		return true;
 	}
@@ -72,7 +74,15 @@ class Actions {
 
 		return true;
 	}
+
+	/**
+	 * 
+	 * @param {*Token} token para servicio de PDF/XML
+	 */
 	appTokenIssued(token) {
+
+		sessionStorage.setItem('token_pdf_service', token);
+
 		axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		return token;
 	}
