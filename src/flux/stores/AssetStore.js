@@ -103,7 +103,8 @@ class AssetStore {
 			handleUpdateAssetDetail: Actions.updateAsset,
 			handleFetchAssetDetail: Actions.fetchAssetDetail,
 			handleLogout: Actions.logout,
-			handleLogin: Actions.loggedIn
+			handleLogin: Actions.loggedIn,
+			handleAppTokenIssued: Actions.appTokenIssued
 		});
 	}
 	initializeState() {
@@ -125,7 +126,9 @@ class AssetStore {
 			balanceFailed: false,
 			filter: '',
 			filterSource: [],
-			lastUpdate: null
+			lastUpdate: null,
+
+			tokenpdf : ''
 		}
 	}
 	refresh() {
@@ -143,6 +146,11 @@ class AssetStore {
 		this.state.asset = null;
 		this.state.loadingDetails = true;
 		this.setState(this.state);
+	}
+	handleAppTokenIssued(token) {
+		let finalState = this.state;
+		finalState.tokenpdf = token;
+		this.setState(finalState);
 	}
 	/**
 	 * 
@@ -239,8 +247,6 @@ class AssetStore {
 		if (finalState.balanceRetries == 0) {
 			this.timerId = setInterval(() => this.refreshBalance(), 5000);
 		}
-
-		finalState.balanceRetries++;
 
 		this.setState(finalState);
 	}
