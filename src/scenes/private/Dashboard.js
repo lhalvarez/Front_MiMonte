@@ -9,7 +9,7 @@ import AssetListB from '../components/AssetListB';
 
 class Dashboard extends Component {
 	componentDidMount() {
-		Actions.fetchAssets.defer();
+
 	}
 	static componentDidConnect() {
 		
@@ -29,6 +29,7 @@ class Dashboard extends Component {
 					<div className="tab-content">
 						<div role="tabpanel" className="tab-pane fade in active" id="bol1">
 							<div className="panel panel-default well nopadding-bottom">
+
 								<AssetList showSearch={true} loading={this.props.assetsB == null} assets={this.props.assetsB} title="Tus boletas próximas a vencer" />
 							</div>
 						</div>
