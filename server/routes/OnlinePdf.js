@@ -39,13 +39,12 @@ module.exports = (req, res) => {
 			}, (e1, r1, b1) => {
 
 				if (e1)
-				logger.log("error:" + e1);
-			
-				let fileBase64String = b1.archivoBase64;
-
-				if (fileBase64String === undefined) 
-					res.send("Error en servicio, No disponible.");
-		     
+				{
+					logger.log("error:" + e1);
+	
+				}
+	
+				let fileBase64String = b1.archivoBase664;
 				let nameFile = b1.numeroFolio ? "mimonte_folio_"+b1.numeroFolio : "mimonte";
 				/**Procesamiento de dato para descarga PDF */
 				
