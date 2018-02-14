@@ -44,7 +44,7 @@ module.exports = (req, res) => {
 	
 				}
 	
-				let fileBase64String = b1.archivoBase664;
+				let fileBase64String = b1.archivoBase64;
 				let nameFile = b1.numeroFolio ? "mimonte_folio_"+b1.numeroFolio : "mimonte";
 				/**Procesamiento de dato para descarga PDF */
 				
