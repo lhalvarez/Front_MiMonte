@@ -15,6 +15,7 @@ config.token_client_secret = process.env.SERVER_APP_TOKEN_CLIENT_SECRET;
 
 config.request_debug = process.env.SERVER_LOG_REQUESTS;
 
+
 config.npmendpoint = process.env.REACT_APP_NPM_ENDPOINT;
 config.pdfenpoint = process.env.REACT_APP_NPM_PDF_ENDPOINT;
 config.xmlenpoint = process.env.REACT_APP_NPM_XML_ENDPOINT;

@@ -45,9 +45,6 @@ module.exports = (req, res) => {
 				}        
 
 				let fileBase64String = b1.archivoBase64;
-				if (fileBase64String === undefined)	
-					res.send("No se el encuentra documento disponible.")
-		
 				let nameFile = b1.numeroFolio ? "mimonte_folio_"+b1.numeroFolio : "mimonte";
 				/**Procesamiento de dato para descarga PDF */
 				

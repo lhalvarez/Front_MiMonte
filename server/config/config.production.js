@@ -20,4 +20,3 @@ config.request_debug = process.env.SERVER_LOG_REQUESTS;
 config.npmendpoint = process.env.REACT_APP_NPM_ENDPOINT;
 config.pdfenpoint = process.env.REACT_APP_NPM_PDF_ENDPOINT;
 config.xmlenpoint = process.env.REACT_APP_NPM_XML_ENDPOINT;
-

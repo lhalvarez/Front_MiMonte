@@ -1,6 +1,7 @@
 import alt from '../../Alt'
 import Actions from '../Actions'
 import AssetsApi from '../../api/AssetsApi'
+import FeatureApi from '../../api/FeatureApi'
 import uuid from 'uuid/v4'
 
 const balanceMaxRetries = 50;

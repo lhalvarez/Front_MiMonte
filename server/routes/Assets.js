@@ -17,12 +17,11 @@ module.exports = (req, res) => {
 		urlCallBack: config.baseLocalUrl + '/srv/balance'
 	};
 
-	let persistentCacheKey = 'assets-' + requestBody.idClient + requestBody.criterios.criterioBoleta;
 	let cacheKey = 'assets-' + trazabilidadGuid;
 
 	logger.info("Fetching assets - cache key " + cacheKey);
+
 	let cacheObject = cache.get(cacheKey);
-	let persistentCacheObject = cache.get(persistentCacheKey);
 
 	if (cacheObject) {
 		logger.info('Found cached');
@@ -39,8 +38,13 @@ module.exports = (req, res) => {
 	}
 	
 	appToken(req, (appToken) => {
+
 		if (appToken) {
-			
+
+
+			logger.info("Peticiones")
+			logger.info(config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Cliente')
+
 			request.post({
 				url: config.mmendpoint + '/NMP/OperacionPrendaria/Partidas/v1/Cliente',
 				headers: {
@@ -66,8 +70,11 @@ module.exports = (req, res) => {
 				if (b1) {
 					b1.requestGUID = trazabilidadGuid;
 					cacheObject.data = b1;
-					cache.put(cacheKey, cacheObject, 300000);
+					cache.put(cacheKey, cacheObject, 120000); // 2min cache
 				}
+
+				logger.info(b1)
+				
 				res.json(b1);
 			});
 		}
@@ -76,7 +83,7 @@ module.exports = (req, res) => {
 			console.error(error);
 			res.json({
 				codigoError: "FEB-0001",
-				descripcionError: "No pudo obtenerse el token de aplicación",
+				descripcionError: "No pudo obtenerse el token de aplicaciï¿½n",
 				tipoError: "Error de Servicio",
 				severidad: "1"
 			});
