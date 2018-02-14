@@ -12,9 +12,6 @@ class AuthenticationApi extends ApiBase {
 	getAppToken() {
 		return super.getAppToken();
 	}
-	getAppTokenNPM(){
-		return super.getAppTokenNPM();
-	}
 	login(username, password) {
 		let me = this;
 		return new Promise((resolve, reject) => {
@@ -40,14 +37,11 @@ class AuthenticationApi extends ApiBase {
 			cognitoUser.authenticateUser(authenticationDetails, {
 				onSuccess: function (result) {
 
-					/** Trae token de cognito */
 					let token = result.getAccessToken().getJwtToken();
 					
 					me.getAppToken()
 						.then(result => {
 							Actions.appTokenIssued(result.data.access_token);
-
-							/** Envia username a ruta: appConfig.UsuariosApiMethod con token de cognito */
 							me.retrieveUserInfo(username)
 								.then(result => {
 									let sessionInfo = {
@@ -61,7 +55,6 @@ class AuthenticationApi extends ApiBase {
 										credentialNumber: result.data.Cliente.numeroDeCredencial,
 										username: username
 									};
-
 									resolve(sessionInfo);
 								})
 								.catch(error => {
@@ -81,23 +74,6 @@ class AuthenticationApi extends ApiBase {
 			});
 		});
 	}
-
-	/** Get token service NPM */
-	tokenNPM_PDF() {
-		let me = this;
-	
-		me.getAppTokenNPM()
-			.then(result => {
-				//Actions.appTokenIssued(result.data.access_token);
-
-				console.log("result:" + result);
-			})
-			.catch(error => {
-				console.log("error:" + error);
-			});
-					
-	}
-
 	logout() {
 		// nothing to do.
 	}
@@ -107,18 +83,7 @@ class AuthenticationApi extends ApiBase {
 			appConfig.UsuariosApiMethod,
 			{ usuarioMonte: username });
 	}
-
-	retrievePdf(numeroFolio, numeroCliente){
-		return super.buildPost(
-			appConfig.NPM_PDF_ENDPOINT,
-			{ 
-				numeroFolio:numeroFolio, 
-				numeroCliente:numeroCliente 
-			});
-	}
-
 	retrievePassword(username, appToken) {
-
 		if (appConfig.UseMocks) {
 			return new Promise((resolve, reject) => {
 				setTimeout(resolve({
@@ -128,7 +93,7 @@ class AuthenticationApi extends ApiBase {
 						},
 						respuesta: {
 							codigo: 0,
-							mensaje: 'Reinicio de contrasena pendiente de validaciï¿½n'
+							mensaje: 'Reinicio de contrasena pendiente de validación'
 						}
 					}
 				}), 3000);
@@ -158,7 +123,7 @@ class AuthenticationApi extends ApiBase {
 					data: {
 						"respuesta": {
 							"codigo": "0",
-							"mensaje": "Nueva contraseï¿½a registrada exitosamente"
+							"mensaje": "Nueva contraseña registrada exitosamente"
 						}
 					}
 				}), 3000);

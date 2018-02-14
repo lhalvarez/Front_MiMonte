@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import dateFormat from 'dateformat';
 import { Link } from 'react-router-dom'
@@ -46,11 +45,6 @@ class AssetList extends Component {
 
 			hideSizePerPage: true
 		};
-		const tooltip = (
-			<Tooltip id="tooltip">
-			  <strong>Ver detalles</strong> 
-			</Tooltip>
-		  );
 
 		return (
 			<div>
@@ -142,10 +136,8 @@ class AssetList extends Component {
 									<TableHeaderColumn isKey={false} className="hidden-xs hidden-sm assets-table-commands" columnClassName="hidden-xs hidden-sm assets-table-commands" headerAlign='center' dataAlign='center' dataFormat={(cell, row) =>
 										(
 											<div>
-												<OverlayTrigger placement="bottom" overlay={tooltip}>
-												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-yellow btn-fab btn-fab-mini bkg-002">
+												<Link to={'/asset/details/' + row.prenda.folio} className="btn btn-primary btn-fab btn-fab-mini bkg-002">
 													<i className="material-icons col-001">search</i></Link>
-												</OverlayTrigger>
 											</div>
 										)}></TableHeaderColumn>
 								</BootstrapTable>
