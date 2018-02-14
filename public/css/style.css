@@ -104,6 +104,7 @@ body .container .jumbotron p, body .container .well p, body .container-fluid .ju
     font-weight: initial;
 }
 
+
 .checkbox label, .radio label, label, .form-group label {
     font-family: 'Roboto Condensed',sans-serif, Arial, Helvetica;
 	font-size: 1.4rem;
@@ -160,6 +161,10 @@ body .container .jumbotron p, body .container .well p, body .container-fluid .ju
 .bkg-012 {background-color:#364C59;}
 .bkg-pag {background-color:#F2F6F7;}
 
+
+.flex-display{
+	display: flex;
+}
 /*.col-001 {color: #fff}
 .col-002 {color: #7B2882}
 .col-003 {color: #F3AF02}*/
@@ -201,6 +206,40 @@ body .container .jumbotron p, body .container .well p, body .container-fluid .ju
 	background-color:#FCB415;
 	border-bottom:#FFD359 3px solid;
 	color:#000;
+	}
+
+
+.btn-purple {
+	color:#fff;
+	background-color:#7B2882;
+	background: -webkit-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	background: -o-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	background: -moz-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	background: linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	border:none;
+	border-bottom:#7B2882 3px solid
+}
+
+
+.btn-yellow {
+	color:#fff;
+	background-color:#7B2882;
+	background: -webkit-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+  	background: -o-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+  	background: -moz-linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+  	background: linear-gradient(-90deg, #7B2882, #7B2882, #7B2882);
+	border:none;
+	border-bottom:#7B2882 3px solid
+	}
+
+.btn-yellow:hover {
+	background: -webkit-linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
+  	background: -o-linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
+  	background: -moz-linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
+  	background: linear-gradient(-90deg, #FCB415, #FCB415, #FCB415);
+	background-color:#FCB415;
+	border-bottom:#FFD359 3px solid;
+	color:#FFD359;
 	}
 
 .btn:not(.btn-raised).btn-warning, .input-group-btn .btn:not(.btn-raised).btn-warning {
@@ -333,11 +372,24 @@ i.left {
 .navbar a {
 	color:white;
 }
-.popover, .tooltip-inner {
+
+.tooltip-inner {
+	background-color: black;
+	color: white;
+	margin-top: 8px;
+}
+.tooltip-arrow{
+	visibility: visible !important;
+	border-bottom-color: #000;
+	display: inline !important;
+	margin-top: 8px;
+}
+
+/* .popover, .tooltip-inner {
 	 color: black;
 	line-height: 1em;
 	background: white;
 	border: none;
 	border-radius: 2px;
 	-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12);
-	box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12);
+	box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12); */
