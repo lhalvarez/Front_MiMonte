@@ -32,7 +32,7 @@ class MMNav extends Component {
 					<Navbar.Collapse>
 						<Nav pullRight>
 							<NavItem eventKey={1}><Link to="/home">INICIO</Link></NavItem>
-							<NavItem eventKey={2}><Link to="/assets">BOLETAS</Link></NavItem>
+							<NavItem eventKey={2} ><Link to="/assets">BOLETAS</Link></NavItem>
 							<NavItem eventKey={2} onClick={this.logoutClick}>CERRAR SESIÓN</NavItem>
 						</Nav>
 					</Navbar.Collapse>

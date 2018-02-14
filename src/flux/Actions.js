@@ -2,7 +2,6 @@
 import AuthenticationApi from '../api/AuthenticationApi'
 import RegisterApi from '../api/RegisterApi'
 import AssetsApi from '../api/AssetsApi'
-import FeatureApi from '../api/FeatureApi'
 import axios from 'axios';
 import appConfig from '../api/ApiConfig'
 
@@ -20,23 +19,9 @@ class Actions {
 		axios.defaults.headers.common['Content-Type'] = 'application/json';
 		axios.defaults.headers.common['usuario'] = 'usuarioMonte';
 	}
-
-	loginNPMTOken() {
-		AuthenticationApi.tokenNPM_PDF()
-			.then(result => {
-				//console.log("loginNPMTOken result: " + result)
-			})
-			.catch(error => this.loginFailed(error));
-		return true;
-	}
-
-
-
 	login(username, password) {
 		AuthenticationApi.login(username, password)
-			.then(result =>{ 
-
-				this.loggedIn(result) })
+			.then(result => this.loggedIn(result))
 			.catch(error => this.loginFailed(error));
 		return true;
 	}
@@ -74,15 +59,7 @@ class Actions {
 
 		return true;
 	}
-
-	/**
-	 * 
-	 * @param {*Token} token para servicio de PDF/XML
-	 */
 	appTokenIssued(token) {
-
-		sessionStorage.setItem('token_pdf_service', token);
-
 		axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
 		return token;
 	}
@@ -167,7 +144,7 @@ class Actions {
 	verifyApiState(state) {
 		if (state) {
 			if (state.respuesta && state.respuesta.codigo != '0') {
-				//console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
+				console.error('API Error -> ' + state.respuesta.codigo + ' - ' + state.respuesta.mensaje);
 				this.error(state.respuesta);
 				return false;
 			}
@@ -176,7 +153,7 @@ class Actions {
 	}
 	error(error) {
 		var message = '';
-		//console.error(error);
+		console.error(error);
 		
 		if (error.response) {
 			if (error.response.data) {
@@ -252,16 +229,14 @@ class Actions {
 		return { session: this.sessionInfo };
 	}
 	fetchAssetDetail(number) {
-		
 		AssetsApi.byNumber(number)
 			.then(result => {
 				this.updateAsset({ asset: result.data });
 			})
 			.catch(error => this.error(error));
+
 		return number;
 	}
-	
-	
 }
 
 export default alt.createActions(Actions);
