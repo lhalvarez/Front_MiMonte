@@ -9,14 +9,11 @@ const path = require('path');
 const morgan = require('morgan');
 const cfenv = require('cfenv');
 const fs = require('fs');
-const http = require('http');
 
 const activation = require('./routes/Activation')
 const token = require('./routes/Token')
 const assets = require('./routes/Assets')
 const asset = require('./routes/Asset')
-const dowloadPdf = require('./routes/DowloadPdf')
-const onlinePdf = require('./routes/OnlinePdf')
 const assetsCallBack = require('./routes/AssetsCallback')
 
 const log4js = require('log4js');
@@ -41,15 +38,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 
+
+
 app.all('/srv/activate', activation);
 app.post('/srv/token', token);
 
 app.post('/srv/assets', assets);
 app.post('/srv/balance', assetsCallBack);
 app.post('/srv/asset', asset);
-app.get('/srv/download', dowloadPdf);
-app.get('/srv/online', onlinePdf);
-
 
 app.get('/static/js/*.*.js', function (req, res, next) {
 	req.url = req.url + '.gz';
@@ -65,6 +61,7 @@ app.get('*', function (req, res, next) {
 	res.header("Expires", 0);
 	res.sendFile('index.html', { root: path.join(__dirname, '..', 'build') });
 });
+
 
 
 
