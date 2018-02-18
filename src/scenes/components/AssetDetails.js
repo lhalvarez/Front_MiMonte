@@ -111,7 +111,7 @@ class AssetDetails extends Component {
 
 																		let tamOperaciones = this.props.asset.operaciones.operacion.length
 																		let flexButtonsFloating = 'flex-display'
-																		if( tamOperaciones > 1 ) flexButtonsFloating = 'flex-display buttonsFloating'
+																		if( tamOperaciones > 1 && tamOperaciones % 2 == 0 ) flexButtonsFloating = 'flex-display buttonsFloating'
 
 																		if(tamOperaciones == 1 || Math.floor( tamOperaciones ) / 2 == rowIndex ) 
 																			return <div className={flexButtonsFloating} >
