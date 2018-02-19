@@ -95,7 +95,7 @@ class AssetDetails extends Component {
 
 													<div className="table-responsive">
 														{this.props.asset.prenda.operable && (
-															<div>
+															<div className="wrapTable">
 																<BootstrapTable data={this.props.asset.operaciones.operacion} pagination={false} options={tableOptions} keyField="tipoOperacion">
 																	<TableHeaderColumn headerAlign='left' dataAlign='left' width="33%" dataFormat={(cell, row) => (<span>{new Date(this.props.asset.condiciones.fechaLimitePago).toLocaleString("es-MX", dateOptions)}</span>)}>Fecha de Pago</TableHeaderColumn>
 																	<TableHeaderColumn dataField='tipoOperacion' headerAlign='left' dataAlign='left' width="23%" dataFormat={(cell, row) => (<span>{row.tipoOperacion}</span>)}>Operación</TableHeaderColumn>
@@ -107,27 +107,34 @@ class AssetDetails extends Component {
 																	</TableHeaderColumn>
 
 																	<TableHeaderColumn dataField='tipoOperacion' headerAlign='center' dataAlign='center' width="20%"
-																		dataFormat={(cell, row) => (
-																		<div className="flex-display">
-																			
-																			<OverlayTrigger placement="bottom" overlay={tooltip}>
-																				<div className="btn btn-purple btn-fab btn-fab-mini bkg-002">
-																					<a onClick={ () => window.open( process.env.REACT_APP_BACKEND_SERVER +'/srv/online?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.tokenpdf ) } >
-																						
-																							<i className="material-icons col-001">  visibility </i>
-																					</a>
-																				</div>
-																			</OverlayTrigger>
+																		dataFormat={(cell, row, enumObject, rowIndex) => {
 
-																			<OverlayTrigger placement="bottom" overlay={tooltip2}>
-																				<div className="btn btn-yellow btn-fab btn-fab-mini bkg-007">
-																					<a href={ process.env.REACT_APP_BACKEND_SERVER +'/srv/download?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.tokenpdf } >
-																						<i className="material-icons col-001">  file_download  </i>
-																					</a>
-																				</div>
-																			</OverlayTrigger>
-																		</div>
-																		)}>
+																		let tamOperaciones = this.props.asset.operaciones.operacion.length
+																		let flexButtonsFloating = 'flex-display'
+																		if( tamOperaciones > 1 && tamOperaciones % 2 == 0 ) flexButtonsFloating = 'flex-display buttonsFloating'
+
+																		if(tamOperaciones == 1 || Math.floor( tamOperaciones ) / 2 == rowIndex ) 
+																			return <div className={flexButtonsFloating} >
+																				
+																				<OverlayTrigger placement="bottom" overlay={tooltip}>
+																					<div className="btn btn-purple btn-fab btn-fab-mini bkg-002">
+																						<a onClick={ () => window.open( process.env.REACT_APP_BACKEND_SERVER +'/srv/online?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.tokenpdf ) } >
+																							
+																								<i className="material-icons col-001">  visibility </i>
+																						</a>
+																					</div>
+																				</OverlayTrigger>
+
+																				<OverlayTrigger placement="bottom" overlay={tooltip2}>
+																					<div className="btn btn-yellow btn-fab btn-fab-mini bkg-007">
+																						<a href={ process.env.REACT_APP_BACKEND_SERVER +'/srv/download?cliente='+this.props.session.clientId+'&folio='+this.props.asset.prenda.folio+'&token='+this.props.tokenpdf } >
+																							<i className="material-icons col-001">  file_download  </i>
+																						</a>
+																					</div>
+																				</OverlayTrigger>
+																			</div>
+																		
+																		} }>
 																	ESTADO DE CUENTA PRENDARIO</TableHeaderColumn>
 
 

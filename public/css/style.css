@@ -162,12 +162,14 @@ body .container .jumbotron p, body .container .well p, body .container-fluid .ju
 .bkg-pag {background-color:#F2F6F7;}
 
 
-.flex-display{
-	display: flex;
+/** Table para AssetDetails */
+.flex-display{ display: flex; }
+.wrapTable td:nth-child(4) { border: 0; }
+.wrapTable td { height: 56px; }
+.buttonsFloating {
+	position: relative;
+    top: -28px;
 }
-/*.col-001 {color: #fff}
-.col-002 {color: #7B2882}
-.col-003 {color: #F3AF02}*/
 
 .col-001 {color:#FFFFFF;}
 .col-002 {color:#E7F3F7;}
@@ -373,6 +375,8 @@ i.left {
 	color:white;
 }
 
+
+/** Tooltip  */
 .tooltip-inner {
 	background-color: black;
 	color: white;
@@ -384,12 +388,3 @@ i.left {
 	display: inline !important;
 	margin-top: 8px;
 }
-
-/* .popover, .tooltip-inner {
-	 color: black;
-	line-height: 1em;
-	background: white;
-	border: none;
-	border-radius: 2px;
-	-webkit-box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12);
-	box-shadow: 0 1px 6px 0 rgba(0,0,0,.12), 0 1px 6px 0 rgba(0,0,0,.12); */
