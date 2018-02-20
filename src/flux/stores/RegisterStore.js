@@ -16,7 +16,7 @@ class RegisterStore {
 		});
 	}
 	onTokenIssued(token){
-
+		sessionStorage.setItem("tokenpdf", token)
 		this.state['tokenpdf'] = token;
 
 	}
