@@ -48,13 +48,16 @@ module.exports = (req, res) => {
 				if(fileBase64String===undefined)
 					res.send("No existe documento");
 
-				let nameFile = b1.numeroFolio ? "mimonte_folio_"+b1.numeroFolio : "mimonte";
-				/**Procesamiento de dato para descarga PDF */
-				
-				res.set('Content-Disposition', `inline; filename=${nameFile}.pdf`);
-                res.set('Content-Type', 'application/pdf');            
-                let buffer = new Buffer(fileBase64String, 'base64');
-                res.send(buffer);
+				else{
+					let nameFile = b1.numeroFolio ? "mimonte_folio_"+b1.numeroFolio : "mimonte";
+					/**Procesamiento de dato para descarga PDF */
+					
+					res.set('Content-Disposition', `inline; filename=${nameFile}.pdf`);
+					res.set('Content-Type', 'application/pdf');            
+					let buffer = new Buffer(fileBase64String, 'base64');
+					res.send(buffer);
+				}
+
                 
 			});
 }
