@@ -15,9 +15,10 @@ class RegisterStore {
 			onRegisterResendEmail: Actions.registerResendEmail
 		});
 	}
-	onTokenIssued(token)
-	{
-		this.state['appToken'] = token;
+	onTokenIssued(token){
+		sessionStorage.setItem("tokenpdf", token)
+		this.state['tokenpdf'] = token;
+
 	}
 	onStepOneStarted(state)	{ this.state['loading'] = true;	}
 	onStepTwoStarted(state) { this.state['loading'] = true; }
