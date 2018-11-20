@@ -8,7 +8,8 @@
     "src"
   ],
   "engines": {
-    "node": ">=8.0.0"
+    "node": "8.6.0",
+    "npm": "5.3.0"
   },
   "scripts": {
     "build": "npm run clean && npm run build-client && npm run build-server",
