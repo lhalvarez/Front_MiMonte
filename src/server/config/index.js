@@ -1,4 +1,3 @@
-const [PROTOCOL, HOST, PORT] = process.env.BACKEND_CAT.split('#')
 const [
   PROTOCOL_OAUTH,
   HOST_OAUTH,
