@@ -37,9 +37,9 @@ module.exports = {
   LOGGER_USER_INFO: 3,
   LOGGER_USER_TICKETS: 4,
 
-  PROTOCOL,
-  HOST,
-  PORT,
+  // PROTOCOL,
+  // HOST,
+  // PORT,
 
   METHOD_POST: 'POST',
   METHOD_GET: 'GET',
