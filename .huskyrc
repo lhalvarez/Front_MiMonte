@@ -1,0 +1,9 @@
+{
+  "hooks": {
+    "post-commit": "npm run test",
+    "post-merge": "npm install",
+    "post-rewrite": "npm install",
+    "pre-commit": "lint-staged",
+    "pre-push": "echo Yeah!!"
+  }
+}

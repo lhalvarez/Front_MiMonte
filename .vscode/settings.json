@@ -1,0 +1,8 @@
+{
+  "editor.wordWrap": "on",
+  "eslint.alwaysShowStatus": true,
+  "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
+  "javascript.validate.enable": false,
+  "prettier.eslintIntegration": true,
+  "typescript.validate.enable": false
+}

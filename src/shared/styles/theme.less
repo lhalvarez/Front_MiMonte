@@ -1,0 +1,241 @@
+.navbar {
+  display: block;
+  .container {
+    .navbar-collapse {
+      text-transform: uppercase;
+      font-size: 13px;
+      .navbar-nav {
+        a {
+          color: @color-white!important;
+          font-family: 'Roboto Condensed', sans-serif, Arial, Helvetica;
+          font-size: 13px;
+          text-decoration: none;
+          vertical-align: bottom;
+          max-width: 250px;
+        }
+        a:hover {
+          font-weight: 500;
+          font-size: 14px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.btn-default {
+  border: 1px solid @color-main;
+  border-radius: 2px;
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+  color: @color-main;
+}
+
+.btn-default:active {
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+}
+
+.btn-default:hover {
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+}
+
+.btn-primary {
+  border: 1px solid @color-main;
+  background: @color-main;
+  border-radius: 2px;
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+  color: @color-white;
+}
+
+.btn-primary:active {
+  background: #6B1625;
+  box-shadow: 0 3px 8px 0 rgba(189,199,222,0.37);
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #99283b;
+  border-color: #99283b;
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #6b1625;
+  border-color: #6b1625;
+  border-radius: 2px;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-transparent {
+  color: #fff;
+  background-color: transparent;
+  border-color: #fff;
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-transparent:hover {
+  color: #fff;
+  background-color: transparent;
+  border-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+&.table {
+  thead > tr > th {
+    border-top: none;
+    border-bottom: 2px solid @color-main;
+  }
+  tbody > tr > td {
+    a {
+      color: @color-main;
+    }
+  }
+}
+
+.form-label {
+  color: #6c6c7a;
+}
+
+.ticket-tabs {
+  .nav {
+    background: @color-background-super-light-grey;
+    .nav-link {
+      font-size: 20px;
+      color: @color-dark-gray;
+    }
+    .active {
+      color: @color-main;
+      border-color: #dee2e6;
+      border-radius: 0;
+      box-shadow: 2px 0 5px 0 rgba(189,199,222,0.37);
+    }
+  }
+}
+
+.form-control {
+  border-radius: 2px;
+}
+
+.react-bootstrap-table-pagination {
+  .react-bootstrap-table-pagination-list > ul {
+    float: right;
+    .page-link:not(:disabled):not(.disabled) {
+      box-shadow: none;
+      color: @color-light-gray!important;
+    }
+    .page-item:first-child .page-link {
+      color: @color-dark-gray!important;
+      border-radius: 0;
+    }
+    .page-item:last-child .page-link {
+      color: @color-dark-gray!important;
+      border-radius: 0;
+    }
+    .page-item.active .page-link {
+      color: @color-main!important;
+      border-color: @color-light-gray;
+      background-color: @color-light-gray;
+      box-shadow: none;
+    }
+  }
+}
+
+.promotional-image {
+  max-height: 243px;
+  height: 243px;
+  background-image: url('http://www.montepiedad.com.mx/portal/storage/bnr-promo-mm.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.promotional-actioner {
+  padding: 16px 10px 0 10px;
+  display: block;
+  align-items: center;
+  h4 {
+    margin-top: 16px;
+  }
+  button {
+    margin-top: 16px;
+  }
+}
+
+.tickets-next-to-beat-message {
+  h4 {
+    color: #474d56;
+    font-size: 20px;
+    small {
+      color: #8e2334;
+      font-size: 28px;
+    }
+  }
+}
+
+.ticket-card {
+  border-top: solid #94142e 2px;
+  margin: 10px;
+  border-radius: 0;
+  .card-body {
+    .card-title {
+      text-align: center;
+      font-size: 12px;
+      color: #8fa1a5;
+      h3 {
+        color: #474d56;
+      }
+    }
+    .card-subtitle {
+      text-align: center;
+      font-size: 32px;
+      color: #94142e !important;
+    }
+    .text-description {
+      max-height: 80px;
+      height: 80px;
+      font-size: 16px;
+      color: #7f808d;
+    }
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1.25rem 0 !important;
+    background-image: linear-gradient(
+      -90deg,
+      #98002e 0%,
+      #c9003c 54%,
+      #eb403c 100%
+    );
+    box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+    .card-text {
+      color: #ffffff;
+      p {
+        text-transform: uppercase;
+        margin-bottom: 0 !important;
+        small {
+          text-transform: capitalize;
+        }
+      }
+    }
+    a {
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.align-buttom {
+  position: fixed;
+  bottom: 5vh;
+}
