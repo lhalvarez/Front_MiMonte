@@ -3,7 +3,7 @@
     "post-commit": "npm run test",
     "post-merge": "npm install",
     "post-rewrite": "npm install",
-    "pre-commit": "npm run start-pre-commit",
+    "pre-commit": "npm run pre-commit",
     "pre-push": "echo Yeah!!"
   }
 }
