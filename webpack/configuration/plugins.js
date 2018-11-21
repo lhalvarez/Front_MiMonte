@@ -15,7 +15,15 @@ const isAnalyzer = process.env.ANALYZER === 'true'
 
 const GLOBALS = {
   'process.env.APP': JSON.stringify(process.env.APP),
-  'process.env.baseURL': JSON.stringify(process.env.BACKEND_SERVER)
+  'process.env.baseURL': JSON.stringify(process.env.BACKEND_SERVER),
+  'process.env.BACKEND_CAT': JSON.stringify(process.env.BACKEND_CAT),
+  'process.env.BACKEND_SERVER': JSON.stringify(process.env.BACKEND_SERVER),
+  'process.env.BACKEND_BPM': JSON.stringify(process.env.BACKEND_BPM),
+  'process.env.BACKEND_OAUTH': JSON.stringify(process.env.BACKEND_OAUTH),
+  'process.env.BACKEND_PROFILE': JSON.stringify(process.env.BACKEND_PROFILE),
+  'process.env.BACKEND_ROLE': JSON.stringify(process.env.BACKEND_ROLE),
+  'process.env.USER_POOL_ID': JSON.stringify(process.env.USER_POOL_ID),
+  'process.env.CLIENT_ID': JSON.stringify(process.env.CLIENT_ID)
 }
 
 function plugins() {
