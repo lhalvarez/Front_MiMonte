@@ -12,6 +12,8 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
+// Bluemix
+import cfenv from 'cfenv'
 // API
 /* import api from './api' */
 // webpack config
@@ -20,7 +22,9 @@ import webpackConfig from '../../webpack.config'
 // express App
 const app = express()
 const compiler = webpack(webpackConfig)
-const port = process.env.NODE_PORT || 3000
+
+const appEnv = cfenv.getAppEnv()
+const port = appEnv.port || process.env.NODE_PORT || 3000
 
 const routerApi = express.Router()
 const routerAuth = express.Router()
@@ -95,7 +99,7 @@ app.use(
 app.use(webpackHotServerMiddleware(compiler))
 
 // listening port
-app.listen(port, err => {
+app.listen(port, appEnv.bind, err => {
   if (!err) {
     open(`http://localhost:${port}`)
   }
