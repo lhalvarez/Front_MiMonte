@@ -36,15 +36,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/sh4d1t0/react-initial.git"
+    "url": ""
   },
   "author": "Angel Orea",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sh4d1t0/react-initial/issues"
-  },
-  "homepage": "https://github.com/sh4d1t0/react-initial#readme",
+  "homepage": "",
   "dependencies": {
+    "@babel/register": "^7.0.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "^0.1.3",
@@ -100,7 +98,6 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
-    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "clean-webpack-plugin": "^1.0.0",
