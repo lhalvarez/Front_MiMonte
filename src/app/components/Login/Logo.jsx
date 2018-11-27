@@ -1,11 +1,10 @@
 // Dependencies
 import React from 'react'
-import Row from 'react-bootstrap/lib/Row'
-import Col from 'react-bootstrap/lib/Col'
+import { Col, Row } from 'react-bootstrap'
 // Components
 import Button from 'Components/commons/Button'
 // Images
-import logo from 'SharedImages/nmp-logo-blanco.png'
+import logo from 'SharedImages/nmp-logo-blanco.svg'
 // Flow Props and State
 type Props = {
   styles: Object,
@@ -22,7 +21,7 @@ function Logo(props: Props) {
     >
       <Row>
         <Col xs={12} className={styles.logo_Padding}>
-          <img className={styles.logo} alt="" src={logo} />
+          <img className={styles.logo} alt="logo-monte" src={logo} />
         </Col>
       </Row>
       <Row>
@@ -60,8 +59,8 @@ function Logo(props: Props) {
           <Button
             variant="transparent"
             label="< Regresar al sitio de Nacional Monte de Piedad"
-            size="lg"
-            className={`${styles.button_Fixed_Left} align-buttom`}
+            size="md"
+            className={`${styles.button_Fixed_Left} ${styles.align_buttom}`}
             onClick={handleClick}
           />
         </Col>

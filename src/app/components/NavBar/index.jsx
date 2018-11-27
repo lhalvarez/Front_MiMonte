@@ -1,13 +1,8 @@
 // Dependencies
 import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
-import Navbar from 'react-bootstrap/lib/Navbar'
-import Nav from 'react-bootstrap/lib/Nav'
-import NavLink from 'react-bootstrap/lib/NavLink'
-import Container from 'react-bootstrap/lib/Container'
-import NavbarCollapse from 'react-bootstrap/lib/NavbarCollapse'
-import NavbarToggle from 'react-bootstrap/lib/NavbarToggle'
-
+import { Container, Nav, Navbar } from 'react-bootstrap'
+// Flow Props and Stats
 type Props = {
   handleLogOut: void
 }
@@ -18,9 +13,9 @@ function NavBarInstance(props: Props) {
   return (
     <Fragment>
       <Navbar expand="lg">
-        <NavbarToggle aria-controls="navbar-nav" />
+        <Navbar.Toggle aria-controls="navbar-nav" />
         <Container>
-          <NavbarCollapse id="navbar-nav">
+          <Navbar.Collapse id="navbar-nav">
             <Nav>
               <li className="nav-link">
                 <Link to="/mimonte/inicio">Inicio</Link>
@@ -40,12 +35,12 @@ function NavBarInstance(props: Props) {
                 </Link>
               </li>
             </Nav>
-          </NavbarCollapse>
-          <NavbarCollapse id="navbar-nav" className="justify-content-end">
+          </Navbar.Collapse>
+          <Navbar.Collapse id="navbar-nav" className="justify-content-end">
             <Nav>
-              <NavLink onClick={handleLogOut}>Cerrar sesión</NavLink>
+              <Nav.Link onClick={handleLogOut}>Cerrar sesión</Nav.Link>
             </Nav>
-          </NavbarCollapse>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
     </Fragment>

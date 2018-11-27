@@ -18,12 +18,12 @@ function TicketCard(props: Props) {
 
   return (
     <Card className={Styles.ticket_card}>
-      <Card.Body>
-        <Card.Title>Nº de boleta</Card.Title>
-        <Card.Subtitle className="mb-2 text-muted">
+      <Card.Body className={Styles.card_body}>
+        <Card.Title className={Styles.card_title}>Nº de boleta</Card.Title>
+        <Card.Subtitle className={`${Styles.card_subtitle} mb-2 text-muted`}>
           {ticketNumber}
         </Card.Subtitle>
-        <Card.Text>
+        <Card.Text className={Styles.text_description}>
           <div className="text-description">
             <p>
               {description}
@@ -36,15 +36,22 @@ function TicketCard(props: Props) {
           </div>
         </Card.Text>
       </Card.Body>
-      <Card.Footer>
-        <Card.Text>
-          <p>
-            <small>Fecha de vencimiento</small>
+      <Card.Footer className={Styles.card_footer}>
+        <Card.Text className={Styles.card_footer_text}>
+          <p className={Styles.card_footer_text_p}>
+            <small className={Styles.card_footer_text_p_small}>
+              Fecha de vencimiento
+            </small>
             <br />
             {formatDate(date, 'MMM Do YY')}
           </p>
         </Card.Text>
-        <Card.Link className="btn-details" href="#" onClick={handleClickDetail}>
+        <Card.Link
+          className={`${Styles.card_footer_a} btn-details`}
+          href="#"
+          onClick={handleClickDetail}
+        >
+          {' '}
           Detalles
         </Card.Link>
       </Card.Footer>

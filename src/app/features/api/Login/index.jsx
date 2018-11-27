@@ -1,4 +1,4 @@
-// Apis
+// API
 import ClientHttpRequest from 'SharedApi/ClientHttpRequest'
 
 export default async function login(form) {
@@ -10,7 +10,6 @@ export default async function login(form) {
     .request()
     .then(response => {
       const { data } = response
-
       sessionStorage.access_token = data.access_token
       sessionStorage.refresh_token = data.refresh_token
       sessionStorage.bpm_token = data.cognito_token

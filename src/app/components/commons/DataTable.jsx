@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-indent */
+/* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable no-shadow */
 /* eslint-disable jsx-a11y/anchor-is-valid */
@@ -7,6 +9,7 @@ import BootstrapTable from 'react-bootstrap-table-next'
 import { InputGroup } from 'react-bootstrap'
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import paginationFactory from 'react-bootstrap-table2-paginator'
+import overlayFactory from 'react-bootstrap-table2-overlay'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -33,7 +36,8 @@ type Props = {
   noDataIndication: string,
   customHandlers: Array<mixed>,
   search: boolean,
-  pagination: boolean
+  pagination: boolean,
+  loading: boolean
 }
 
 function DataTable(props: Props) {
@@ -43,7 +47,8 @@ function DataTable(props: Props) {
     noDataIndication,
     customHandlers,
     search,
-    pagination
+    pagination,
+    loading
   } = props
 
   const { SearchBar } = Search
@@ -60,10 +65,10 @@ function DataTable(props: Props) {
     alwaysShowAllBtns: true,
     withFirstAndLast: false,
     hideSizePerPage: true,
-    firstPageText: <FontAwesomeIcon icon={faAngleDoubleLeft} />,
-    prePageText: <FontAwesomeIcon icon={faAngleLeft} />,
-    nextPageText: <FontAwesomeIcon icon={faAngleRight} />,
-    lastPageText: <FontAwesomeIcon icon={faAngleDoubleRight} />,
+    firstPageText: '<<',
+    prePageText: '<',
+    nextPageText: '>',
+    lastPageText: '>>',
     showTotal: true,
     paginationTotalRenderer: customTotal,
     sizePerPageList: [
@@ -141,8 +146,13 @@ function DataTable(props: Props) {
             bordered={false}
             noDataIndication={noDataIndication}
             headerClasses="header-tabla-mimonte"
-            pagination={pagination ? paginationFactory(options) : false}
+            pagination={pagination ? paginationFactory(options) : null}
             {...props.baseProps}
+            loading={loading}
+            overlay={overlayFactory({
+              spinner: true,
+              background: 'rgba(153, 40, 59, 1)'
+            })}
           />
         </Fragment>
       )}

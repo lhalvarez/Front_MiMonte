@@ -244,7 +244,7 @@ module.exports = router => {
         SERVICE_TOKEN_OAUTH.HOST,
         SERVICE_TOKEN_OAUTH.PORT,
         SERVICE_TOKEN_OAUTH.PATH,
-        CONFIG.METHOD_DELETE,
+        CONFIG.METHOD_POST,
         headers,
         body,
         response => {

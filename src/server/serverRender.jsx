@@ -1,3 +1,4 @@
+//! Reparar errores de eslint
 // Dependencies
 import React from 'react'
 import { renderToString } from 'react-dom/server'
@@ -12,7 +13,14 @@ export default function serverRender(): any {
     res: { component: string, redirect: any, send: any },
     next: any // eslint-disable-line
   ) => {
-    const context = {}
+    const context = {
+      insertCss: (...styles) => {
+        const removeCss = styles.map(x => x._insertCss()) // eslint-disable-line
+        return () => {
+          removeCss.forEach(f => f())
+        }
+      }
+    }
 
     const markup = renderToString(
       <AppContainer server location={req.url} context={context} />

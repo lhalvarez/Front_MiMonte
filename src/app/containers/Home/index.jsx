@@ -1,18 +1,19 @@
+/* eslint-disable array-callback-return */
 // Dependencies
 import React, { Component } from 'react'
 import { Row, Col } from 'react-bootstrap'
-
+// Components
 import PromotionalBanner from 'Components/Home/PromotionalBanner'
 import Commercialization from 'Components/Home/Commercialization'
 import TicketCard from 'Components/Home/TicketCard'
 import NoTicketsToBeat from 'Components/Home/NoTicketsToBeat'
 import Button from 'Components/commons/Button'
-
+// Utils
 import { getUUID } from 'SharedUtils/Utils'
 // Context
 import { UserConsumer } from 'Context/User'
 import getUserTickets from 'Api/Tickets'
-// Flow
+// Flow Props and Stats
 type Props = {
   /** */
 }
@@ -20,7 +21,8 @@ type State = {
   columns: Array<Object>,
   ticketsActive: Array<Object>,
   ticketsNextToBeat: Array<Object>,
-  ticketsInMarketing: Array<Object>
+  ticketsInMarketing: Array<Object>,
+  loadingInMarketing: boolean
 }
 
 class Home extends Component<Props, State> {
@@ -39,10 +41,11 @@ class Home extends Component<Props, State> {
     ],
     ticketsActive: [],
     ticketsNextToBeat: [],
-    ticketsInMarketing: []
+    ticketsInMarketing: [],
+    loadingInMarketing: true
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { userInfo } = this.context
 
     getUserTickets({
@@ -75,11 +78,18 @@ class Home extends Component<Props, State> {
         criterioBoleta: 3 // Boletas vencidas
       },
       trazabilidad: { GUID: getUUID() }
-    }).then(response => {
-      const { partida } = response.partidas
-
-      this.setState({ ticketsInMarketing: partida })
     })
+      .then(response => {
+        const { partida } = response.partidas
+
+        this.setState({
+          ticketsInMarketing: partida,
+          loadingInMarketing: false
+        })
+      })
+      .catch(() => {
+        this.setState({ loadingInMarketing: false })
+      })
   }
 
   render() {
@@ -87,7 +97,8 @@ class Home extends Component<Props, State> {
       columns,
       ticketsActive,
       ticketsNextToBeat,
-      ticketsInMarketing
+      ticketsInMarketing,
+      loadingInMarketing
     } = this.state
 
     return (
@@ -114,21 +125,24 @@ class Home extends Component<Props, State> {
             </Row>
             <Row>
               {ticketsNextToBeat.length ? (
-                ticketsNextToBeat.map(t => {
-                  const { folio, descripcion, tipoContrato } = t.prenda
-                  const { fechaLimitePago } = t.condiciones
+                // eslint-disable-next-line consistent-return
+                ticketsNextToBeat.map((t, index) => {
+                  if (index <= 5) {
+                    const { folio, descripcion, tipoContrato } = t.prenda
+                    const { fechaLimitePago } = t.condiciones
 
-                  return (
-                    <Col md={4}>
-                      <TicketCard
-                        ticketNumber={folio}
-                        description={descripcion}
-                        type={tipoContrato}
-                        date={fechaLimitePago}
-                        handleClickDetail={() => {}}
-                      />
-                    </Col>
-                  )
+                    return (
+                      <Col md={4}>
+                        <TicketCard
+                          ticketNumber={folio}
+                          description={descripcion}
+                          type={tipoContrato}
+                          date={fechaLimitePago}
+                          handleClickDetail={() => {}}
+                        />
+                      </Col>
+                    )
+                  }
                 })
               ) : (
                 <Col>
@@ -160,6 +174,7 @@ class Home extends Component<Props, State> {
                   data={ticketsInMarketing}
                   columns={columns}
                   customHandlers={[this.onClickDetail]}
+                  loading={loadingInMarketing}
                 />
               </Col>
             </Row>

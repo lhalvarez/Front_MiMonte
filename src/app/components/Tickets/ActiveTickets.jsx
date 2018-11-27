@@ -1,15 +1,17 @@
+// Dependencies
 import React, { Fragment } from 'react'
-
+// Components
 import DataTable from 'Components/commons/DataTable'
-
+// Flow Props and Stats
 type Props = {
   columns: Array<Object>,
   data: Array<Object>,
-  customHandlers: Array<mixed>
+  customHandlers: Array<mixed>,
+  loading: boolean
 }
 
 function ActiveTickets(props: Props) {
-  const { columns, data, customHandlers } = props
+  const { columns, data, customHandlers, loading } = props
 
   return (
     <Fragment>
@@ -20,6 +22,7 @@ function ActiveTickets(props: Props) {
         customHandlers={customHandlers}
         search
         pagination
+        loading={loading}
       />
     </Fragment>
   )

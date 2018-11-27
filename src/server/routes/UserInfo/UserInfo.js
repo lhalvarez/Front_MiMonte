@@ -1,12 +1,11 @@
+//! Reparar errores de eslint
 const { doRequestRest } = require('../../utils/HTTPRequest')
 
 const LOGGER = require('../../config/Logger').Logger
 const CONFIG = require('../../config')
 
 module.exports = router => {
-  // eslint-disable-next-line prefer-destructuring
-  const LOGGER_USER_INFO = CONFIG.LOGGER_USER_INFO
-
+  const { LOGGER_USER_INFO } = CONFIG
   const SERVICE = CONFIG.SERVICE_USER_INFO
 
   // eslint-disable-next-line consistent-return

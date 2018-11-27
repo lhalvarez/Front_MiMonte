@@ -1,3 +1,5 @@
+@import 'variables.less';
+
 .navbar {
   display: block;
   .container {
@@ -49,17 +51,11 @@
 }
 
 .btn-primary:active {
-  background: #6B1625;
-  box-shadow: 0 3px 8px 0 rgba(189,199,222,0.37);
+  background: #6b1625;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
 }
 
-.btn-primary:hover {
-  color: #fff;
-  background-color: #99283b;
-  border-color: #99283b;
-  border-radius: 2px;
-  font-family: Roboto Condensed;
-}
+
 
 .btn-primary:hover {
   color: #fff;
@@ -71,6 +67,37 @@
   font-family: Roboto Condensed;
 }
 
+.btn-primary:active {
+  color: #fff;
+  background-color: #6b1625;
+  border-color: #6b1625;
+  border-radius: 2px;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: @color-main;
+  border-color: @color-main;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(142,35,52,0.50);
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(142,35,52,0.50);
+}
+
+.btn-primary.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: @color-main;
+  border-color: @color-main;
+}
 .btn-transparent {
   color: #fff;
   background-color: transparent;
@@ -116,13 +143,18 @@
       color: @color-main;
       border-color: #dee2e6;
       border-radius: 0;
-      box-shadow: 2px 0 5px 0 rgba(189,199,222,0.37);
+      box-shadow: 2px 0 5px 0 rgba(189, 199, 222, 0.37);
     }
   }
 }
 
-.form-control {
-  border-radius: 2px;
+.form-group {
+  .form-label {
+    font-size: 14px;
+  }
+  .form-control {
+    border-radius: 2px;
+  }
 }
 
 .react-bootstrap-table-pagination {
@@ -235,7 +267,80 @@
   }
 }
 
-.align-buttom {
-  position: fixed;
-  bottom: 5vh;
+.custom-checkbox {
+  .custom-control-label::before {
+    border-radius: 2px;
+    border: 1px solid @color-main;
+  }
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: @color-main;
+  }
+  .custom-control-input ~ .custom-control-label::before {
+    background-color: @color-background-super-light-grey;
+  }
+  .custom-control-input:indeterminate ~ .custom-control-label::before {
+    background-color: @color-main;
+  }
+  .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(142, 35, 52, 0.5);
+  }
+
+  .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
+    background-color: rgba(142, 35, 52, 0.5);
+  }
+}
+
+.custom-radio {
+  .custom-control-label::before {
+    border-radius: 50%;
+    border: 1px solid @color-main;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: @color-main;
+  }
+
+  .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(142, 35, 52, 0.5);
+  }
+}
+
+.btn-info {
+  color: @color-main;
+  background-color: @color-white;
+  border-color: @color-dark-red;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: Roboto Condensed;
+}
+
+.btn-info:hover {
+  color: @color-main;
+  background-color: @color-white;
+  border-color: @color-dark-red;
+}
+
+.btn-info:not(:disabled):not(.disabled):active,
+.btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
+  color: @color-main;
+  background-color: @color-white;
+  border-color: @color-dark-red;
+}
+.btn-info:focus,
+.btn-info.focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
+}
+
+.btn-info:not(:disabled):not(.disabled):active:focus,
+.btn-info:not(:disabled):not(.disabled).active:focus,
+.show > .btn-info.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
+}
+
+
+.btn-info.disabled, .btn-info:disabled {
+  color: rgba(142, 35, 52, 0.5);
+  background-color: @color-white;
+  border-color: rgba(142, 35, 52, 0.5);
 }

@@ -1,17 +1,14 @@
 // Dependencies
 import React, { Component, Fragment } from 'react'
-import Modal from 'react-bootstrap/lib/Modal'
-import ModalHeader from 'react-bootstrap/lib/ModalHeader'
-import ModalTitle from 'react-bootstrap/lib/ModalTitle'
-import ModalBody from 'react-bootstrap/lib/ModalBody'
-import ModalFooter from 'react-bootstrap/lib/ModalFooter'
+import { Modal } from 'react-bootstrap'
 import Button from 'Components/commons/Button'
 // Context
 import ModalContext from 'Context/commons/Modal'
 // Flow Props and State
 type Props = {
   content: Object,
-  onClose: void
+  onClose: void,
+  size: string
 }
 type State = {
   /** */
@@ -21,8 +18,12 @@ class ModalMessage extends Component<Props, State> {
   static contextType = ModalContext
 
   render() {
-    const { content, onClose } = this.props
+    const { content, onClose, size } = this.props
     const modalConsumer = this.context
+
+    const closeButton = (
+      <Button variant="primary" onClick={onClose} label="Cerrar" />
+    )
 
     return (
       <Fragment>
@@ -31,17 +32,18 @@ class ModalMessage extends Component<Props, State> {
           onHide={onClose}
           backdrop="static"
           keyboard={false}
+          size={size}
           /* dialogClassName={modalContext.className} */
         >
           {content.title && (
-            <ModalHeader closeButton={false}>
-              <ModalTitle>{content.title}</ModalTitle>
-            </ModalHeader>
+            <Modal.Header closeButton={false}>
+              <Modal.Title>{content.title}</Modal.Title>
+            </Modal.Header>
           )}
-          <ModalBody>{content.body}</ModalBody>
-          <ModalFooter>
-            <Button variant="primary" onClick={onClose} label="Cerrar" />
-          </ModalFooter>
+          <Modal.Body>{content.body}</Modal.Body>
+          <Modal.Footer>
+            {content.footer ? content.footer : closeButton}
+          </Modal.Footer>
         </Modal>
       </Fragment>
     )

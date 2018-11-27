@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+// Dependencies
 import React from 'react'
 import { Link } from 'react-router-dom'
-import Col from 'react-bootstrap/lib/Col'
-import Container from 'react-bootstrap/lib/Container'
+import { Col, Container } from 'react-bootstrap'
+// Components
 import TextInput from 'Components/commons/TextInput'
 import Button from 'Components/commons/Button'
 // Flow Props and State
@@ -51,9 +53,21 @@ function Form(props: Props) {
                 size="lg"
                 className="float-right"
                 onClick={handleClick}
-                block
               />
-              <Link to="/registro">Registarme</Link>
+              <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+            <div className={styles.fixed_bottom}>
+              <p>
+                ¿Aún no tienes cuenta? Si ya eres cliente &nbsp;
+                <Link to="/registro">Crea tu cuenta</Link>
+              </p>
+              <p>
+                Si aún no eres cliente&nbsp;
+                <a href="https://www.montepiedad.com.mx/portal/preregistro.html">
+                  Preregístrate
+                </a>
+              </p>
+              <p>Teléfono de atención 01 800 EL MONTE (01 800 35 666 83)</p>
             </div>
           </div>
         </div>

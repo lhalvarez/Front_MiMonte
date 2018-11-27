@@ -8,11 +8,12 @@ import ModalMessage from 'Components/commons/ModalMessage'
 type Props = {
   content: Object,
   showModal: boolean,
-  onClose: void
+  onClose: void,
+  size: string
 }
 
 function ModalProvider(props: Props) {
-  const { content, onClose, showModal } = props
+  const { content, onClose, showModal, size } = props
 
   return (
     <Fragment>
@@ -22,6 +23,7 @@ function ModalProvider(props: Props) {
           backdrop="static"
           keyboard={false}
           onClose={onClose}
+          size={size}
         />
       </ModalContext.Provider>
     </Fragment>

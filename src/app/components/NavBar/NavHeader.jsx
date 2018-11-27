@@ -1,9 +1,9 @@
+// Dependencies
 import React from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
-
 // Images
 import logo from 'SharedImages/logo-NMP.png'
-
+// Flow Props and Stats
 type Props = {
   userInfo: Object
 }

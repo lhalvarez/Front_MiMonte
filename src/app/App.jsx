@@ -10,13 +10,14 @@ import { UserProvider } from 'Context/User'
 import NavHeader from 'Components/NavBar/NavHeader'
 import NavBar from 'Components/NavBar'
 import Footer from 'Components/Footer'
+import Spinner from 'Components/commons/Spinner'
 // Flow Props and State
 type Props = {
   routes: Object
 }
-
 type State = {
-  userInfo: Object
+  userInfo: Object,
+  isLoading: boolean
 }
 
 const RouteWithSubRoutes = route => (
@@ -29,13 +30,18 @@ const RouteWithSubRoutes = route => (
 
 class App extends Component<Props, State> {
   state = {
-    userInfo: {}
+    userInfo: {},
+    isLoading: true
   }
 
   componentWillMount() {
-    getUserInfo().then(response => {
-      this.setState({ userInfo: response })
-    })
+    getUserInfo()
+      .then(response => {
+        this.setState({ userInfo: response, isLoading: false })
+      })
+      .catch(() => {
+        this.setState({ isLoading: false })
+      })
   }
 
   onClickLogOut = () => {
@@ -47,25 +53,29 @@ class App extends Component<Props, State> {
   }
 
   render() {
-    const { userInfo } = this.state
+    const { userInfo, isLoading } = this.state
     const { routes } = this.props
 
     return (
       <Fragment>
-        <UserProvider value={{ userInfo }}>
-          <NavHeader userInfo={userInfo} />
-          <div className="gradiente position-absolute" />
-          <header>
-            <NavBar handleLogOut={this.onClickLogOut} />
-          </header>
-          <main role="main" className="container">
-            {Object.keys(userInfo).length > 0 &&
-              routes.map(route => (
-                <RouteWithSubRoutes key={route.path.toString()} {...route} />
-              ))}
-          </main>
-          <Footer />
-        </UserProvider>
+        {(!isLoading && (
+          <UserProvider value={{ userInfo }}>
+            <NavHeader userInfo={userInfo} />
+            <div className="gradiente position-absolute" />
+            <header>
+              <NavBar handleLogOut={this.onClickLogOut} />
+            </header>
+            <main role="main" className="container">
+              {Object.keys(userInfo).length > 0 &&
+                routes.map(route => (
+                  <RouteWithSubRoutes key={route.path.toString()} {...route} />
+                ))}
+            </main>
+            <footer>
+              <Footer />
+            </footer>
+          </UserProvider>
+        )) || <Spinner />}
       </Fragment>
     )
   }

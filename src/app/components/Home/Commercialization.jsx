@@ -4,11 +4,12 @@ import DataTable from 'Components/commons/DataTable'
 type Props = {
   columns: Array<Object>,
   data: Array<Object>,
-  customHandlers: Array<mixed>
+  customHandlers: Array<mixed>,
+  loading: boolean
 }
 
 function Commercialization(props: Props) {
-  const { columns, data, customHandlers } = props
+  const { columns, data, customHandlers, loading } = props
 
   return (
     <DataTable
@@ -16,6 +17,7 @@ function Commercialization(props: Props) {
       data={data}
       noDataIndication="No cuentas con boletas en comercialización"
       customHandlers={customHandlers}
+      loading={loading}
     />
   )
 }

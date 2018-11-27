@@ -1,3 +1,4 @@
+//! Reparar errores de eslint
 const [
   PROTOCOL_OAUTH,
   HOST_OAUTH,
@@ -28,7 +29,8 @@ module.exports = {
     'App',
     'Utils.HTTPRequest',
     'Routes.Auth',
-    'Routes.UserInfo'
+    'Routes.UserInfo',
+    'Routes.Register'
   ),
 
   LOGGER_DEFAULT: 0,
@@ -36,10 +38,8 @@ module.exports = {
   LOGGER_AUTH: 2,
   LOGGER_USER_INFO: 3,
   LOGGER_USER_TICKETS: 4,
-
-  // PROTOCOL,
-  // HOST,
-  // PORT,
+  LOGGER_DETAILS_TICKET: 5,
+  LOGGER_REGISTER: 6,
 
   METHOD_POST: 'POST',
   METHOD_GET: 'GET',
@@ -71,5 +71,22 @@ module.exports = {
     HOST: HOST_BPM,
     PORT: PORT_BPM,
     PATH: '/NMP/OperacionPrendaria/Partidas/v1/Cliente'
+  },
+  SERVICE_DETAILS_TICKET: {
+    ID_CONSUMIDOR: '25',
+    ID_DESTINO: '14',
+    PROTOCOL: PROTOCOL_BPM,
+    HOST: HOST_BPM,
+    PORT: PORT_BPM,
+    PATH: '/NMP/OperacionPrendaria/Partidas/v1/Folio'
+  },
+  SERVICE_REGISTER: {
+    ID_CONSUMIDOR: '25',
+    ID_DESTINO: '14',
+    PROTOCOL: PROTOCOL_BPM,
+    HOST: HOST_BPM,
+    PORT: PORT_BPM,
+    PATH: '/NMP/GestionClientes/UsuariosMonte/v1/validarDatos',
+    PATH_CREATE_USER: '/NMP/GestionClientes/UsuariosMonte/v1/solicitarAlta'
   }
 }

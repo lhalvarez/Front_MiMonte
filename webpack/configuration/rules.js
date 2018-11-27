@@ -19,23 +19,32 @@ function rules(type) {
       exclude: /node_modules/
     },
     {
-      test: /\.(png|jpg|jpeg|gif|svg|eot|ttf|woff|woff2)$/,
-      loader: 'url-loader',
+      test: /\.(eot|ttf|woff|woff2)$/,
+      loader: 'file-loader',
       options: {
-        limit: 10000
+        name: '[name].[ext]',
+        outputPath: 'assets/fonts/'
+      }
+    },
+    {
+      test: /\.(png|jpg|jpeg|gif|svg)$/,
+      loader: 'file-loader',
+      options: {
+        name: '[name].[ext]',
+        outputPath: 'assets/images/'
       }
     },
     {
       test: /\.(otf)$/,
-      use: ['file-loader']
+      loader: 'file-loader'
     },
     {
       test: /\.(csv|tsv)$/,
-      use: ['csv-loader']
+      loader: 'csv-loader'
     },
     {
       test: /\.xml$/,
-      use: ['xml-loader']
+      loader: 'xml-loader'
     }
   ]
 

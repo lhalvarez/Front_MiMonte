@@ -3,7 +3,7 @@ export default function html(options: any): any {
     app = 'main',
     vendor = 'vendors',
     title = 'Mi monte',
-    stylesheet = '/css/style.css',
+    stylesheet = 'main.css',
     markup
   } = options
 
@@ -23,6 +23,7 @@ export default function html(options: any): any {
   <div id="root">${markup}</div>
   <script src="/app/${vendor}.bundle.js"></script>
   <script src="/app/${app}.bundle.js"></script>
+  <script type="text/javascript" src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
 </body>
 
 </html>

@@ -1,29 +1,11 @@
 /** @Prettier */
 @import '../../../shared/styles/variables.less';
 
-.logo {
-  width: 18rem;
-  height: 12rem;
-}
-
-.logo_Padding {
-  padding-bottom: 5rem;
-  padding-top: 25vh;
-}
-
-.texto {
-  font-family: 'Roboto Condensed', sans-serif;
-  font-size: 16px;
-  color: @color-white;
-}
-
-.title {
-  font-family: 'Roboto Condensed Light', sans-serif;
-  font-size: 48px;
-}
-
-.subtitle {
-  font-size: 28px;
+// Grid
+.panel_Wrapper {
+  display: block;
+  width: 97vw;
+  position: relative;
 }
 
 .gradiente {
@@ -45,17 +27,14 @@
 
 .main_Panel__Content {
   clear: both;
-  width: 90%;
-  max-width: 540px;
   margin: 0 auto;
 }
 
 .main_Panel__Content .main_Panel__Heading {
   font-family: 'Roboto Condensed Light', sans-serif;
-  font-size: 36px;
   margin-left: 0px;
-  margin-bottom: 50px;
-  color: #212529 !important;
+  margin-bottom: 20px;
+  color: @color-title-form !important;
 }
 
 .main_Panel__Content .main_Panel__Heading .main_Panel__Subheading {
@@ -65,5 +44,89 @@
 }
 
 .button_Fixed_Left {
+  top: 10px;
   left: 2vw;
+}
+
+.align_buttom {
+  margin-top: 60px;
+}
+
+// Logo
+.logo {
+  width: 18rem;
+  height: 12rem;
+}
+
+.logo_Padding {
+  padding-bottom: 5rem;
+  padding-top: 15vh;
+}
+
+// Textos
+.texto {
+  font-family: 'Roboto Regular', sans-serif;
+  color: @color-white;
+}
+
+.title {
+  font-family: 'Roboto Condensed Light', sans-serif;
+}
+
+.subtitle {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.fixed_bottom {
+  position: absolute;
+  top: 84vh;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+  line-height: 1;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .main_Panel__Content {
+    padding: 0 3rem;
+  }
+
+  .title {
+    font-size: 42px;
+  }
+
+  .subtitle {
+    font-size: 22px;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .title {
+    font-size: 42px;
+  }
+
+  .subtitle {
+    font-size: 22px;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .main_Panel__Content {
+    padding: 0 15%;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 28px;
+  }
 }

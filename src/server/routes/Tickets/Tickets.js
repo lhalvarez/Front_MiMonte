@@ -1,11 +1,11 @@
+//! Reparar errores de eslint
 const { doRequestRest } = require('../../utils/HTTPRequest')
 const LOGGER = require('../../config/Logger').Logger
 const CONFIG = require('../../config')
 
 module.exports = router => {
-  // eslint-disable-next-line prefer-destructuring
-  const LOGGER_USER_TICKETS = CONFIG.LOGGER_USER_TICKETS
-  const SERVICE = CONFIG.SERVICE_USER_TICKETS
+  const { LOGGER_USER_TICKETS } = CONFIG
+  const { SERVICE_USER_TICKETS, SERVICE_DETAILS_TICKET } = CONFIG
 
   // eslint-disable-next-line consistent-return
   const serviceHandler = (config, map) => (req, res) => {
@@ -31,8 +31,8 @@ module.exports = router => {
     const headers = {
       Authorization: `Bearer ${data.token}`,
       'Content-Type': 'application/json',
-      idConsumidor: SERVICE.ID_CONSUMIDOR,
-      idDestino: SERVICE.ID_DESTINO,
+      idConsumidor: SERVICE_USER_TICKETS.ID_CONSUMIDOR,
+      idDestino: SERVICE_USER_TICKETS.ID_DESTINO,
       usuario: data.idUser
     }
 
@@ -73,10 +73,27 @@ module.exports = router => {
   const getUserTickets = serviceHandler(
     {
       name: 'getUserTickets',
-      protocol: SERVICE.PROTOCOL,
-      host: SERVICE.HOST,
-      port: SERVICE.PORT,
-      path: SERVICE.PATH,
+      protocol: SERVICE_USER_TICKETS.PROTOCOL,
+      host: SERVICE_USER_TICKETS.HOST,
+      port: SERVICE_USER_TICKETS.PORT,
+      path: SERVICE_USER_TICKETS.PATH,
+      method: CONFIG.METHOD_POST
+    },
+    data => {
+      const tmp = Object.assign({}, data)
+      delete tmp.idUser
+      delete tmp.token
+      return tmp
+    }
+  )
+
+  const getDetailsTicket = serviceHandler(
+    {
+      name: 'getDetailsTicket',
+      protocol: SERVICE_DETAILS_TICKET.PROTOCOL,
+      host: SERVICE_DETAILS_TICKET.HOST,
+      port: SERVICE_DETAILS_TICKET.PORT,
+      path: SERVICE_DETAILS_TICKET.PATH,
       method: CONFIG.METHOD_POST
     },
     data => {
@@ -89,4 +106,5 @@ module.exports = router => {
 
   // Link routes and functions
   router.post('/getUserTickets', getUserTickets)
+  router.post('/getDetailsTicket', getDetailsTicket)
 }

@@ -1,19 +1,23 @@
+// Dependencies
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
-
+// Components
 import DataTable from 'Components/commons/DataTable'
+// Images
 import iconoAnillo from 'SharedImages/ico-anillo-etiqueta-120.png'
 import iconoBoleta from 'SharedImages/ico-hoja-id-80.png'
 import iconoMessages from 'SharedImages/ico-globos-80.png'
+// Styles
 import Styles from './Tickets.less'
-
+// Flow Props and Stats
 type Props = {
   columns: Array<Object>,
-  data: Array<Object>
+  data: Array<Object>,
+  loading: boolean
 }
 
 function ActiveTickets(props: Props) {
-  const { columns, data } = props
+  const { columns, data, loading } = props
 
   return (
     <Row>
@@ -24,6 +28,7 @@ function ActiveTickets(props: Props) {
           noDataIndication="No cuentas con boletas en comercialización"
           search
           pagination
+          loading={loading}
         />
       </Col>
       <Col md={3} className="mt-4">

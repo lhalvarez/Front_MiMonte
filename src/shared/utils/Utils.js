@@ -20,6 +20,7 @@ import {
 
 import React from 'react'
 import moment from 'moment'
+import 'moment/locale/es'
 moment.locale('es')
 
 const styles = {
@@ -195,11 +196,12 @@ export const showMessage = message => {
   return modalObj
 }
 
-export const customMessage = (title, message, closeButton) => {
+export const customMessage = (title, body, message, closeButton, footer) => {
   const modalObj = {
     closeButton,
     title,
-    body: <p>{message}</p>
+    body: body ? body : <p>{message}</p>,
+    footer
   }
 
   return modalObj
@@ -214,7 +216,7 @@ export const errorMessage = (title, message) => {
           style={styles.msg.icon}
           className="fa fa-times-circle fa-3x text-danger"
         />
-        <p className={message.length > 52 ? 'textOverflow' : ''}>{message}</p>
+        <p>{message}</p>
       </div>
     )
   }

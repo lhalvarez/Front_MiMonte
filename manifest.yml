@@ -1,8 +1,8 @@
 ---
 applications:
-- memory:  1536M
-  timeout: 180
+- memory:  1024M
+  timeout: 360
   env:
     APP: mimonte
-    NODE_ENV: production    
-   
+    NODE_ENV: production
+

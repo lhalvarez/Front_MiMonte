@@ -1,3 +1,4 @@
+// API
 import ClientHttpRequest from 'SharedApi/ClientHttpRequest'
 
 export default async function getUserInfo() {

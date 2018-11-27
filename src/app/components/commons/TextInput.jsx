@@ -1,10 +1,10 @@
 // Dependencies
 import React from 'react'
-import Form from 'react-bootstrap/lib/Form'
+import { Form } from 'react-bootstrap'
 // Flow Props and State
 type Props = {
   error: boolean,
-  required: string,
+  required: boolean,
   onChange: any,
   label: string,
   name: string,
@@ -16,7 +16,14 @@ type Props = {
   text: string,
   min: string,
   max: string,
-  textInvalid: string
+  textInvalid: string,
+  pattern: string,
+  validity: boolean,
+  uppercase: boolean,
+  lowercase: boolean,
+  disabled: boolean,
+  number: boolean,
+  handleBlur: any
 }
 
 function TextInput(props: Props) {
@@ -34,7 +41,14 @@ function TextInput(props: Props) {
     text,
     min,
     max,
-    textInvalid
+    textInvalid,
+    pattern,
+    validity,
+    uppercase,
+    lowercase,
+    disabled,
+    number,
+    handleBlur
   } = props
 
   const checkValidity = () => {
@@ -45,46 +59,60 @@ function TextInput(props: Props) {
     ) {
       return true
     }
-    if (error) {
-      return true
-    }
     return false
-  }
-
-  const checkTextInvalid = () => {
-    if (textInvalid && textInvalid !== '') {
-      return textInvalid
-    }
-    return 'Este campo es requerido'
   }
 
   const handleChange = (event: any) => {
     // TODO: Revisar que funcione ya que es props.onChange(event)
-    onChange(event)
+    const evento = event
+    const ival = evento.target.value
+    if (number) {
+      evento.target.value = ival.replace(
+        /[A-Za-záéíóúÁÉÍÓÚÜüñÑ'_=/%&+ ¨ $@.\-¿?,:;&#()"¡!°|¬*~]/g,
+        ''
+      )
+    }
+    onChange(evento)
+  }
+
+  const bsPrefix = () => {
+    if (uppercase) {
+      return 'form-control text-uppercase'
+    }
+    if (lowercase) {
+      return 'form-control text-lowercase'
+    }
+    return 'form-control'
   }
 
   return (
-    <Form validated={checkValidity()}>
-      <Form.Group>
-        <Form.Label>{label}</Form.Label>
-        <Form.Control
-          name={name}
-          value={value}
-          placeholder={placeholder}
-          type={type}
-          required={required}
-          maxLength={maxLength}
-          minLength={minLength}
-          onChange={handleChange}
-          min={min}
-          max={max}
-        />
-        <Form.Text className="text-muted">{text}</Form.Text>
-        <Form.Control.Feedback type="invalid">
-          {checkTextInvalid()}
-        </Form.Control.Feedback>
-      </Form.Group>
-    </Form>
+    <Form.Group>
+      <Form.Label>
+        {label}
+        &nbsp;
+      </Form.Label>
+      <Form.Control
+        name={name}
+        value={value}
+        placeholder={placeholder}
+        pattern={pattern}
+        type={type}
+        required={required}
+        maxLength={maxLength}
+        minLength={minLength}
+        min={min}
+        max={max}
+        isInvalid={validity || checkValidity()}
+        onChange={handleChange}
+        disabled={disabled}
+        bsPrefix={bsPrefix()}
+        onBlur={handleBlur}
+      />
+      <Form.Text className="text-muted">{text}</Form.Text>
+      <Form.Control.Feedback type="invalid">
+        {textInvalid || 'Este campo es requerido'}
+      </Form.Control.Feedback>
+    </Form.Group>
   )
 }
 

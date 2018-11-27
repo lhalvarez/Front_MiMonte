@@ -1,5 +1,5 @@
-// @flow
-// dependencies
+//! Reparar errores de eslint
+// Dependencies
 import express from 'express'
 import open from 'open'
 import path from 'path'
@@ -14,8 +14,6 @@ import webpackHotMiddleware from 'webpack-hot-middleware'
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware'
 // Bluemix
 import cfenv from 'cfenv'
-// API
-/* import api from './api' */
 // webpack config
 import webpackConfig from '../../webpack.config'
 
@@ -35,9 +33,6 @@ app.use(cors())
 
 // public static
 app.use(express.static(path.join(__dirname, '../../public')))
-
-// API middleware
-/* app.use('/api', api) */
 
 app.use('/api', routerApi)
 app.use('/auth', routerAuth)
@@ -88,6 +83,7 @@ routerAuth.use((req, res, next) => {
 })
 
 require('./routes/Cognito/Auth')(routerAuth)
+require('./routes/Register/Register')(routerAuth)
 
 // hot middleware replacement
 app.use(webpackDevMiddleware(compiler))

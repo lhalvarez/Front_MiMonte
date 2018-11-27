@@ -1,42 +1,42 @@
-// dependencies
-import React, { Fragment } from 'react'
+// Dependencies
+import React from 'react'
 import { Row, Col, Form } from 'react-bootstrap'
+// Components
 import TextInput from 'Components/commons/TextInput'
+import Checkbox from 'Components/commons/Checkbox'
 import Button from 'Components/commons/Button'
-// styles
-import './Register.less'
-
+// Flow Props and Stats
 type Props = {
+  style: Object,
   form: Object,
   validate: boolean,
-  textInvalidEmail: string,
-  textInvalidEmailConf: string,
-  textInvalidCelular: string,
-  textInvalidCelularConf: string,
+  validationObj: Object,
   handleChangeInput: void,
-  handleValidateForm: void
+  handleValidateForm: void,
+  handleBlur: void,
+  disableStep1: boolean
 }
 
 function Step1(props: Props) {
   const {
+    style,
     form,
     validate,
-    handleChangeInput,
+    validationObj,
     handleValidateForm,
-    textInvalidEmail,
-    textInvalidEmailConf,
-    textInvalidCelular,
-    textInvalidCelularConf
+    handleChangeInput,
+    handleBlur,
+    disableStep1
   } = props
   return (
-    <Fragment>
+    <fieldset disabled={disableStep1}>
       <Col>
         <h3>Paso 1: Ingresa tus datos</h3>
-        <p className="textMain">
+        <p className={style.textMain}>
           Para registrarte es necesario que tengas a la mano tu Tarjeta Monte,
           un correo eléctronico y un número celular activo.
         </p>
-        <p className="textInfo">
+        <p className={style.textInfo}>
           Por favor verifica que toda la información coincida con la de tu
           boleta de empeño.
         </p>
@@ -44,14 +44,15 @@ function Step1(props: Props) {
           <Row>
             <Col>
               <TextInput
-                name="name"
-                value={form.name}
+                name="nombre"
+                value={form.nombre}
                 label="Nombre(s)"
                 type="text"
                 required
                 error={validate}
                 maxLength={50}
                 onChange={handleChangeInput}
+                uppercase
               />
             </Col>
           </Row>
@@ -66,6 +67,7 @@ function Step1(props: Props) {
                 error={validate}
                 maxLength={50}
                 onChange={handleChangeInput}
+                uppercase
               />
             </Col>
             <Col>
@@ -78,6 +80,7 @@ function Step1(props: Props) {
                 error={validate}
                 maxLength={50}
                 onChange={handleChangeInput}
+                uppercase
               />
             </Col>
           </Row>
@@ -87,7 +90,7 @@ function Step1(props: Props) {
                 name="fecNac"
                 value={form.fecNac}
                 label="Fecha de Nacimiento"
-                type="text"
+                type="date"
                 required
                 error={validate}
                 maxLength={50}
@@ -97,53 +100,61 @@ function Step1(props: Props) {
             <Col>
               <TextInput
                 name="tarjeta"
+                className={style.inputNumber}
                 value={form.tarjeta}
                 label="Número de Tarjeta Monte"
-                type="number"
+                type="text"
                 required
                 error={validate}
-                maxLength={50}
+                maxLength={16}
+                minLength={16}
                 onChange={handleChangeInput}
+                handleBlur={handleBlur}
+                number
               />
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <p className="textInfo">
+              <p className={style.textInfo}>
                 Este correo servira como tu usuario, asegurate de tener acceso a
                 el ya que no podrás modificarlo posteriormente.
               </p>
             </Col>
             <Col>
               <TextInput
-                name="user"
-                value={form.user}
+                name="email"
+                value={form.email}
                 label="Correo Electrónico"
                 type="email"
+                pattern="/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}
+                  [a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/"
                 required
-                error={validate}
-                textInvalid={textInvalidEmail}
-                maxLength={250}
+                validity={validationObj.validateEmail}
+                textInvalid={validationObj.textInvalidEmail}
                 onChange={handleChangeInput}
+                lowercase
               />
             </Col>
             <Col>
               <TextInput
-                name="confUser"
-                value={form.confUser}
+                name="confEmail"
+                value={form.confEmail}
                 label="Confirma tu correo electrónico"
                 type="email"
                 required
-                error={validate}
-                textInvalid={textInvalidEmailConf}
-                maxLength={250}
+                pattern="/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}
+                  [a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/"
+                validity={validationObj.validateConfEmail}
+                textInvalid={validationObj.textInvalidEmailConf}
                 onChange={handleChangeInput}
+                lowercase
               />
             </Col>
           </Row>
           <Row>
             <Col xs={12}>
-              <p className="textInfo">
+              <p className={style.textInfo}>
                 Utilizaremos tu número celular para dar de alta tu cuenta así
                 como enviarte notificaciones y promociones.
               </p>
@@ -154,12 +165,12 @@ function Step1(props: Props) {
                 value={form.celular}
                 label="Número de celular a 10 dígitos"
                 type="text"
-                required
-                error={validate}
-                textInvalid={textInvalidCelularConf}
                 maxLength={10}
-                minLength={10}
+                required
+                validity={validationObj.validateCelular}
+                textInvalid={validationObj.textInvalidCelular}
                 onChange={handleChangeInput}
+                number
               />
             </Col>
             <Col>
@@ -168,29 +179,30 @@ function Step1(props: Props) {
                 value={form.confCel}
                 label="Confirma tu número de Celular"
                 type="text"
-                required
-                error={validate}
-                textInvalid={textInvalidCelular}
                 maxLength={10}
-                minLength={10}
+                required
+                validity={validationObj.validateConfCel}
+                textInvalid={validationObj.textInvalidConfCel}
                 onChange={handleChangeInput}
               />
             </Col>
           </Row>
           <Row>
-            <Col xs={8} className="termsLink align-middle">
-              <Form.Group>
-                <Form.Check
-                  name="terms"
-                  value={form.terms}
-                  label="He leído y acepto el "
-                  id="terms"
-                  required
-                  onChange={handleChangeInput}
-                />
-              </Form.Group>
+            <Col xs={8} className={`${style.termsLink} align-middle`}>
+              <Checkbox
+                name="aviso"
+                id="aviso"
+                type="checkbox"
+                value={form.aviso}
+                label="He leído y acepto el "
+                required
+                error={validate}
+                onChange={handleChangeInput}
+              />
               <p>
-                <a href="www.google.com">&nbsp;Aviso de Privacidad</a>
+                <a className={style.a} href="www.google.com">
+                  &nbsp;Aviso de Privacidad
+                </a>
               </p>
             </Col>
             <Col xs={4} className="text-right">
@@ -203,7 +215,7 @@ function Step1(props: Props) {
           </Row>
         </Form>
       </Col>
-    </Fragment>
+    </fieldset>
   )
 }
 

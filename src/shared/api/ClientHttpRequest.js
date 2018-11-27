@@ -1,6 +1,8 @@
-import * as Utils from 'SharedUtils/Utils'
-
+//! Reparar errores de eslint
+// Dependencies
 import Axios from 'axios'
+// Utils
+import * as Utils from 'SharedUtils/Utils'
 
 export default class ClientHttpRequest {
   constructor(config) {

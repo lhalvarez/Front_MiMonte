@@ -4,28 +4,29 @@ import { Row, Col, Tabs, Tab } from 'react-bootstrap'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-
+// Utils
 import { getUUID } from 'SharedUtils/Utils'
-
 // Context
 import { UserConsumer } from 'Context/User'
+// API
 import getUserTickets from 'Api/Tickets'
-
+// Components
 import ActiveTickets from 'Components/Tickets/ActiveTickets'
 import MarketingTickets from 'Components/Tickets/MarketingTickets'
 
 library.add(faPlusCircle)
 
-// Flow
+// Flow Props and Stats
 type Props = {
-  /** */
+  history: Array<mixed>
 }
-
 type State = {
   activeKey: string,
   columns: Array<Object>,
   ticketsActive: Array<Object>,
-  ticketsInMarketing: Array<Object>
+  ticketsInMarketing: Array<Object>,
+  loadingActive: boolean,
+  loadingInMarketing: boolean
 }
 
 class Tickets extends Component<Props, State> {
@@ -68,10 +69,12 @@ class Tickets extends Component<Props, State> {
       ]
     },
     ticketsActive: [],
-    ticketsInMarketing: []
+    ticketsInMarketing: [],
+    loadingActive: true,
+    loadingInMarketing: true
   }
 
-  componentDidMount() {
+  componentWillMount() {
     const { userInfo } = this.context
 
     getUserTickets({
@@ -80,35 +83,74 @@ class Tickets extends Component<Props, State> {
         criterioBoleta: 1 // Boletas activas
       },
       trazabilidad: { GUID: getUUID() }
-    }).then(response => {
-      const { partida } = response.partidas
-
-      this.setState({ ticketsActive: partida })
     })
+      .then(response => {
+        const { partida } = response.partidas
+
+        this.setState({ ticketsActive: partida, loadingActive: false })
+      })
+      .catch(() => {
+        this.setState({ loadingActive: false })
+      })
   }
 
   onSelect = activekey => {
     const { userInfo } = this.context
 
-    getUserTickets({
-      idCliente: userInfo.clientId,
-      criterios: {
-        criterioBoleta: activekey // Boletas vencidas
+    this.setState(
+      {
+        [`${activekey === '1' ? 'loadingActive' : 'loadingInMarketing'}`]: true,
+        ticketsActive: [],
+        ticketsInMarketing: []
       },
-      trazabilidad: { GUID: getUUID() }
-    }).then(response => {
-      const { partida } = response.partidas
+      () => {
+        getUserTickets({
+          idCliente: userInfo.clientId,
+          criterios: {
+            criterioBoleta: activekey // Boletas vencidas
+          },
+          trazabilidad: { GUID: getUUID() }
+        })
+          .then(response => {
+            const { partida } = response.partidas
 
-      this.setState({ ticketsInMarketing: partida, activeKey: activekey })
-    })
+            this.setState({
+              [`${
+                activekey === '1' ? 'ticketsActive' : 'ticketsInMarketing'
+              }`]: partida,
+              [`${
+                activekey === '1' ? 'loadingActive' : 'loadingInMarketing'
+              }`]: false
+            })
+          })
+          .catch(() => {
+            this.setState({
+              [`${
+                activekey === '1' ? 'loadingActive' : 'loadingInMarketing'
+              }`]: false
+            })
+          })
+
+        this.setState({ activeKey: activekey })
+      }
+    )
   }
 
-  // onClickDetails = (row) => {
-  //   console.log('El row_:', row)
-  // }
+  onClickDetails = row => {
+    const { folio } = row.prenda
+    const { history } = this.props
+    history.push('boletas/detalle', { folio })
+  }
 
   render() {
-    const { activeKey, columns, ticketsActive, ticketsInMarketing } = this.state
+    const {
+      activeKey,
+      columns,
+      ticketsActive,
+      ticketsInMarketing,
+      loadingActive,
+      loadingInMarketing
+    } = this.state
 
     return (
       <div className="border-box-shadow mt-4">
@@ -125,12 +167,14 @@ class Tickets extends Component<Props, State> {
                   columns={columns.Active}
                   data={ticketsActive}
                   customHandlers={[this.onClickDetails]}
+                  loading={loadingActive}
                 />
               </Tab>
               <Tab eventKey="3" title="Prendas en comercialización">
                 <MarketingTickets
                   columns={columns.Marketing}
                   data={ticketsInMarketing}
+                  loading={loadingInMarketing}
                 />
               </Tab>
             </Tabs>

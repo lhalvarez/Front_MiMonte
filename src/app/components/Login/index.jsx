@@ -1,9 +1,9 @@
 // Dependencies
 import React, { Fragment } from 'react'
+import { Col, Row } from 'react-bootstrap'
+// Components
 import Logo from 'Components/Login/Logo'
 import Form from 'Components/Login/Form'
-import Row from 'react-bootstrap/lib/Row'
-import Col from 'react-bootstrap/lib/Col'
 // Styles
 import styles from './Login.less'
 // Flow Props and State
@@ -19,7 +19,7 @@ function LoginForm(props: Props) {
 
   return (
     <Fragment>
-      <div className="panel-wrapper">
+      <div className={styles.panel_Wrapper}>
         <Row>
           <Col>
             <Logo styles={styles} handleClick={handleClick} />

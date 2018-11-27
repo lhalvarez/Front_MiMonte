@@ -1,8 +1,6 @@
 // Dependencies
 import React from 'react'
-import Container from 'react-bootstrap/lib/Container'
-import Row from 'react-bootstrap/lib/Row'
-import Col from 'react-bootstrap/lib/Col'
+import { Container, Row, Col } from 'react-bootstrap'
 
 function Footer() {
   return (
