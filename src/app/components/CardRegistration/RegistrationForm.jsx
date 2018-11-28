@@ -7,16 +7,20 @@ import OpenPayForm from 'Components/CardRegistration/OpenPayForm'
 import Styles from './RegistrationForm.less'
 
 type Props = {
+  alias: String,
+  handleChange: void,
   handleClickAdd: void
 }
 
 function RegistrationForm(props: Props) {
-  const { handleClickAdd } = props
+  const { alias, handleChange, handleClickAdd } = props
 
   return (
     <Fragment>
       <Col md={12}>
-        <h2>Registro de tarjetas</h2>
+        <h2 className={Styles.registration_title_screen}>
+          Registro de tarjetas
+        </h2>
       </Col>
       <Col md={5}>
         <RegistrationInstruction />
@@ -29,7 +33,12 @@ function RegistrationForm(props: Props) {
             CRÉDITO Y DÉBITO
           </small>
         </h4>
-        <OpenPayForm styles={Styles} handleClickAdd={handleClickAdd} />
+        <OpenPayForm
+          alias={alias}
+          handleClickAdd={handleClickAdd}
+          handleChange={handleChange}
+          styles={Styles}
+        />
       </Col>
     </Fragment>
   )

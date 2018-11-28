@@ -3,7 +3,7 @@ export default function html(options: any): any {
     app = 'main',
     vendor = 'vendors',
     title = 'Mi monte',
-    stylesheet = 'main.css',
+    stylesheet = '/app/main.css',
     markup
   } = options
 

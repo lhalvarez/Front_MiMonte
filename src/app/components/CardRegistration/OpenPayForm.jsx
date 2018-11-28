@@ -12,12 +12,14 @@ import logoMasterCard from 'SharedImages/logo-mastercard.png'
 import iconCvv from 'SharedImages/icon-cvv.png'
 
 type Props = {
+  alias: String,
+  handleChange: void,
   handleClickAdd: void,
   styles: any
 }
 
 function OpenPayForm(props: Props) {
-  const { handleClickAdd, styles } = props
+  const { alias, handleChange, handleClickAdd, styles } = props
 
   return (
     <Fragment>
@@ -60,6 +62,7 @@ function OpenPayForm(props: Props) {
                 placeholder="Mes"
                 data-openpay-card="expiration_month"
                 className="form-control"
+                maxLength="2"
               />
             </div>
           </Col>
@@ -71,6 +74,7 @@ function OpenPayForm(props: Props) {
                 placeholder="Año"
                 data-openpay-card="expiration_year"
                 className="form-control"
+                maxLength="2"
               />
             </div>
           </Col>
@@ -83,6 +87,7 @@ function OpenPayForm(props: Props) {
                 autoComplete="off"
                 data-openpay-card="cvv2"
                 className="form-control"
+                maxLength="5"
               />
             </div>
           </Col>
@@ -99,12 +104,11 @@ function OpenPayForm(props: Props) {
             <TextInput
               name="alias"
               placeholder="Alias"
-              value=""
+              value={alias}
               label="Alias"
               type="text"
-              maxLength={50}
-              // eslint-disable-next-line no-console
-              onChange={() => console.log('aqui')}
+              maxLength={20}
+              onChange={handleChange}
             />
           </Col>
           <Col md={4}>
