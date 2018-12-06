@@ -118,7 +118,7 @@ class Tickets extends Component<Props, State> {
       },
       trazabilidad: {
         GUID: activeGUID,
-        urlCallBack: `${process.env.baseURL}boletas-callback`
+        urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
       }
     })
       .then(response => {
