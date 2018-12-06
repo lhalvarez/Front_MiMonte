@@ -26,7 +26,7 @@ function TicketCard(props: Props) {
         <Card.Text className={Styles.text_description}>
           <div className="text-description">
             <p>
-              {description}
+              {description.substr(1, 100)}
               <br />
               <small>
                 Tipo de empeño:

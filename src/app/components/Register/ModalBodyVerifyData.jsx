@@ -11,6 +11,7 @@ type Props = {
 
 function ModalBodyVerifyData(props: Props) {
   const { form, handleChangeInput } = props
+
   return (
     <Fragment>
       <Row>
@@ -53,6 +54,7 @@ function ModalBodyVerifyData(props: Props) {
                   name="verifyData"
                   id="verifyData"
                   type="checkbox"
+                  required
                   value={form.verifyData}
                   onChange={handleChangeInput}
                 />

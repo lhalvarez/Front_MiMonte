@@ -1,6 +1,8 @@
+/* eslint-disable */
+/* eslint-disable prettier/prettier */
 // Dependencies
 import React, { Component, Fragment } from 'react'
-import { Modal } from 'react-bootstrap'
+import { Modal, ButtonToolbar } from 'react-bootstrap'
 import Button from 'Components/commons/Button'
 // Context
 import ModalContext from 'Context/commons/Modal'
@@ -21,32 +23,25 @@ class ModalMessage extends Component<Props, State> {
     const { content, onClose, size } = this.props
     const modalConsumer = this.context
 
-    const closeButton = (
-      <Button variant="primary" onClick={onClose} label="Cerrar" />
-    )
+    function customFooter() {
+      const buttons = content.footer.map(f => (
+        <Fragment key={f.label.toString()}>
+          <Button variant={f.variant} onClick={f.onClick} label={f.label} />
+          &nbsp;
+        </Fragment>
+      ))
+      return <ButtonToolbar>{buttons}</ButtonToolbar>
+    }
 
-    return (
-      <Fragment>
-        <Modal
-          show={modalConsumer.showModal}
-          onHide={onClose}
-          backdrop="static"
-          keyboard={false}
-          size={size}
-          /* dialogClassName={modalContext.className} */
-        >
-          {content.title && (
-            <Modal.Header closeButton={false}>
-              <Modal.Title>{content.title}</Modal.Title>
-            </Modal.Header>
-          )}
-          <Modal.Body>{content.body}</Modal.Body>
-          <Modal.Footer>
-            {content.footer ? content.footer : closeButton}
-          </Modal.Footer>
-        </Modal>
-      </Fragment>
-    )
+    const footer = content.footer ? customFooter() : <Button variant="primary" onClick={onClose} label="Cerrar" />
+
+    return <Modal show={modalConsumer.showModal} onHide={onClose} backdrop="static" keyboard={false} size={size}>
+        {content.title && <Modal.Header closeButton={false}>
+            <Modal.Title>{content.title}</Modal.Title>
+          </Modal.Header>}
+        <Modal.Body>{content.body}</Modal.Body>
+        <Modal.Footer>{footer}</Modal.Footer>
+      </Modal>
   }
 }
 

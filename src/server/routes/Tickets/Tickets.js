@@ -3,9 +3,15 @@ const { doRequestRest } = require('../../utils/HTTPRequest')
 const LOGGER = require('../../config/Logger').Logger
 const CONFIG = require('../../config')
 
+const Document = require('../../utils/Documents')
+
 module.exports = router => {
   const { LOGGER_USER_TICKETS } = CONFIG
-  const { SERVICE_USER_TICKETS, SERVICE_DETAILS_TICKET } = CONFIG
+  const {
+    SERVICE_USER_TICKETS,
+    SERVICE_DETAILS_TICKET,
+    SERVICE_STATEMENT_ACCOUNT_PDF
+  } = CONFIG
 
   // eslint-disable-next-line consistent-return
   const serviceHandler = (config, map) => (req, res) => {
@@ -51,6 +57,7 @@ module.exports = router => {
       config.method,
       headers,
       body,
+      // eslint-disable-next-line consistent-return
       response => {
         const responseJSON = JSON.parse(response)
         responseJSON.message = 'Operacion Exitosa'
@@ -60,7 +67,12 @@ module.exports = router => {
           `[User:${userId}] ${config.name}: Exitoso`,
           LOGGER_USER_TICKETS
         )
-        return res.status(200).send(responseJSON)
+
+        if (config.name === 'downloadTicket') {
+          Document.GenerateDoc(responseJSON.archivoBase64, res, 'pdf')
+        } else {
+          return res.status(200).send(responseJSON)
+        }
       },
       err => {
         LOGGER('ERROR', err, LOGGER_USER_TICKETS)
@@ -104,7 +116,25 @@ module.exports = router => {
     }
   )
 
+  const downloadTicket = serviceHandler(
+    {
+      name: 'downloadTicket',
+      protocol: SERVICE_STATEMENT_ACCOUNT_PDF.PROTOCOL,
+      host: SERVICE_STATEMENT_ACCOUNT_PDF.HOST,
+      port: SERVICE_STATEMENT_ACCOUNT_PDF.PORT,
+      path: SERVICE_STATEMENT_ACCOUNT_PDF.PATH,
+      method: CONFIG.METHOD_POST
+    },
+    data => {
+      const tmp = Object.assign({}, data)
+      delete tmp.idUser
+      delete tmp.token
+      return tmp
+    }
+  )
+
   // Link routes and functions
   router.post('/getUserTickets', getUserTickets)
   router.post('/getDetailsTicket', getDetailsTicket)
+  router.post('/downloadTicket', downloadTicket)
 }

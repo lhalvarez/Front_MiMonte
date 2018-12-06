@@ -5,7 +5,10 @@ import {
   CognitoUser
 } from 'amazon-cognito-identity-js'
 
-const { doRequestRestURLEncoded } = require('../../utils/HTTPRequest')
+const {
+  doRequestRestURLEncoded,
+  doRequestRest
+} = require('../../utils/HTTPRequest')
 
 const LOGGER = require('../../config/Logger').Logger
 const CONFIG = require('../../config')
@@ -269,8 +272,211 @@ module.exports = router => {
     }
   }
 
+  const solicitarReinicioContrasena = (req, res) => {
+    const data = req.body
+
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      usuario: 'usuarioMonte',
+      idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
+      idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO
+    }
+
+    const body = {
+      grant_type: 'client_credentials',
+      client_id: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_ID,
+      client_secret: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_SECRET
+    }
+
+    doRequestRestURLEncoded(
+      SERVICE_TOKEN_OAUTH.PROTOCOL,
+      SERVICE_TOKEN_OAUTH.HOST,
+      SERVICE_TOKEN_OAUTH.PORT,
+      SERVICE_TOKEN_OAUTH.PATH,
+      CONFIG.METHOD_POST,
+      headers,
+      body,
+      // eslint-disable-next-line consistent-return
+      response => {
+        const responseJSON = JSON.parse(response)
+        if (responseJSON.codigoError) {
+          LOGGER(
+            'ERROR',
+            `[User:${data.usuario.nombreUsuario}] ValidationError: Token`,
+            LOGGER_AUTH
+          )
+          return res.status(500).send(responseJSON)
+          // eslint-disable-next-line no-else-return
+        } else {
+          LOGGER(
+            'INFO',
+            `[User:${data.usuario.nombreUsuario}}]: Exitoso`,
+            LOGGER_AUTH
+          )
+
+          // eslint-disable-next-line no-shadow
+          const headers = {
+            Accept: 'application/json',
+            Authorization: `Bearer ${responseJSON.access_token}`,
+            'Content-Type': 'application/json',
+            idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
+            idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO,
+            usuario: 'usuarioMonte'
+          }
+
+          LOGGER(
+            'INFO',
+            `[User:${data.usuario.nombreUsuario}}.BODY: ${JSON.stringify(
+              data
+            )}`,
+            // eslint-disable-next-line no-undef
+            LOGGER_AUTH
+          )
+          doRequestRest(
+            SERVICE_TOKEN_OAUTH.PROTOCOL,
+            SERVICE_TOKEN_OAUTH.HOST,
+            SERVICE_TOKEN_OAUTH.PORT,
+            SERVICE_TOKEN_OAUTH.PATH_RESTART_PWD,
+            CONFIG.METHOD_POST,
+            headers,
+            data,
+            // eslint-disable-next-line no-shadow
+            response => {
+              // eslint-disable-next-line no-shadow
+              const responseJSON = JSON.parse(response)
+              responseJSON.message = 'Operacion Exitosa'
+
+              LOGGER(
+                'INFO',
+                `[User:${data.usuario.nombreUsuario}}: Exitoso`,
+                LOGGER_AUTH
+              )
+              return res.status(200).send(responseJSON)
+            },
+            err => {
+              LOGGER('ERROR', err, LOGGER_AUTH)
+
+              return res.status(500).send(JSON.parse(err))
+            }
+          )
+        }
+      },
+      err => {
+        LOGGER(
+          'ERROR',
+          `[User:${data.usuario.nombreUsuario}}] ValidationError: Token ${err}`,
+          LOGGER_AUTH
+        )
+        return res.status(500).send(JSON.parse(err))
+      }
+    )
+  }
+
+  const registrarContrasena = (req, res) => {
+    const data = req.body
+
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      usuario: 'usuarioMonte',
+      idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
+      idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO
+    }
+
+    const body = {
+      grant_type: 'client_credentials',
+      client_id: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_ID,
+      client_secret: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_SECRET
+    }
+
+    doRequestRestURLEncoded(
+      SERVICE_TOKEN_OAUTH.PROTOCOL,
+      SERVICE_TOKEN_OAUTH.HOST,
+      SERVICE_TOKEN_OAUTH.PORT,
+      SERVICE_TOKEN_OAUTH.PATH,
+      CONFIG.METHOD_POST,
+      headers,
+      body,
+      // eslint-disable-next-line consistent-return
+      response => {
+        const responseJSON = JSON.parse(response)
+        if (responseJSON.codigoError) {
+          LOGGER(
+            'ERROR',
+            `[User:${data.usuario.nombreUsuario}] ValidationError: Token`,
+            LOGGER_AUTH
+          )
+          return res.status(500).send(responseJSON)
+          // eslint-disable-next-line no-else-return
+        } else {
+          LOGGER(
+            'INFO',
+            `[User:${data.usuario.nombreUsuario}}]: Exitoso`,
+            LOGGER_AUTH
+          )
+
+          // eslint-disable-next-line no-shadow
+          const headers = {
+            Accept: 'application/json',
+            Authorization: `Bearer ${responseJSON.access_token}`,
+            'Content-Type': 'application/json',
+            idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
+            idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO,
+            usuario: 'usuarioMonte'
+          }
+
+          LOGGER(
+            'INFO',
+            `[User:${data.usuario.nombreUsuario}}.BODY: ${JSON.stringify(
+              data
+            )}`,
+            // eslint-disable-next-line no-undef
+            LOGGER_AUTH
+          )
+          doRequestRest(
+            SERVICE_TOKEN_OAUTH.PROTOCOL,
+            SERVICE_TOKEN_OAUTH.HOST,
+            SERVICE_TOKEN_OAUTH.PORT,
+            SERVICE_TOKEN_OAUTH.PATH_REGISTRY_PWD,
+            CONFIG.METHOD_POST,
+            headers,
+            data,
+            // eslint-disable-next-line no-shadow
+            response => {
+              // eslint-disable-next-line no-shadow
+              const responseJSON = JSON.parse(response)
+              responseJSON.message = 'Operacion Exitosa'
+
+              LOGGER(
+                'INFO',
+                `[User:${data.usuario.nombreUsuario}}: Exitoso`,
+                LOGGER_AUTH
+              )
+              return res.status(200).send(responseJSON)
+            },
+            err => {
+              LOGGER('ERROR', err, LOGGER_AUTH)
+
+              return res.status(500).send(JSON.parse(err))
+            }
+          )
+        }
+      },
+      err => {
+        LOGGER(
+          'ERROR',
+          `[User:${data.usuario.nombreUsuario}}] ValidationError: Token ${err}`,
+          LOGGER_AUTH
+        )
+        return res.status(500).send(JSON.parse(err))
+      }
+    )
+  }
   // Link routes and functions
   router.post('/cognito/login', login)
   router.post('/oauth/refresh', refresh)
   router.post('/oauth/logout', logout)
+  router.post('/oauth/solicitarReinicioContrasena', solicitarReinicioContrasena)
+  router.post('/oauth/registrarContrasena', registrarContrasena)
 }

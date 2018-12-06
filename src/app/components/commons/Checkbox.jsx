@@ -12,7 +12,6 @@ type Props = {
   value: string,
   type: string,
   textInvalid: string,
-  validity: boolean,
   classLabel: string
 }
 
@@ -27,7 +26,6 @@ function Checkbox(props: Props) {
     value,
     type,
     textInvalid,
-    validity,
     classLabel
   } = props
 
@@ -54,8 +52,7 @@ function Checkbox(props: Props) {
         value={value}
         name={name}
         required={required}
-        error={error}
-        isInvalid={validity || checkValidity()}
+        isInvalid={error || checkValidity()}
         onChange={handleChange}
       />
       <Form.Check.Label className={classLabel}>{label}</Form.Check.Label>

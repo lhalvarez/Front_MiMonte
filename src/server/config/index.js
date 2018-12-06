@@ -49,12 +49,16 @@ module.exports = {
   SERVICE_TOKEN_OAUTH: {
     ID_CONSUMIDOR: '25',
     ID_DESTINO: '14',
-    SERVER_APP_TOKEN_CLIENT_ID: 'e24fe3a5-43db-4c83-99ea-e0723e9a9c93',
-    SERVER_APP_TOKEN_CLIENT_SECRET: '665ace25-1b91-4eac-ba0f-cb234eafa7d4',
+    SERVER_APP_TOKEN_CLIENT_ID: process.env.OAUTH_TOKEN_CLIENT_ID,
+    SERVER_APP_TOKEN_CLIENT_SECRET: process.env.OAUTH_TOKEN_CLIENT_SECRET,
     PROTOCOL: PROTOCOL_OAUTH,
     HOST: HOST_OAUTH,
     PORT: PORT_OAUTH,
-    PATH: '/NMP/oauth/token'
+    PATH: '/NMP/oauth/token',
+    PATH_REGISTRY_PWD:
+      '/NMP/GestionClientes/UsuariosMonte/v1/registrarContrasena',
+    PATH_RESTART_PWD:
+      '/NMP/GestionClientes/UsuariosMonte/v1/solicitarReinicioContrasena'
   },
   SERVICE_USER_INFO: {
     ID_CONSUMIDOR: '25',
@@ -63,6 +67,17 @@ module.exports = {
     HOST: HOST_BPM,
     PORT: PORT_BPM,
     PATH: '/NMP/GestionClientes/Cliente/v2/usuarioMonte'
+  },
+  SERVICE_REGISTER: {
+    ID_CONSUMIDOR: '25',
+    ID_DESTINO: '14',
+    PROTOCOL: PROTOCOL_BPM,
+    HOST: HOST_BPM,
+    PORT: PORT_BPM,
+    PATH: '/NMP/GestionClientes/UsuariosMonte/v1/validarDatos',
+    PATH_CREATE_USER: '/NMP/GestionClientes/UsuariosMonte/v1/solicitarAlta',
+    PATH_VALIDATE_MEDIA_CONTACT:
+      '/NMP/GestionClientes/UsuariosMonte/v1/validarMedioContacto'
   },
   SERVICE_USER_TICKETS: {
     ID_CONSUMIDOR: '25',
@@ -80,13 +95,12 @@ module.exports = {
     PORT: PORT_BPM,
     PATH: '/NMP/OperacionPrendaria/Partidas/v1/Folio'
   },
-  SERVICE_REGISTER: {
+  SERVICE_STATEMENT_ACCOUNT_PDF: {
     ID_CONSUMIDOR: '25',
     ID_DESTINO: '14',
     PROTOCOL: PROTOCOL_BPM,
     HOST: HOST_BPM,
     PORT: PORT_BPM,
-    PATH: '/NMP/GestionClientes/UsuariosMonte/v1/validarDatos',
-    PATH_CREATE_USER: '/NMP/GestionClientes/UsuariosMonte/v1/solicitarAlta'
+    PATH: '/NMP/OperacionPrendaria/EstadoCuenta/v1/PDF'
   }
 }

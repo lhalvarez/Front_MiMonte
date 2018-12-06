@@ -1,7 +1,10 @@
 {
   "editor.wordWrap": "on",
   "eslint.alwaysShowStatus": true,
+  "flow.fileExtensions": [".js", ".jsx", ".es6"],
   "flow.pathToFlow": "${workspaceRoot}/node_modules/.bin/flow",
+  "flow.runOnAllFiles": true,
+  "flow.showUncovered": true,
   "javascript.validate.enable": false,
   "prettier.eslintIntegration": true,
   "typescript.validate.enable": false

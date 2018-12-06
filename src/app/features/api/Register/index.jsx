@@ -26,23 +26,39 @@ export default async function validateData(form) {
     })
 }
 
-export async function createUser(form) {
-  const cliente = {
-    numCredencial: form.tarjeta,
-    apellidoPaterno: form.apPat,
-    apellidoMaterno: form.apMat,
-    nombres: form.nombre,
-    fechaNacimiento: form.fecNac,
-    correoElectronico: form.email,
-    telefono: { numeroTelefono: form.celular },
-    medioValidacion: 1,
-    datosPrendarios: { numContrato: 0 }
+export async function createUser(form, option) {
+  const creaUsr = {
+    usuario:
+      option !== 'SMS'
+        ? {
+            nombreUsuario: form.email,
+            contrasena: form.pwd,
+            datosValidacion: { token: form.codeVerify },
+            medioContacto: {
+              contactoPor: 1,
+              valorContacto: form.celular
+            }
+          }
+        : {
+            nombreUsuario: form.email,
+            datosValidacion: { '@reenvioToken': true },
+            medioContacto: {
+              contactoPor: 1,
+              valorContacto: form.celular
+            }
+          },
+    cliente: {
+      numCredencial: form.tarjeta
+    }
   }
 
   return new ClientHttpRequest({
-    service: 'auth/createUser',
+    service:
+      option === 'altaUsuario'
+        ? 'auth/createUser'
+        : 'auth/validateMediaContact',
     method: 'POST',
-    data: { cliente }
+    data: { ...creaUsr }
   })
     .request()
     .then(response => response.data)

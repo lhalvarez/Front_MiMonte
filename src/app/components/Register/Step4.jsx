@@ -7,11 +7,12 @@ import Button from 'Components/commons/Button'
 type Props = {
   style: Object,
   form: Object,
+  goToStep4: void,
   disableStep4: boolean
 }
 
 function Step4(props: Props) {
-  const { style, form, disableStep4 } = props
+  const { style, form, disableStep4, goToStep4 } = props
   return (
     <fieldset disabled={disableStep4}>
       <Row>
@@ -33,7 +34,11 @@ function Step4(props: Props) {
           </p>
         </Col>
         <Col className="text-right">
-          <Button variant="info" label="Reenviar" />
+          <Button
+            variant="info"
+            label="Reenviar email"
+            onClick={() => goToStep4('email')}
+          />
         </Col>
       </Row>
     </fieldset>

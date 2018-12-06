@@ -30,9 +30,7 @@ function NavBarInstance(props: Props) {
                 <Link to="/mimonte/movimientos">Movimientos</Link>
               </li>
               <li className="nav-link">
-                <Link to="/mimonte/registro-tarjetas">
-                  Registro de Tarjetas
-                </Link>
+                <Link to="/mimonte/registro-tarjetas">Métodos de pago</Link>
               </li>
             </Nav>
           </Navbar.Collapse>

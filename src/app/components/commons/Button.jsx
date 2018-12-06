@@ -10,7 +10,8 @@ type Props = {
   onClick: string,
   size: string,
   label: string,
-  block: boolean
+  block: boolean,
+  icon: Object
 }
 
 function ButtonInstance(props: Props) {
@@ -22,7 +23,8 @@ function ButtonInstance(props: Props) {
     onClick,
     size,
     label,
-    block
+    block,
+    icon
   } = props
 
   return (
@@ -36,6 +38,8 @@ function ButtonInstance(props: Props) {
       onClick={onClick}
       block={block}
     >
+      {icon && icon}
+      &nbsp;
       {label}
     </Button>
   )

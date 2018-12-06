@@ -7,6 +7,7 @@ import { hydrate } from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'SharedStyles/main.less'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
+// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 // Containers
 import App from './index'
 

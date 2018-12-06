@@ -1,7 +1,7 @@
 [ignore]
 .*/tests/.*
 .*/dist/.*
-.*/node_modules/jsonlint/test/.*
+.*/node_modules/.*
 
 [include]
 
@@ -39,4 +39,4 @@ module.name_mapper='^Server' ->'<PROJECT_ROOT>/src/server'
 [strict]
 
 [version]
->=0.72.0
+>=0.85.0

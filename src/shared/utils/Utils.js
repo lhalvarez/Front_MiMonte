@@ -19,6 +19,14 @@ import {
 } from 'underscore'
 
 import React from 'react'
+
+import { Row, Col } from 'react-bootstrap'
+
+import succesImage from 'SharedImages/ico-exito.svg'
+import errorImage from 'SharedImages/ico-error.svg'
+import questionImage from 'SharedImages/ico-pregunta.svg'
+import warningImage from 'SharedImages/ico-warning.svg'
+
 import moment from 'moment'
 import 'moment/locale/es'
 moment.locale('es')
@@ -140,27 +148,16 @@ export const getMessageResponse = response => {
 }
 
 export const questionMessage = (message, okClick, cancelClick) => {
-  const modalObj = {
-    body: (
-      <div>
-        <i
-          style={styles.msg.icon}
-          className="fa fa-question-circle fa-3x text-info"
-        />
-        <p>{message}</p>
-      </div>
-    ),
-    footer: [
-      {
-        txt: 'SI',
-        type: 'primary',
-        onClick: okClick
-      },
-      {
-        txt: 'NO',
-        type: 'primary',
-        onClick: cancelClick
-      }
+  const modalObj = { body: <Row>
+        <Col xs={4} className="text-center">
+          <img src={questionImage} alt="" className="img-fluid" />
+        </Col>
+        <Col xs={8} className="mediaBody text-left align-self-center">
+          <p>{message}</p>
+        </Col>
+      </Row>, footer: [
+      { label: 'SALIR', variant: 'info', onClick: okClick },
+      { label: 'CANCELAR', variant: 'primary',  onClick: cancelClick }
     ]
   }
 
@@ -169,14 +166,16 @@ export const questionMessage = (message, okClick, cancelClick) => {
 
 export const warningMessage = message => {
   const modalObj = {
+    title: 'Atención',
     body: (
-      <div>
-        <i
-          style={styles.msg.icon}
-          className="fa fa-exclamation-triangle fa-3x text-warning"
-        />
-        <p>{message}</p>
-      </div>
+      <Row>
+        <Col xs={4} className="text-center">
+          <img src={warningImage} alt="" className="img-fluid" />
+        </Col>
+        <Col xs={8} className="mediaBody text-left align-self-center">
+          <p>{message}</p>
+        </Col>
+      </Row>
     )
   }
   return modalObj
@@ -186,10 +185,14 @@ export const showMessage = message => {
   const modalObj = {
     closeButton: true,
     body: (
-      <div>
-        <i style={styles.msg.icon} className="fa fa-check fa-3x text-success" />
-        <p>{message}</p>
-      </div>
+      <Row>
+        <Col xs={4} className="text-center">
+          <img src={succesImage} alt="" className="img-fluid" />
+        </Col>
+        <Col xs={8} className="mediaBody text-left align-self-center">
+          <p>{message}</p>
+        </Col>
+      </Row>
     )
   }
 
@@ -209,15 +212,16 @@ export const customMessage = (title, body, message, closeButton, footer) => {
 
 export const errorMessage = (title, message) => {
   const modalObj = {
-    title,
+    title: title !== '' || title == undefined ? title : 'Error en el Proceso',
     body: (
-      <div>
-        <i
-          style={styles.msg.icon}
-          className="fa fa-times-circle fa-3x text-danger"
-        />
-        <p>{message}</p>
-      </div>
+      <Row>
+        <Col xs={4} className="text-center align-content-end">
+          <img src={errorImage} alt="" className="img-fluid" />
+        </Col>
+        <Col xs={8} className="mediaBody text-left align-self-center">
+          <p>{message}</p>
+        </Col>
+      </Row>
     )
   }
 
@@ -226,11 +230,16 @@ export const errorMessage = (title, message) => {
 
 export const successMessage = () => {
   const modalObj = {
+    title: 'Proceso Exitoso',
     body: (
-      <div>
-        <i style={styles.msg.icon} className="fa fa-check fa-3x text-success" />
-        <p>Acción realizada con éxito</p>
-      </div>
+      <Row>
+        <Col xs={4} className="text-center">
+          <img src={succesImage} alt="" className="img-fluid" />
+        </Col>
+        <Col xs={8} className="mediaBody text-left align-self-center">
+          <p>Accion realizada con éxito</p>
+        </Col>
+      </Row>
     )
   }
 

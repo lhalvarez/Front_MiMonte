@@ -25,29 +25,31 @@ type Props = {
 type State = {
   content: Array<mixed>,
   showModal: boolean,
+  sizeModal: String,
   form: Object,
   validationObj: Object,
   validate: boolean,
   isLoading: boolean,
-  sizeModal: String,
   disableStep1: boolean,
   disableStep2: boolean,
-  disableStep3: boolean,
   disableStep4: boolean
 }
 
 class Registration extends Component<Props, State> {
   state = {
     content: [],
-    form: {},
-    validationObj: {},
+    form: {
+      codeVerify: ''
+    },
+    validationObj: {
+      validateVerifyData: true
+    },
     validate: false,
     showModal: false,
     isLoading: false,
     sizeModal: '',
     disableStep1: false,
     disableStep2: true,
-    disableStep3: true,
     disableStep4: true
   }
 
@@ -103,9 +105,6 @@ class Registration extends Component<Props, State> {
           validationObj.textInvalidConfCel = ''
         }
         break
-      case 'aviso':
-        value = target.checked
-        break
       case 'pwd':
         if (value.length <= 7) {
           validationObj.validatePwd = true
@@ -124,6 +123,9 @@ class Registration extends Component<Props, State> {
           validationObj.validateConfPwd = false
           validationObj.textInvalidConfPwd = ''
         }
+        break
+      case 'aviso':
+        value = target.checked
         break
       case 'verifyData':
         value = target.checked
@@ -212,7 +214,6 @@ class Registration extends Component<Props, State> {
       })
     } else {
       this.setState({
-        validate,
         validationObj,
         showModal: true,
         sizeModal: 'lg',
@@ -230,48 +231,103 @@ class Registration extends Component<Props, State> {
 
   goToStep2 = (event: SyntheticEvent<HTMLButtonElement>) => {
     const { form } = this.state
+    this.setState({
+      showModal: false
+    })
 
-    if (form.verifyData) {
-      this.setState({ isLoading: true, showModal: false }, () => {
+    if ((event.currentTarget: HTMLButtonElement)) {
+      if (form.verifyData) {
+        this.setState({ isLoading: true })
         validateData(form)
           .then(response => {
-            console.log(response)
-            createUser(form)
-              .then(responseCreateUser => {
-                console.log(responseCreateUser)
-                this.setState({
-                  showModal: true,
-                  isLoading: false,
-                  disableStep1: true,
-                  disableStep2: false,
-                  content: successMessage()
-                })
-              })
-              .catch(({ responseCreateUser }) => {
-                const { descripcionError } = responseCreateUser.data
-                console.log(responseCreateUser)
-                this.setState({
-                  showModal: true,
-                  sizeModal: '',
-                  isLoading: false,
-                  content: errorMessage(descripcionError)
-                })
-              })
-          })
-          .catch(({ response }) => {
-            const { descripcionError } = response.data
             this.setState({
               showModal: true,
               sizeModal: '',
               isLoading: false,
-              content: errorMessage(descripcionError)
+              content: successMessage(),
+              form: {
+                ...form,
+                idCliente: response.cliente.idCliente
+              },
+              disableStep1: true,
+              disableStep2: false
             })
           })
+          .catch(response => {
+            const { descripcionError } = response.response.data
+            if (
+              descripcionError ===
+              'El cliente ya ha validado información con un correo diferente'
+            ) {
+              this.setState({
+                showModal: true,
+                sizeModal: '',
+                isLoading: false,
+                content: successMessage(),
+                form: {
+                  ...form,
+                  idCliente: form.tarjeta
+                },
+                disableStep1: true,
+                disableStep2: false
+              })
+            } else {
+              this.setState({
+                showModal: true,
+                sizeModal: '',
+                isLoading: false,
+                content: errorMessage('', descripcionError)
+              })
+            }
+          })
+      } else {
+        this.setState({
+          showModal: true,
+          sizeModal: '',
+          isLoading: false,
+          content: errorMessage('', 'Favor de validar los datos')
+        })
+      }
+    }
+  }
+
+  goToStep4 = option => {
+    const { form } = this.state
+    this.setState({ isLoading: true })
+    createUser(form, option)
+      .then(() => {
+        if (option === 'SMS' || option === 'email') {
+          this.setState({
+            showModal: true,
+            isLoading: false,
+            content: successMessage()
+          })
+        } else {
+          this.setState({
+            showModal: true,
+            isLoading: false,
+            disableStep2: true,
+            disableStep4: false,
+            content: successMessage()
+          })
+        }
       })
-    }
-    if ((event.currentTarget: HTMLButtonElement)) {
-      this.setState({ showModal: false })
-    }
+      .catch(responseCreateUser => {
+        this.setState({
+          showModal: true,
+          sizeModal: '',
+          isLoading: false,
+          content: errorMessage(
+            '',
+            responseCreateUser.response.data.descripcionError
+          )
+        })
+      })
+  }
+
+  goToInicio = () => {
+    const { history } = this.props
+    history.push('/login')
   }
 
   handleBlur = ({ target }: SyntheticInputEvent) => {
@@ -292,7 +348,6 @@ class Registration extends Component<Props, State> {
       sizeModal,
       disableStep1,
       disableStep2,
-      disableStep3,
       disableStep4
     } = this.state
 
@@ -314,10 +369,11 @@ class Registration extends Component<Props, State> {
           handleChangeInput={this.onChangeInput}
           handleChangeCodeVerify={this.onChangeCodeVerify}
           handleValidateForm={this.onValidateForm}
+          goToInicio={this.goToInicio}
           handleBlur={this.handleBlur}
+          goToStep4={this.goToStep4}
           disableStep1={disableStep1}
           disableStep2={disableStep2}
-          disableStep3={disableStep3}
           disableStep4={disableStep4}
         />
       </Fragment>

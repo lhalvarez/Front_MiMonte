@@ -1,112 +1,145 @@
 // Dependencies
-import React, { Component, Fragment, SyntheticEvent } from 'react'
+import React, { Component, Fragment } from 'react'
 // Components
 import DetailTickets from 'Components/Tickets/DetailTickets'
-import ModalProvider from 'Components/commons/ModalMessage/ModalProvider'
-import Spinner from 'Components/commons/Spinner'
 // API
-import { getDetailsTicket } from 'Api/Tickets'
+import { downloadTicket } from 'Api/Tickets'
 // Context
 import TicketsContext from 'Context/Tickets'
+import { UserContext } from 'Context/User'
 // Utils
 import { errorMessage } from 'SharedUtils/Utils'
 // Flow Props and Stats
 type Props = {
-  /** */
+  location: Array<{
+    state: Object
+  }>,
+  onShowModal: void,
+  history: any
 }
 type State = {
   columns: Array<Object>,
   content: Array<mixed>,
   data: Array<Object>,
-  isLoading: boolean,
   ticketConditions: Array<Object>,
   ticketDetail: Array<Object>,
-  ticketOperations: Array<Object>,
-  showModal: boolean
+  ticketOperations: Array<Object>
 }
 
 class Details extends Component<Props, State> {
+  static contextType = UserContext
+
   state = {
     columns: {
       Detail: [
         { dataField: 'tipoOperacion', text: 'Operacion' },
-        { dataField: 'monto', text: 'Monto' }
+        { dataField: 'monto', type: 'currency', text: 'Monto' },
+        {
+          dataField: 'folio',
+          text: 'Detalle',
+          type: 'custom',
+          customObject: [
+            {
+              name: 'Descargar',
+              icon: '',
+              class: 'text-center'
+            },
+            {
+              name: 'Visualizar',
+              icon: '',
+              class: 'text-center'
+            }
+          ],
+          customDivClass: 'text-center'
+        }
       ]
     },
-    content: [],
     ticketConditions: {},
     ticketOperations: {
       operacion: []
     },
-    ticketDetail: {},
-    showModal: false,
-    isLoading: true
+    ticketDetail: {}
   }
 
   componentWillMount() {
     const { location } = this.props
-    const { folio } = location.state
-    getDetailsTicket({
-      folios: { folio: [folio] }
+    const { condiciones, prenda } = location.state
+    const { operaciones } = location.state
+
+    operaciones.operacion = operaciones.operacion.map(e => {
+      e.folio = prenda.folio
+      return e
+    })
+
+    this.setState({
+      ticketConditions: condiciones,
+      ticketOperations: operaciones,
+      ticketDetail: prenda
+    })
+  }
+
+  onClickDocument = (row, option) => {
+    const { userInfo } = this.context
+    const { onShowModal } = this.props
+
+    downloadTicket({
+      numeroFolio: row.folio,
+      numeroCliente: userInfo.clientId
     })
       .then(response => {
-        const { partida } = response.partidas
-        partida.map(p =>
-          this.setState({
-            ticketConditions: p.condiciones,
-            ticketDetail: p.prenda,
-            ticketOperations: p.operaciones,
-            isLoading: false
-          })
-        )
-      })
-      .catch(error => {
-        if (error) {
-          this.setState({
-            showModal: true,
-            isLoading: false,
-            content: errorMessage('No se pueden obtener los datos')
-          })
+        const blob = new Blob([response], { type: 'application/pdf' })
+        const objectUrl = URL.createObjectURL(blob)
+
+        if (option === 'Descarga') {
+          const fileName = `boleta-${row.folio.toString()}.pdf`
+          const a = document.createElement('a')
+
+          a.href = objectUrl
+          a.download = fileName
+          document.body.appendChild(a)
+          a.click()
+
+          document.body.removeChild(a)
+          URL.revokeObjectURL(objectUrl)
+        } else {
+          window.open(objectUrl)
         }
+      })
+      .catch(err => {
+        onShowModal(errorMessage(err))
       })
   }
 
-  handleHide = (event: SyntheticEvent<HTMLButtonElement>) => {
-    if ((event.currentTarget: HTMLButtonElement)) {
-      this.setState({ showModal: false })
-    }
+  onClickBack = () => {
+    const { history } = this.props
+    history.push('/mimonte/boletas')
   }
 
   render() {
     const {
       columns,
-      content,
       ticketConditions,
       ticketDetail,
-      ticketOperations,
-      showModal,
-      isLoading
+      ticketOperations
     } = this.state
 
     return (
       <Fragment>
-        {(!isLoading && (
-          <div className="border-box-shadow mt-4">
-            <TicketsContext.Provider
-              value={{ ticketConditions, ticketDetail, ticketOperations }}
-            >
-              <ModalProvider
-                content={content}
-                showModal={showModal}
-                onClose={this.handleHide}
-              />
-              <DetailTickets
-                columns={columns.Detail}
-                data={ticketOperations.operacion}
-              />
-            </TicketsContext.Provider>
-          </div>
-        )) || <Spinner />}
+        <div className="border-box-shadow mt-4">
+          <TicketsContext.Provider
+            value={{ ticketConditions, ticketDetail, ticketOperations }}
+          >
+            <DetailTickets
+              columns={columns.Detail}
+              data={ticketOperations.operacion}
+              customHandlers={[
+                e => this.onClickDocument(e, 'Descarga'),
+                e => this.onClickDocument(e, 'visualiza')
+              ]}
+              handleBack={this.onClickBack}
+            />
+          </TicketsContext.Provider>
+        </div>
       </Fragment>
     )
   }

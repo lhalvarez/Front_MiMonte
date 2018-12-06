@@ -1,6 +1,11 @@
 // Dependencies
 import React, { Component, Fragment } from 'react'
-import { Row, Col, ButtonGroup } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+
 // Components
 import Button from 'Components/commons/Button'
 import DataTable from 'Components/commons/DataTable'
@@ -8,12 +13,15 @@ import DataTable from 'Components/commons/DataTable'
 import TicketsContext from 'Context/Tickets/index'
 // Utils
 import { formatDate } from 'SharedUtils/Utils'
-// Images
-import IconoDetails from 'SharedImages/ico-hoja-papel-plus-120.png'
+
+library.add(faAngleLeft)
+
 // Flow Props and Stats
 type Props = {
   columns: Array<Object>,
-  data: Array<Object>
+  data: Array<Object>,
+  customHandlers: Array<mixed>,
+  handleBack: void
 }
 
 class DetailTickets extends Component<Props> {
@@ -21,19 +29,15 @@ class DetailTickets extends Component<Props> {
 
   render() {
     const ticketsConsumer = this.context
-    const { columns, data } = this.props
+    const { columns, data, customHandlers, handleBack } = this.props
     const {
       folio,
       descripcion,
       sucursal,
       tipoContrato
     } = ticketsConsumer.ticketDetail
-    const {
-      fechaIngreso,
-      fechaLimitePago,
-      fechaComercializacion,
-      fechaIngresoDeposito
-    } = ticketsConsumer.ticketConditions
+
+    const { fechaIngreso, fechaLimitePago } = ticketsConsumer.ticketConditions
 
     return (
       <Fragment>
@@ -43,101 +47,54 @@ class DetailTickets extends Component<Props> {
               <small>{`Boleta ${folio}`}</small>
             </h4>
           </Col>
-          <Col md={2}>Regresar a boletas</Col>
-        </Row>
-        <hr />
-        <Row>
-          <Col md={3}>
-            <img
-              className="float-right"
-              alt="Icono de boletas"
-              src={IconoDetails}
+          <Col md={2}>
+            <Button
+              variant="info"
+              label="Regresar a boletas"
+              onClick={handleBack}
+              icon={<FontAwesomeIcon icon={faAngleLeft} />}
             />
           </Col>
+        </Row>
+        <Row>
           <Col md={5}>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>Prenda</div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>{descripcion}</div>
-            </Row>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>
-                Sucursal
-              </div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>{sucursal}</div>
-            </Row>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>
-                Tipo de empeño
-              </div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>
-                {tipoContrato}
-              </div>
-            </Row>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>
-                Fecha de empeño
-              </div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>
+            <p>
+              Prenda
+              <br />
+              <small>{descripcion}</small>
+            </p>
+            <p>
+              Fecha de empeño
+              <br />
+              <small>
                 {fechaIngreso && formatDate(fechaIngreso, 'MMM Do YY')}
-              </div>
-            </Row>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>
-                Fecha límite de pago
-              </div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>
-                {fechaLimitePago && formatDate(fechaLimitePago, 'MMM Do YY')}
-              </div>
-            </Row>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>
-                Fecha de comercialización
-              </div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>
-                {fechaComercializacion &&
-                  formatDate(fechaComercializacion, 'MM Do YY')}
-              </div>
-            </Row>
-            <Row>
-              <div style={{ color: '#99283b', padding: '0 10px' }}>
-                Fecha de ingreso a depósito
-              </div>
-            </Row>
-            <Row>
-              <div style={{ padding: '0px 10px 10px 10px' }}>
-                {fechaIngresoDeposito &&
-                  formatDate(fechaIngresoDeposito, 'MM Do YY')}
-              </div>
-            </Row>
+              </small>
+            </p>
+            <p>
+              Tipo de empeño
+              <br />
+              <small>{tipoContrato}</small>
+            </p>
+            <p>
+              Fecha límite de pago
+              <br />
+              {fechaLimitePago && formatDate(fechaLimitePago, 'MMM Do YY')}
+            </p>
+            <p>
+              Sucursal
+              <br />
+              <small>{sucursal}</small>
+            </p>
           </Col>
-          <Col md={4}>
-            <Row>Operaciones</Row>
+          <Col md={{ md: 6, offset: 1 }}>
+            <h6>Historial de pagos - Refrendos, Desempeño y/o Abonos</h6>
             <DataTable
               columns={columns}
               data={data}
               noDataIndication="No existen operaciones"
+              customHandlers={customHandlers}
             />
           </Col>
-        </Row>
-        <Row className="justify-content-center">
-          <ButtonGroup className="mr-2" aria-label="First group">
-            <Button variant="primary" label="Visualizar" size="md" />
-          </ButtonGroup>
-          <ButtonGroup className="mr-2" aria-label="Second group">
-            <Button variant="primary" label="Descargar" size="md" />
-          </ButtonGroup>
         </Row>
       </Fragment>
     )

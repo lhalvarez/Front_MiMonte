@@ -82,6 +82,13 @@
     color: @color-dark-gray;
   }
 
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield;
+  }
+
   .textMain {
     opacity: 0.9;
     font-size: 16px;
@@ -103,12 +110,11 @@
     display: flex;
   }
 
-  .colorPrimary {
-    color: @color-main;
-  }
+  
 
   .codeVerify {
-    margin-left: 7%;
+    margin-left: 4%;
+    margin-right: 4%;
   }
 }
 
@@ -141,6 +147,10 @@
   margin-bottom: 0%;
 }
 
+.colorPrimary {
+  color: @color-main;
+}
+
 .textBodyInfo {
   font-family: 'Roboto Regular';
   font-size: 16px;
@@ -169,4 +179,20 @@
 
 .btnModificar {
   margin-right: 15px;
+}
+
+.verticalCenter{
+  vertical-align: middle !important;
+}
+
+.paddingTop10{
+  padding-top: 10px;
+}
+
+.btnInicio{
+  padding-right: 0%;
+  button{
+    width: 100px;
+    margin-top: 12px;
+  }
 }

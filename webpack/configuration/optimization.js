@@ -28,7 +28,7 @@ function optimization(type) {
           reuseExistingChunk: true
         },
         styles: {
-          name: 'style',
+          name: 'main',
           test: /\.css$/,
           chunks: 'all',
           enforce: true,
@@ -43,7 +43,7 @@ function optimization(type) {
   if (!isDevelopment || type === 'server') {
     optimizations.minimizer.push(
       new TerserPlugin({
-        cache: true,
+        cache: false,
         parallel: true,
         sourceMap: true, // set to true if you want JS source maps
         terserOptions: {
@@ -60,9 +60,9 @@ function optimization(type) {
         assetNameRegExp: /\.css$/g,
         cssProcessor: cssnano,
         cssProcessorOptions: {
-          discardComments: { removeAll: true }
+          preset: ['default', { discardComments: { removeAll: true } }]
         },
-        canPrint: false
+        canPrint: true
       })
     )
   }

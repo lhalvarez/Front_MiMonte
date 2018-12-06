@@ -40,3 +40,35 @@ export async function logout() {
       throw error
     })
 }
+
+export async function solicitarReinicioContrasena(usuario) {
+  return new ClientHttpRequest({
+    service: 'auth/oauth/solicitarReinicioContrasena',
+    method: 'POST',
+    data: { usuario: { nombreUsuario: usuario } }
+  })
+    .request()
+    .then(response => response.data)
+    .catch(error => {
+      throw error
+    })
+}
+
+export async function registrarContrasena(form) {
+  return new ClientHttpRequest({
+    service: 'auth/oauth/registrarContrasena',
+    method: 'POST',
+    data: {
+      usuario: {
+        nombreUsuario: form.usuario,
+        contrasena: form.pwd,
+        datosValidacion: { token: form.codeVerify }
+      }
+    }
+  })
+    .request()
+    .then(response => response.data)
+    .catch(error => {
+      throw error
+    })
+}

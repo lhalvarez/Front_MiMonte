@@ -11,20 +11,12 @@ type Props = {
   form: Object,
   validate: string,
   handleChange: any,
-  handleClick: any,
   handleModalLogin: any,
   styles: Object
 }
 
-function Form(props: Props) {
-  const {
-    form,
-    validate,
-    handleChange,
-    handleClick,
-    styles,
-    handleModalLogin
-  } = props
+function ForgotPwd(props: Props) {
+  const { form, validate, handleChange, styles, handleModalLogin } = props
 
   return (
     <Container>
@@ -32,24 +24,20 @@ function Form(props: Props) {
         <div className={styles.main_Panel__Table}>
           <div className={styles.main_Panel__Table_Cell}>
             <div className={styles.main_Panel__Content}>
-              <h2 className={styles.main_Panel__Heading}>Iniciar sesión</h2>
+              <h2 className={styles.main_Panel__Heading}>
+                Recuperar contraseña
+              </h2>
+              <p>
+                Recupera tu contraseña ingresando el correo electrónico que
+                registraste como usuario y te enviaremos un SMS con tu código de
+                desbloqueo al celular que proporcionaste en tu registro.
+              </p>
               <TextInput
-                name="username"
+                name="usuario"
                 placeholder="Correo electrónico"
-                value={form.username}
-                label="Correo"
+                value={form.usuario}
+                label="Correo electrónico"
                 type="text"
-                required
-                error={validate}
-                maxLength={50}
-                onChange={handleChange}
-              />
-              <TextInput
-                name="password"
-                placeholder="Contraseña"
-                value={form.password}
-                label="Contraseña"
-                type="password"
                 required
                 error={validate}
                 maxLength={50}
@@ -60,10 +48,10 @@ function Form(props: Props) {
                 label="Ingresar"
                 size="lg"
                 className="float-right"
-                onClick={handleClick}
+                onClick={() => handleModalLogin(3)}
               />
-              <a href="#" onClick={() => handleModalLogin(2)}>
-                ¿Olvidaste tu contraseña?
+              <a href="#" onClick={() => handleModalLogin(1)}>
+                Regresar a inicio de sesión
               </a>
             </div>
             <div className={styles.fixed_bottom}>
@@ -88,4 +76,4 @@ function Form(props: Props) {
   )
 }
 
-export default Form
+export default ForgotPwd

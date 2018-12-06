@@ -12,7 +12,14 @@ export default async function getUserTickets(form) {
     })
   })
     .request()
-    .then(response => response.data)
+    .then(response => {
+      const { data } = response
+      data.partidas.partida = data.partidas.partida.map(e => {
+        e.folio = e.prenda.folio.toString()
+        return e
+      })
+      return data
+    })
     .catch(error => {
       throw error
     })
@@ -23,6 +30,26 @@ export async function getDetailsTicket(form) {
     service: 'api/getDetailsTicket',
     method: 'POST',
     data: { ...form },
+    headers: Object.assign({
+      Authorization: sessionStorage.access_token,
+      uid: sessionStorage.uid
+    })
+  })
+    .request()
+    .then(response => response.data)
+    .catch(error => {
+      throw error
+    })
+}
+
+export async function downloadTicket(form) {
+  return new ClientHttpRequest({
+    service: 'api/downloadTicket',
+    method: 'POST',
+    data: {
+      ...form
+    },
+    responseType: 'arraybuffer',
     headers: Object.assign({
       Authorization: sessionStorage.access_token,
       uid: sessionStorage.uid

@@ -4,9 +4,7 @@ import express from 'express'
 import open from 'open'
 import path from 'path'
 import fs from 'fs'
-// eslint-disable-next-line import/no-unresolved
 import cors from 'cors'
-// eslint-disable-next-line import/no-extraneous-dependencies
 import bodyParser from 'body-parser'
 import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
@@ -21,11 +19,20 @@ import webpackConfig from '../../webpack.config'
 const app = express()
 const compiler = webpack(webpackConfig)
 
+// socket.io
+const server = require('http').createServer(app)
+const io = require('socket.io')(server)
+const socketClient = require('socket.io-client')
+
+// LOGGER
+const LOGGER = require('./config/Logger').Logger
+
 const appEnv = cfenv.getAppEnv()
 const port = appEnv.port || process.env.NODE_PORT || 3000
 
 const routerApi = express.Router()
 const routerAuth = express.Router()
+const routerTickets = express.Router()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -36,6 +43,7 @@ app.use(express.static(path.join(__dirname, '../../public')))
 
 app.use('/api', routerApi)
 app.use('/auth', routerAuth)
+app.use(`/${process.env.APP}/boletas-callback`, routerTickets)
 
 // eslint-disable-next-line consistent-return
 routerApi.use((req, res, next) => {
@@ -63,15 +71,6 @@ routerApi.use((req, res, next) => {
   }
 })
 
-// eslint-disable-next-line func-names
-fs.readdirSync(path.join(__dirname, '.', 'routes/UserInfo/')).forEach(file => {
-  require(`./routes/UserInfo/${file}`)(routerApi) // eslint-disable-line
-}); // prettier-ignore
-
-fs.readdirSync(path.join(__dirname, '.', 'routes/Tickets/')).forEach(file => {
-  require(`./routes/Tickets/${file}`)(routerApi) // eslint-disable-line
-}); // prettier-ignore
-
 routerAuth.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS')
@@ -85,6 +84,14 @@ routerAuth.use((req, res, next) => {
 require('./routes/Cognito/Auth')(routerAuth)
 require('./routes/Register/Register')(routerAuth)
 
+fs.readdirSync(path.join(__dirname, '.', 'routes/UserInfo/')).forEach(file => {
+  require(`./routes/UserInfo/${file}`)(routerApi) // eslint-disable-line
+})
+
+fs.readdirSync(path.join(__dirname, '.', 'routes/Tickets/')).forEach(file => {
+  require(`./routes/Tickets/${file}`)(routerApi) // eslint-disable-line
+})
+
 // hot middleware replacement
 app.use(webpackDevMiddleware(compiler))
 app.use(
@@ -94,9 +101,38 @@ app.use(
 )
 app.use(webpackHotServerMiddleware(compiler))
 
+routerTickets.post('/', (req, res) => {
+  const responseJSON = req.body
+  const socket = socketClient.connect(
+    appEnv.url,
+    { forceNew: true }
+  )
+  socket.emit('notification', responseJSON)
+  res.status(200).send(responseJSON)
+  LOGGER('INFO', `Response_: ${JSON.stringify(responseJSON)}`)
+})
+
 // listening port
-app.listen(port, appEnv.bind, err => {
+server.listen(port, appEnv.bind, err => {
   if (!err) {
     open(`http://localhost:${port}`)
+    LOGGER('INFO', `React App listening on ${port}`)
   }
+})
+
+io.on('connection', socket => {
+  LOGGER('INFO', 'socket connected ')
+
+  socket.emit('message', 'conectado')
+
+  socket.on('notification', message => {
+    LOGGER('INFO', `notification: ${message}`)
+
+    socket.emit('receiveACK', 'ACK')
+    socket.broadcast.emit('receive', message)
+  })
+
+  socket.on('disconnect', () => {
+    LOGGER('INFO', 'socket disconnected ')
+  })
 })

@@ -51,16 +51,14 @@
 }
 
 .btn-primary:active {
-  background: #6b1625;
+  background: @color-dark-red;
   box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
 }
 
-
-
 .btn-primary:hover {
   color: #fff;
-  background-color: #6b1625;
-  border-color: #6b1625;
+  background-color: @color-dark-red;
+  border-color: @color-dark-red;
   border-radius: 2px;
   box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
   border-radius: 2px;
@@ -69,31 +67,35 @@
 
 .btn-primary:active {
   color: #fff;
-  background-color: #6b1625;
-  border-color: #6b1625;
+  background-color: @color-dark-red;
+  border-color: @color-dark-red;
   border-radius: 2px;
   box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
   border-radius: 2px;
   font-family: Roboto Condensed;
 }
 
-.btn-primary:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
   color: #fff;
   background-color: @color-main;
   border-color: @color-main;
 }
 
-.btn-primary:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
-  box-shadow: 0 0 0 0.2rem rgba(142,35,52,0.50);
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
 }
 
-.btn-primary:focus, .btn-primary.focus {
-  box-shadow: 0 0 0 0.2rem rgba(142,35,52,0.50);
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
 }
 
-.btn-primary.disabled, .btn-primary:disabled {
+.btn-primary.disabled,
+.btn-primary:disabled {
   color: #fff;
   background-color: @color-main;
   border-color: @color-main;
@@ -108,8 +110,8 @@
 
 .btn-transparent:hover {
   color: #fff;
-  background-color: transparent;
-  border-color: #fff;
+  background-color: @color-main;
+  border-color: @color-main;
   border-radius: 2px;
   box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
   border-radius: 2px;
@@ -124,6 +126,9 @@
   tbody > tr > td {
     a {
       color: @color-main;
+    }
+    span.descripcion-prenda {
+      word-break: break-all;
     }
   }
 }
@@ -208,14 +213,14 @@
     color: #474d56;
     font-size: 20px;
     small {
-      color: #8e2334;
+      color: @color-main;
       font-size: 28px;
     }
   }
 }
 
 .ticket-card {
-  border-top: solid #94142e 2px;
+  border-top: solid @color-main 2px;
   margin: 10px;
   border-radius: 0;
   .card-body {
@@ -230,7 +235,7 @@
     .card-subtitle {
       text-align: center;
       font-size: 32px;
-      color: #94142e !important;
+      color: @color-main !important;
     }
     .text-description {
       max-height: 80px;
@@ -338,8 +343,8 @@
   box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
 }
 
-
-.btn-info.disabled, .btn-info:disabled {
+.btn-info.disabled,
+.btn-info:disabled {
   color: rgba(142, 35, 52, 0.5);
   background-color: @color-white;
   border-color: rgba(142, 35, 52, 0.5);

@@ -64,7 +64,7 @@ module.exports = router => {
             'Content-Type': 'application/json',
             idConsumidor: SERVICE.ID_CONSUMIDOR,
             idDestino: SERVICE.ID_DESTINO,
-            usuario: data.cliente.correoElectronico
+            usuario: 'usuarioMonte'
           }
 
           LOGGER(
@@ -115,13 +115,13 @@ module.exports = router => {
     )
   }
 
-  const createUser = (req, res) => {
+  const validateMediaContact = (req, res) => {
     const data = req.body
 
     const headers = {
       Accept: 'application/json',
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-      usuario: data.cliente.correoElectronico,
+      usuario: 'usuarioMonte',
       idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
       idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO
     }
@@ -146,53 +146,63 @@ module.exports = router => {
         if (responseJSON.codigoError) {
           LOGGER(
             'ERROR',
-            `[User:${data.cliente.correoElectronico}] ValidationError: Token`,
+            `[User:${JSON.stringify(responseJSON)}] ValidationError: Token`,
             LOGGER_REGISTER
           )
           return res.status(500).send(responseJSON)
           // eslint-disable-next-line no-else-return
         } else {
-          LOGGER(
-            'INFO',
-            `[User:${data.cliente.correoElectronico}]: Exitoso`,
-            LOGGER_REGISTER
-          )
-
+          const accessToken = responseJSON.access_token
           // eslint-disable-next-line no-shadow
           const headers = {
             Accept: 'application/json',
-            Authorization: `Bearer ${responseJSON.access_token}`,
+            Authorization: `Bearer ${accessToken}`,
             'Content-Type': 'application/json',
             idConsumidor: SERVICE.ID_CONSUMIDOR,
             idDestino: SERVICE.ID_DESTINO,
-            usuario: data.cliente.correoElectronico
+            usuario: 'usuarioMonte'
+          }
+
+          const { usuario, cliente } = data
+          const bodyURL = {
+            usuario: {
+              nombreUsuario: usuario.nombreUsuario,
+              medioContacto: {
+                contactoPor: 1,
+                valorContacto: usuario.medioContacto.valorContacto
+              },
+              datosValidacion: {
+                '@reenvioToken': true
+              }
+            },
+            cliente: {
+              idCliente: cliente.idCliente
+            }
           }
 
           LOGGER(
             'INFO',
-            `[User:${data.cliente.correoElectronico}.BODY: ${JSON.stringify(
-              data
-            )}`,
-            // eslint-disable-next-line no-undef
+            `[User:${JSON.stringify(responseJSON)}]: Exitoso`,
             LOGGER_REGISTER
           )
           doRequestRest(
             SERVICE.PROTOCOL,
             SERVICE.HOST,
             SERVICE.PORT,
-            SERVICE.PATH_CREATE_USER,
+            SERVICE.PATH_VALIDATE_MEDIA_CONTACT,
             CONFIG.METHOD_POST,
             headers,
-            data,
+            bodyURL,
             // eslint-disable-next-line no-shadow
             response => {
               // eslint-disable-next-line no-shadow
               const responseJSON = JSON.parse(response)
+              responseJSON.access_token = accessToken
               responseJSON.message = 'Operacion Exitosa'
 
               LOGGER(
                 'INFO',
-                `[User:${data.cliente.correoElectronico}: Exitoso`,
+                `[User:${JSON.stringify(responseJSON)}: Exitoso`,
                 LOGGER_REGISTER
               )
               return res.status(200).send(responseJSON)
@@ -208,7 +218,101 @@ module.exports = router => {
       err => {
         LOGGER(
           'ERROR',
-          `[User:${data.username}] ValidationError: Token ${err}`,
+          `[User:${JSON.stringify(err)}] ValidationError: Token ${err}`,
+          LOGGER_REGISTER
+        )
+        return res.status(500).send(JSON.parse(err))
+      }
+    )
+  }
+
+  const createUser = (req, res) => {
+    const data = req.body
+
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      usuario: 'usuarioMonte',
+      idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
+      idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO
+    }
+
+    const body = {
+      grant_type: 'client_credentials',
+      client_id: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_ID,
+      client_secret: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_SECRET
+    }
+
+    doRequestRestURLEncoded(
+      SERVICE_TOKEN_OAUTH.PROTOCOL,
+      SERVICE_TOKEN_OAUTH.HOST,
+      SERVICE_TOKEN_OAUTH.PORT,
+      SERVICE_TOKEN_OAUTH.PATH,
+      CONFIG.METHOD_POST,
+      headers,
+      body,
+      // eslint-disable-next-line consistent-return
+      response => {
+        const responseJSON = JSON.parse(response)
+        if (responseJSON.codigoError) {
+          LOGGER(
+            'ERROR',
+            `[User:${JSON.stringify(responseJSON)}] ValidationError: Token`,
+            LOGGER_REGISTER
+          )
+          return res.status(500).send(responseJSON)
+          // eslint-disable-next-line no-else-return
+        } else {
+          const accessToken = responseJSON.access_token
+          // eslint-disable-next-line no-shadow
+          const headers = {
+            Accept: 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+            idConsumidor: SERVICE.ID_CONSUMIDOR,
+            idDestino: SERVICE.ID_DESTINO,
+            usuario: 'usuarioMonte'
+          }
+
+          LOGGER(
+            'INFO',
+            `[User:${JSON.stringify(responseJSON)}]: Exitoso`,
+            LOGGER_REGISTER
+          )
+          doRequestRest(
+            SERVICE.PROTOCOL,
+            SERVICE.HOST,
+            SERVICE.PORT,
+            SERVICE.PATH_CREATE_USER,
+            CONFIG.METHOD_POST,
+            headers,
+            data,
+            // eslint-disable-next-line no-shadow
+            response => {
+              // eslint-disable-next-line no-shadow
+              const responseJSON = JSON.parse(response)
+              responseJSON.access_token = accessToken
+              responseJSON.message = 'Operacion Exitosa'
+
+              LOGGER(
+                'INFO',
+                `[User:${JSON.stringify(responseJSON)}: Exitoso`,
+                LOGGER_REGISTER
+              )
+              return res.status(200).send(responseJSON)
+            },
+            err => {
+              LOGGER('ERROR', err, LOGGER_REGISTER)
+
+              return res.status(500).send(JSON.parse(err))
+            }
+          )
+        }
+      },
+      err => {
+        LOGGER(
+          'ERROR',
+          `[User:${JSON.stringify(err)}] ValidationError: Token ${err}`,
           LOGGER_REGISTER
         )
         return res.status(500).send(JSON.parse(err))
@@ -219,4 +323,5 @@ module.exports = router => {
   // Link routes and functions
   router.post('/validateData', validateData)
   router.post('/createUser', createUser)
+  router.post('/validateMediaContact', validateMediaContact)
 }
