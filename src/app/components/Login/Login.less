@@ -1,0 +1,163 @@
+/** @Prettier */
+@import '../../../shared/styles/variables.less';
+
+// Grid
+.panel_Wrapper {
+  display: block;
+  width: 97vw;
+  position: relative;
+}
+
+.gradiente {
+  height: 100vh;
+}
+
+.main_Panel__Table {
+  display: table;
+  width: 100%;
+}
+
+.main_Panel__Table_Cell {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  padding-top: 25vh;
+  padding-bottom: 100px;
+}
+
+.main_Panel__Content {
+  clear: both;
+  margin: 0 auto;
+}
+
+.main_Panel__Content .main_Panel__Heading {
+  font-family: 'Roboto Condensed Light', sans-serif;
+  margin-left: 0px;
+  margin-bottom: 20px;
+  color: @color-title-form !important;
+}
+
+.main_Panel__Content .main_Panel__Heading .main_Panel__Subheading {
+  display: block;
+  margin-top: 10px;
+  font-size: 16px;
+}
+label {
+  opacity: 0.8;
+  font-family: 'Roboto Regular';
+  font-size: 12px;
+  color: @color-middle-gray;
+}
+
+.button_Fixed_Left {
+  top: 10px;
+  left: 2vw;
+}
+
+.align_buttom {
+  margin-top: 60px;
+}
+
+// Logo
+.logo {
+  width: 18rem;
+  height: 12rem;
+}
+
+.logo_Padding {
+  padding-bottom: 5rem;
+  padding-top: 15vh;
+}
+
+// Textos
+.texto {
+  font-family: 'Roboto Regular', sans-serif;
+  color: @color-white;
+}
+
+.title {
+  font-family: 'Roboto Condensed Light', sans-serif;
+}
+
+.subtitle {
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+.fixed_bottom {
+  position: absolute;
+  top: 84vh;
+  bottom: 0;
+  right: 0;
+  text-align: right;
+  line-height: 1;
+}
+
+// Small devices (landscape phones, 576px and up)
+@media (min-width: 576px) {
+}
+
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) {
+  .main_Panel__Content {
+    padding: 0 3rem;
+  }
+
+  .title {
+    font-size: 42px;
+  }
+
+  .subtitle {
+    font-size: 22px;
+  }
+}
+
+// Large devices (desktops, 992px and up)
+@media (min-width: 992px) {
+  .title {
+    font-size: 42px;
+  }
+
+  .subtitle {
+    font-size: 22px;
+  }
+}
+
+// Extra large devices (large desktops, 1200px and up)
+@media (min-width: 1200px) {
+  .main_Panel__Content {
+    padding: 0 15%;
+  }
+
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 28px;
+  }
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  -moz-appearance: textfield;
+}
+
+.textoNormal {
+  font-family: 'Roboto Regular';
+  font-size: 16px;
+  color: @color-dark-gray;
+}
+
+.textoTelefono {
+  font-family: 'Roboto Regular';
+  font-size: 16px;
+  color: @color-middle-gray;
+}
+
+.textInfo {
+  opacity: 0.5;
+  font-size: 12px;
+  color: @color-light-gray;
+}

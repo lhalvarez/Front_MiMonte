@@ -1,0 +1,414 @@
+@import 'variables.less';
+
+.navbar {
+  display: block;
+  .container {
+    .navbar-collapse {
+      text-transform: uppercase;
+      font-size: 13px;
+      .navbar-nav {
+        a {
+          color: @color-white!important;
+          font-family: 'Roboto Condensed', sans-serif, Arial, Helvetica;
+          font-size: 13px;
+          text-decoration: none;
+          vertical-align: bottom;
+          max-width: 250px;
+        }
+        a:hover {
+          font-weight: 500;
+          font-size: 14px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.btn-default {
+  border: 1px solid @color-main;
+  border-radius: 2px;
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+  color: @color-main;
+}
+
+.btn-default:active {
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+}
+
+.btn-default:hover {
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+}
+
+.btn-primary {
+  border: 1px solid @color-main;
+  background: @color-main;
+  border-radius: 2px;
+  font-family: 'Roboto Condensed';
+  font-size: 16px;
+  color: @color-white;
+}
+
+.btn-primary:active {
+  background: @color-dark-red;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: @color-dark-red;
+  border-color: @color-dark-red;
+  border-radius: 2px;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-primary:active {
+  color: #fff;
+  background-color: @color-dark-red;
+  border-color: @color-dark-red;
+  border-radius: 2px;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: @color-main;
+  border-color: @color-main;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+  color: #fff;
+  background-color: @color-main;
+  border-color: @color-main;
+}
+.btn-transparent {
+  color: #fff;
+  background-color: transparent;
+  border-color: #fff;
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+.btn-transparent:hover {
+  color: #fff;
+  background-color: @color-main;
+  border-color: @color-main;
+  border-radius: 2px;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  border-radius: 2px;
+  font-family: Roboto Condensed;
+}
+
+&.table {
+  thead > tr > th {
+    border-top: none;
+    border-bottom: 2px solid @color-main;
+    font-size: 14px;
+  }
+  tbody > tr > td {
+    a {
+      color: @color-main;
+    }
+    span.boleta {
+      color: @color-main;
+    }
+    div.action-centered {
+      svg {
+        display: block;
+        margin: auto;
+        color: @color-main;
+      }
+    }
+  }
+  tbody > tr > td.date-warning {
+    color: @color-white;
+    padding: 4px;
+    text-align: center;
+    vertical-align: middle;
+    background-image: linear-gradient(
+    90deg,
+    #98002e 0%,
+    #c9003c 54%,
+    #eb403c 100%
+    );
+    p {
+      text-transform: uppercase;
+      svg {
+        padding-right: 1px;
+      }
+      small {
+        text-transform: none;
+      }
+    }
+  }
+  tbody > tr > td.descripcion-prenda {
+    max-width: 400px;
+    width: 400px;
+    word-break: break-all;
+    p {
+      width: 400px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      text-align: justify;
+      small {
+        font-size: 12px;
+        line-height: 2;
+      }
+    }
+  }
+  tbody > tr > td.descripcion-prenda-pago {
+    max-width: 250px;
+    width: 250px;
+    word-break: break-all;
+    p {
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      text-align: justify;
+      small {
+        font-size: 12px;
+        line-height: 2;
+      }
+    }
+  }
+}
+
+.form-label {
+  color: #6c6c7a;
+}
+
+.ticket-tabs {
+  .nav {
+    background: @color-background-super-light-grey;
+    .nav-link {
+      font-size: 20px;
+      color: @color-dark-gray;
+    }
+    .active {
+      color: @color-main;
+      border-color: #dee2e6;
+      border-radius: 0;
+      box-shadow: 2px 0 5px 0 rgba(189, 199, 222, 0.37);
+    }
+  }
+}
+
+.form-group {
+  .form-label {
+    font-size: 14px;
+  }
+  .form-control {
+    border-radius: 2px;
+  }
+}
+
+.react-bootstrap-table-pagination {
+  .react-bootstrap-table-pagination-list > ul {
+    float: right;
+    .page-link:not(:disabled):not(.disabled) {
+      box-shadow: none;
+      color: @color-light-gray!important;
+    }
+    .page-item:first-child .page-link {
+      color: @color-dark-gray!important;
+      border-radius: 0;
+    }
+    .page-item:last-child .page-link {
+      color: @color-dark-gray!important;
+      border-radius: 0;
+    }
+    .page-item.active .page-link {
+      color: @color-main!important;
+      border-color: @color-light-gray;
+      background-color: @color-light-gray;
+      box-shadow: none;
+    }
+  }
+}
+
+.promotional-image {
+  max-height: 243px;
+  height: 243px;
+  background-image: url('http://www.montepiedad.com.mx/portal/storage/bnr-promo-mm.jpg');
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.promotional-actioner {
+  padding: 16px 10px 0 10px;
+  display: block;
+  align-items: center;
+  h4 {
+    margin-top: 16px;
+  }
+  button {
+    margin-top: 16px;
+  }
+}
+
+.tickets-next-to-beat-message {
+  h4 {
+    color: #474d56;
+    font-size: 20px;
+    small {
+      color: @color-main;
+      font-size: 28px;
+    }
+  }
+}
+
+.ticket-card {
+  border-top: solid @color-main 2px;
+  margin: 10px;
+  border-radius: 0;
+  .card-body {
+    .card-title {
+      text-align: center;
+      font-size: 12px;
+      color: #8fa1a5;
+      h3 {
+        color: #474d56;
+      }
+    }
+    .card-subtitle {
+      text-align: center;
+      font-size: 32px;
+      color: @color-main !important;
+    }
+    .text-description {
+      max-height: 80px;
+      height: 80px;
+      font-size: 16px;
+      color: #7f808d;
+    }
+  }
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1.25rem 0 !important;
+    background-image: linear-gradient(
+      -90deg,
+      #98002e 0%,
+      #c9003c 54%,
+      #eb403c 100%
+    );
+    box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+    .card-text {
+      color: #ffffff;
+      p {
+        text-transform: uppercase;
+        margin-bottom: 0 !important;
+        small {
+          text-transform: capitalize;
+        }
+      }
+    }
+    a {
+      color: #ffffff;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.custom-checkbox {
+  .custom-control-label::before {
+    border-radius: 2px;
+    border: 1px solid @color-main;
+  }
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: @color-main;
+  }
+  .custom-control-input ~ .custom-control-label::before {
+    background-color: @color-background-super-light-grey;
+  }
+  .custom-control-input:indeterminate ~ .custom-control-label::before {
+    background-color: @color-main;
+  }
+  .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(142, 35, 52, 0.5);
+  }
+
+  .custom-control-input:disabled:indeterminate ~ .custom-control-label::before {
+    background-color: rgba(142, 35, 52, 0.5);
+  }
+}
+
+.custom-radio {
+  .custom-control-label::before {
+    border-radius: 50%;
+    border: 1px solid @color-main;
+  }
+
+  .custom-control-input:checked ~ .custom-control-label::before {
+    background-color: @color-main;
+  }
+
+  .custom-control-input:disabled:checked ~ .custom-control-label::before {
+    background-color: rgba(142, 35, 52, 0.5);
+  }
+}
+
+.btn-info {
+  color: @color-main;
+  background-color: @color-white;
+  border-color: @color-dark-red;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-family: Roboto Condensed;
+}
+
+.btn-info:hover {
+  color: @color-main;
+  background-color: @color-white;
+  border-color: @color-dark-red;
+}
+
+.btn-info:not(:disabled):not(.disabled):active,
+.btn-info:not(:disabled):not(.disabled).active,
+.show > .btn-info.dropdown-toggle {
+  color: @color-main;
+  background-color: @color-white;
+  border-color: @color-dark-red;
+}
+.btn-info:focus,
+.btn-info.focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
+}
+
+.btn-info:not(:disabled):not(.disabled):active:focus,
+.btn-info:not(:disabled):not(.disabled).active:focus,
+.show > .btn-info.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(142, 35, 52, 0.5);
+}
+
+.btn-info.disabled,
+.btn-info:disabled {
+  color: rgba(142, 35, 52, 0.5);
+  background-color: @color-white;
+  border-color: rgba(142, 35, 52, 0.5);
+}

@@ -1,6 +1,8 @@
+---
 applications:
-- path: .
-  memory: 1024M
-  instances: 1
-  domain: mybluemix.net
-  disk_quota: 1024M
+- memory:  1536M
+  timeout: 180
+  env:
+    APP: mimonte
+    NODE_ENV: production
+

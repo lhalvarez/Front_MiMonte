@@ -1,0 +1,41 @@
+{
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true,
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "plugins": ["prettier", "react"],
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "settings": {
+    "import/core-modules": ["isomorphic-fetch"],
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": true
+      }
+    ],
+    "prettier/prettier": "error",
+    "react/prop-types": [
+      "error",
+      {
+        "ignore": ["server", "location", "context"],
+        "customValidators": [],
+        "skipUndeclared": false
+      }
+    ]
+  }
+}
