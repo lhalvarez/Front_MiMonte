@@ -17,7 +17,7 @@ import LoginForm from 'Components/Login'
 import ModalProvider from 'Components/commons/ModalMessage/ModalProvider'
 import Spinner from 'Components/commons/Spinner'
 // Utils
-import { errorMessage, successMessage } from 'SharedUtils/Utils'
+import { errorMessage, successMessage, showMessage } from 'SharedUtils/Utils'
 // Styles
 import styles from 'Components/Login/Login.less'
 // Flow Props and Stats
@@ -31,7 +31,8 @@ type State = {
   showModal: boolean,
   validate: boolean,
   isLoading: boolean,
-  modalLogin: number
+  modalLogin: number,
+  inputRef: any
 }
 
 class Login extends Component<Props, State> {
@@ -96,7 +97,7 @@ class Login extends Component<Props, State> {
           this.setState(
             { userInfo: data, validate: false, isLoading: false },
             () => {
-              history.push('mimonte/inicio')
+              history.push('mimonte/boletas')
             }
           )
         })
@@ -119,7 +120,11 @@ class Login extends Component<Props, State> {
     const { form, inputRef } = this.state
     this.setState({ isLoading: true }) // Este va en cada petición, quítalo de aquí
     if (modalLogin === 1 || modalLogin === 2) {
-      this.setState({ modalLogin, isLoading: false })
+      this.setState({
+        modalLogin,
+        isLoading: false,
+        form: { ...form, usuario: '' }
+      })
     } else if (modalLogin === 3) {
       solicitarReinicioContrasena(form.usuario)
         .then(response => {
@@ -128,33 +133,54 @@ class Login extends Component<Props, State> {
             showModal: true,
             isLoading: false,
             form: { ...form, telefono: response.telefono.ultimosDigitos },
-            content: successMessage()
+            content: showMessage(
+              'Se ha enviado un código de verificación al número registrado con tu usuario'
+            )
           })
         })
-        .catch(response => {
+        .catch(res => {
           this.setState({
             showModal: true,
             isLoading: false,
-            content: errorMessage('', response.response.data.descripcionError)
+            content: errorMessage('', res.response.data.descripcionError)
           })
         })
     } else if (modalLogin === 4) {
       if (!inputRef.value) {
-        // eslint-disable-next-line no-console
-        console.log('No hay valor')
-      } else if (form.pwd || form.validateConfPwd) {
-        // eslint-disable-next-line no-console
-        console.log('No hay contraseñas')
-      } else if (form.pwd !== form.validateConfPwd) {
-        // eslint-disable-next-line no-console
-        console.log('No coinciden')
+        this.setState({
+          showModal: true,
+          isLoading: false,
+          content: errorMessage(
+            '',
+            `Ingresa el código que se envió por SMS al teléfono con terminación ** **** ${
+              form.telefono
+            }`
+          )
+        })
+      } else if (!form.pwd || !form.confPwd) {
+        this.setState({
+          showModal: true,
+          isLoading: false,
+          content: errorMessage(
+            '',
+            'Por favor verfica que todos los campos estén llenos'
+          )
+        })
+      } else if (form.pwd !== form.confPwd) {
+        this.setState({
+          showModal: true,
+          isLoading: false,
+          content: errorMessage('', 'No coinciden las contraseñas')
+        })
       } else {
+        this.setState({ form: { ...form, codeVerify: inputRef.value } })
         registrarContrasena(form)
           .then(() => {
             this.setState({
-              modalLogin,
+              modalLogin: 1,
               showModal: true,
               isLoading: false,
+              form: {},
               content: successMessage()
             })
           })

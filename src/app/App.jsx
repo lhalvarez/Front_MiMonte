@@ -56,7 +56,9 @@ class App extends Component<Props, State> {
 
   // eslint-disable-next-line react/sort-comp
   componentDidMount() {
-    const socket = socketIOClient(process.env.baseURL)
+    const socket = socketIOClient(process.env.baseURL, {
+      reconnection: true
+    })
 
     socket.on('error', err => {
       // eslint-disable-next-line no-console

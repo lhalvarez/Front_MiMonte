@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 // API
 import ClientHttpRequest from 'SharedApi/ClientHttpRequest'
 
@@ -29,7 +30,7 @@ export default async function validateData(form) {
 export async function createUser(form, option) {
   const creaUsr = {
     usuario:
-      option !== 'SMS'
+      option === 'altaUsuario'
         ? {
             nombreUsuario: form.email,
             contrasena: form.pwd,
@@ -47,9 +48,10 @@ export async function createUser(form, option) {
               valorContacto: form.celular
             }
           },
-    cliente: {
-      numCredencial: form.tarjeta
-    }
+    cliente:
+      option === 'altaUsuario'
+        ? { numCredencial: form.tarjeta }
+        : { idCliente: form.idCliente }
   }
 
   return new ClientHttpRequest({

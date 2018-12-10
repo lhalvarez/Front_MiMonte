@@ -15,7 +15,7 @@ export default async function getUserTickets(form) {
     .then(response => {
       const { data } = response
       data.partidas.partida = data.partidas.partida.map(e => {
-        e.folio = e.prenda.folio.toString()
+        e.id = e.prenda.folio.toString()
         return e
       })
       return data

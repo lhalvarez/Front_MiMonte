@@ -27,7 +27,7 @@ function ForgotPwd(props: Props) {
               <h2 className={styles.main_Panel__Heading}>
                 Recuperar contraseña
               </h2>
-              <p>
+              <p className={styles.textoNormal}>
                 Recupera tu contraseña ingresando el correo electrónico que
                 registraste como usuario y te enviaremos un SMS con tu código de
                 desbloqueo al celular que proporcionaste en tu registro.

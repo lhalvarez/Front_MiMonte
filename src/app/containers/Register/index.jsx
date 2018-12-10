@@ -1,3 +1,4 @@
+// @flow
 import React, {
   Component,
   SyntheticInputEvent,
@@ -7,7 +8,6 @@ import React, {
 import validateData, { createUser } from 'Api/Register'
 import RegisterForm from 'Components/Register'
 import ModalBodyVerifyData from 'Components/Register/ModalBodyVerifyData'
-import ModalFooterVerifyData from 'Components/Register/ModalFooterVerifyData'
 import ModalProvider from 'Components/commons/ModalMessage/ModalProvider'
 import Spinner from 'Components/commons/Spinner'
 import {
@@ -32,7 +32,8 @@ type State = {
   isLoading: boolean,
   disableStep1: boolean,
   disableStep2: boolean,
-  disableStep4: boolean
+  disableStep4: boolean,
+  inputRef: any
 }
 
 class Registration extends Component<Props, State> {
@@ -138,13 +139,8 @@ class Registration extends Component<Props, State> {
     })
   }
 
-  onChangeCodeVerify = (target: SyntheticEvent<HTMLInputElement>) => {
-    const { form } = this.state
-    const codeVerify = target
-
-    this.setState({
-      form: { ...form, codeVerify }
-    })
+  handleChangeCodeVerify = target => {
+    this.setState({ inputRef: target })
   }
 
   onValidateForm = () => {
@@ -155,12 +151,10 @@ class Registration extends Component<Props, State> {
       <ModalBodyVerifyData form={form} handleChangeInput={this.onChangeInput} />
     )
 
-    const Modalfooter = (
-      <ModalFooterVerifyData
-        handleHide={this.handleHide}
-        goToStep2={this.goToStep2}
-      />
-    )
+    const Modalfooter = [
+      { label: 'Modificar', variant: 'info', onClick: this.handleHide },
+      { label: 'Verificar Datos', variant: 'primary', onClick: this.goToStep2 }
+    ]
 
     validate = false
     const validateForm =
@@ -255,30 +249,13 @@ class Registration extends Component<Props, State> {
           })
           .catch(response => {
             const { descripcionError } = response.response.data
-            if (
-              descripcionError ===
-              'El cliente ya ha validado información con un correo diferente'
-            ) {
-              this.setState({
-                showModal: true,
-                sizeModal: '',
-                isLoading: false,
-                content: successMessage(),
-                form: {
-                  ...form,
-                  idCliente: form.tarjeta
-                },
-                disableStep1: true,
-                disableStep2: false
-              })
-            } else {
-              this.setState({
-                showModal: true,
-                sizeModal: '',
-                isLoading: false,
-                content: errorMessage('', descripcionError)
-              })
-            }
+
+            this.setState({
+              showModal: true,
+              sizeModal: '',
+              isLoading: false,
+              content: errorMessage('', descripcionError)
+            })
           })
       } else {
         this.setState({
@@ -292,8 +269,12 @@ class Registration extends Component<Props, State> {
   }
 
   goToStep4 = option => {
-    const { form } = this.state
-    this.setState({ isLoading: true })
+    const { form, inputRef } = this.state
+    this.setState({
+      isLoading: true,
+      form: { ...form, codeVerify: inputRef.value }
+    })
+    console.log(form)
     createUser(form, option)
       .then(() => {
         if (option === 'SMS' || option === 'email') {
@@ -367,7 +348,7 @@ class Registration extends Component<Props, State> {
           validate={validate}
           validationObj={validationObj}
           handleChangeInput={this.onChangeInput}
-          handleChangeCodeVerify={this.onChangeCodeVerify}
+          handleChangeCodeVerify={this.handleChangeCodeVerify}
           handleValidateForm={this.onValidateForm}
           goToInicio={this.goToInicio}
           handleBlur={this.handleBlur}

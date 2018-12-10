@@ -18,11 +18,13 @@ import { UserConsumer } from 'Context/User'
 // eslint-disable-next-line import/named
 import getUserTickets, { getDetailsTicket } from 'Api/Tickets'
 // Components
+import PromotionalBanner from 'Components/Home/PromotionalBanner'
+import TicketsToBeat from 'Components/Tickets/TicketsToBeat'
 import ActiveTickets from 'Components/Tickets/ActiveTickets'
 import ModalProvider from 'Components/commons/ModalMessage/ModalProvider'
 import MarketingTickets from 'Components/Tickets/MarketingTickets'
 import { isEqual } from 'underscore'
-import { equal } from 'assert'
+import numeral from 'numeral'
 
 library.add(faPlusCircle)
 
@@ -38,8 +40,10 @@ type State = {
   columns: Array<Object>,
   ticketsActive: Array<Object>,
   ticketsInMarketing: Array<Object>,
+  ticketsNextToBeat: Array<Object>,
   loadingActive: boolean,
   loadingInMarketing: boolean,
+  loadingNextToBeat: boolean,
   content: Array<mixed>,
   showModal: boolean,
   activeGUID: string,
@@ -50,27 +54,34 @@ type State = {
 
 class Tickets extends Component<Props, State> {
   state = {
-    activeKey: 1,
+    activeKey: 2,
     columns: {
       Active: [
         {
           dataField: 'condiciones.fechaIngreso',
-          text: 'Detalle',
+          text: '',
           type: 'custom',
           customObject: [
             {
               name: 'Detalles',
-              icon: <FontAwesomeIcon icon={faPlusCircle} />,
-              class: 'text-center'
+              icon: <FontAwesomeIcon icon={faPlusCircle} />
             }
           ],
-          customDivClass: 'text-center'
+          customDivClass: 'action-centered'
         },
-        { dataField: 'prenda.folio', text: 'Boleta' },
         {
-          dataField: 'prenda.descripcion',
+          dataField: 'prenda.folio',
+          text: 'Nº boleta',
+          simpleCustomClass: 'boleta'
+        },
+        {
+          dataField: 'descripcion',
           text: 'Prenda',
-          simpleCustomClass: 'descripcion-prenda'
+          classes: 'descripcion-prenda'
+        },
+        {
+          dataField: 'montoEmpeno',
+          text: 'Monto del empeño'
         },
         {
           dataField: 'condiciones.fechaLimitePago',
@@ -88,13 +99,15 @@ class Tickets extends Component<Props, State> {
         { dataField: 'prenda.sucursal', text: 'Sucursal' },
         {
           dataField: 'condiciones.fechaComercializacion',
-          text: 'En comercializació  desde',
+          text: 'En comercialización desde',
           type: 'date'
         }
       ]
     },
+    ticketsNextToBeat: [],
     ticketsActive: [],
     ticketsInMarketing: [],
+    loadingNextToBeat: true,
     loadingActive: true,
     loadingInMarketing: true,
     content: [],
@@ -107,27 +120,43 @@ class Tickets extends Component<Props, State> {
   componentWillMount() {
     const { userInfo, data } = this.context
     const { dataCallback } = this.state
-    let { activeGUID } = this.state
-
-    activeGUID = getUUID()
+    // let { activeGUID } = this.state
+    // activeGUID = getUUID()
 
     getUserTickets({
       idCliente: userInfo.clientId,
       criterios: {
-        criterioBoleta: 1 // Boletas activas
+        criterioBoleta: 2 // Boletas activas
       },
       trazabilidad: {
-        GUID: activeGUID,
+        GUID: getUUID(),
         urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
       }
     })
       .then(response => {
-        const { partida } = response.partidas
+        let { partida } = response.partidas
+
+        partida = partida.map(e => {
+          const Descripcion = () => {
+            const { descripcion, tipoContrato } = e.prenda
+
+            return (
+              <p>
+                {descripcion.toString()}
+                <br />
+                <small>{`Tipo de empeño: ${tipoContrato}`}</small>
+              </p>
+            )
+          }
+          e.descripcion = <Descripcion />
+
+          return e
+        })
 
         this.setState({
-          ticketsActive: partida,
-          activeGUID,
-          loadingActive: false,
+          ticketsNextToBeat: partida,
+          // activeGUID,
+          loadingNextToBeat: false,
           dataCallback: data
         })
       })
@@ -149,11 +178,34 @@ class Tickets extends Component<Props, State> {
 
           partidas.partida.map(e => {
             const { prenda, saldos } = e
-            const item = getItem(ticketsActive, { folio: prenda.folio })
-            item.saldos = saldos
+            const item = getItem(ticketsActive, { id: prenda.folio })
+
+            const Saldos = () => {
+              const { saldoDesempeno, saldoRefrendo } = saldos
+
+              return (
+                <p>
+                  {saldoDesempeno && (
+                    <small>
+                      {`Desempeño: ${numeral(saldoDesempeno).format(
+                        '$ 0,0.00'
+                      )}`}
+                    </small>
+                  )}
+                  <br />
+                  {saldoRefrendo && (
+                    <small>
+                      {`Refrendo: ${numeral(saldoRefrendo).format('$ 0,0.00')}`}
+                    </small>
+                  )}
+                </p>
+              )
+            }
+
+            item.saldos = <Saldos />
             ticketsActive = replaceObject(
               ticketsActive,
-              { folio: prenda.folio },
+              { id: prenda.folio },
               item
             )
             return true
@@ -166,15 +218,22 @@ class Tickets extends Component<Props, State> {
 
   onSelect = activekey => {
     const { userInfo } = this.context
-    let { activeGUID, marketingGUID } = this.state
-    activeGUID = getUUID()
-    marketingGUID = getUUID()
+    // let { activeGUID } = this.state
+    // activeGUID = getUUID()
 
     this.setState(
       {
-        [`${activekey === '1' ? 'loadingActive' : 'loadingInMarketing'}`]: true,
+        [`${
+          // eslint-disable-next-line no-nested-ternary
+          activekey === '1'
+            ? 'loadingActive'
+            : activekey === '3'
+            ? 'loadingInMarketing'
+            : 'loadingNextToBeat'
+        }`]: true,
         ticketsActive: [],
-        ticketsInMarketing: []
+        ticketsInMarketing: [],
+        ticketsNextToBeat: []
       },
       () => {
         getUserTickets({
@@ -182,26 +241,59 @@ class Tickets extends Component<Props, State> {
           criterios: {
             criterioBoleta: activekey // Boletas vencidas
           },
-          trazabilidad: { GUID: activekey === 1 ? activeGUID : marketingGUID }
+          trazabilidad: {
+            GUID: getUUID(),
+            urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
+          }
         })
           .then(response => {
-            const { partida } = response.partidas
+            let { partida } = response.partidas
+
+            partida = partida.map(e => {
+              const Descripcion = () => {
+                const { descripcion, tipoContrato } = e.prenda
+
+                return (
+                  <p>
+                    {descripcion}
+                    <br />
+                    <small>{`Tipo de empeño: ${tipoContrato}`}</small>
+                  </p>
+                )
+              }
+              e.descripcion = <Descripcion />
+
+              return e
+            })
 
             this.setState({
               [`${
-                activekey === '1' ? 'ticketsActive' : 'ticketsInMarketing'
+                // eslint-disable-next-line no-nested-ternary
+                activekey === '1'
+                  ? 'ticketsActive'
+                  : activekey === '3'
+                  ? 'ticketsInMarketing'
+                  : 'ticketsNextToBeat'
               }`]: partida,
               [`${
-                activekey === '1' ? 'loadingActive' : 'loadingInMarketing'
-              }`]: false,
-              activeGUID,
-              marketingGUID
+                // eslint-disable-next-line no-nested-ternary
+                activekey === '1'
+                  ? 'loadingActive'
+                  : activekey === '3'
+                  ? 'loadingInMarketing'
+                  : 'loadingNextToBeat'
+              }`]: false
             })
           })
           .catch(() => {
             this.setState({
               [`${
-                activekey === '1' ? 'loadingActive' : 'loadingInMarketing'
+                // eslint-disable-next-line no-nested-ternary
+                activekey === '1'
+                  ? 'loadingActive'
+                  : activekey === '3'
+                  ? 'loadingInMarketing'
+                  : 'loadingNextToBeat'
               }`]: false
             })
           })
@@ -211,7 +303,11 @@ class Tickets extends Component<Props, State> {
     )
   }
 
-  onClickDetails = row => {
+  onClickDetails = (id, table) => {
+    // eslint-disable-next-line react/destructuring-assignment
+    const data = this.state[table]
+    const row = getItem(data, { id })
+
     const { folio } = row.prenda
     const { handleLoading, history } = this.props
 
@@ -240,18 +336,16 @@ class Tickets extends Component<Props, State> {
       activeGUID,
       marketingGUID,
       columns,
+      ticketsNextToBeat,
       ticketsActive,
       ticketsInMarketing,
+      loadingNextToBeat,
       loadingActive,
       loadingInMarketing,
       content,
       showModal
     } = this.state
 
-    // eslint-disable-next-line no-console
-    console.log('activeGUID', activeGUID)
-    // eslint-disable-next-line no-console
-    console.log('ticketsActive', ticketsActive)
     return (
       <Fragment>
         <ModalProvider
@@ -259,6 +353,7 @@ class Tickets extends Component<Props, State> {
           showModal={showModal}
           onClose={this.handleHide}
         />
+        <PromotionalBanner />
         <div className="border-box-shadow mt-4">
           <Row className="tickets-next-to-beat-message">
             <Col md={12}>
@@ -267,12 +362,28 @@ class Tickets extends Component<Props, State> {
               </h4>
             </Col>
             <Col md={12} className="ticket-tabs">
-              <Tabs activeKey={activeKey} onSelect={this.onSelect}>
+              <Tabs
+                activeKey={activeKey}
+                onSelect={this.onSelect}
+                unmountOnExit
+              >
+                <Tab eventKey="2" title="Boletas próximas a vencer">
+                  <TicketsToBeat
+                    columns={columns.Active}
+                    data={ticketsNextToBeat}
+                    customHandlers={[
+                      e => this.onClickDetails(e, 'ticketsNextToBeat')
+                    ]}
+                    loading={loadingNextToBeat}
+                  />
+                </Tab>
                 <Tab eventKey="1" title="Prendas en empeño">
                   <ActiveTickets
                     columns={columns.Active}
                     data={ticketsActive}
-                    customHandlers={[this.onClickDetails]}
+                    customHandlers={[
+                      e => this.onClickDetails(e, 'ticketsActive')
+                    ]}
                     loading={loadingActive}
                   />
                 </Tab>

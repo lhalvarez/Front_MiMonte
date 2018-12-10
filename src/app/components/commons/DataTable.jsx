@@ -17,7 +17,8 @@ import {
   faAngleLeft,
   faAngleRight,
   faAngleDoubleLeft,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 import { formatDate } from 'SharedUtils/Utils'
@@ -27,7 +28,8 @@ library.add(
   faAngleLeft,
   faAngleRight,
   faAngleDoubleLeft,
-  faAngleDoubleRight
+  faAngleDoubleRight,
+  faExclamationCircle
 )
 
 type Props = {
@@ -81,7 +83,13 @@ function DataTable(props: Props) {
     const { type, customObject, customDivClass, simpleCustomClass } = option
 
     if (type === 'date') {
-      return <span>{formatDate(cell, 'LL')}</span>
+      return (
+        <span>
+          {formatDate(cell, 'll')
+            .toString()
+            .toUpperCase()}
+        </span>
+      )
       // eslint-disable-next-line no-else-return
     } else if (type === 'currency') {
       return <span>{numeral(cell).format('$ 0,0.00')}</span>
@@ -92,6 +100,7 @@ function DataTable(props: Props) {
         customOptions.push(
           // eslint-disable-next-line react/no-array-index-key
           <span key={index} className={c.class}>
+            {c.icon}
             <a
               href="#"
               onClick={e => {
@@ -99,15 +108,24 @@ function DataTable(props: Props) {
                 handlerClick(row.id ? row.id : row)
               }}
             >
-              {c.icon}
-              &nbsp;
               {c.name}
             </a>
-            &nbsp;
           </span>
         )
       })
       return <div className={customDivClass}>{customOptions}</div>
+    } else if (type === 'dateWarning') {
+      return (
+        <div className="date-warning">
+          <p>
+            <FontAwesomeIcon icon={faExclamationCircle} />
+            &nbsp;
+            {formatDate(cell, 'll')}
+            <br />
+            <small>Próxima a vencer</small>
+          </p>
+        </div>
+      )
     }
 
     return <span className={simpleCustomClass}>{cell}</span>

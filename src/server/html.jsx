@@ -16,7 +16,7 @@ export default function html(options: any): any {
   <title>${title}</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link type="text/css" href="${stylesheet}" />
+  <link type="text/css" rel="stylesheet" href="${stylesheet}" />
 </head>
 
 <body>

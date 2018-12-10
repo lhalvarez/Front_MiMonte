@@ -17,9 +17,9 @@ function NavBarInstance(props: Props) {
         <Container>
           <Navbar.Collapse id="navbar-nav">
             <Nav>
-              <li className="nav-link">
+              {/* <li className="nav-link">
                 <Link to="/mimonte/inicio">Inicio</Link>
-              </li>
+              </li> */}
               <li className="nav-link">
                 <Link to="/mimonte/boletas">Boletas</Link>
               </li>

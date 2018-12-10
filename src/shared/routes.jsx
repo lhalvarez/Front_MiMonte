@@ -5,6 +5,7 @@ import Register from 'Containers/Register'
 import Tickets from 'Containers/Tickets'
 import TicketsDetail from 'Containers/Tickets/Details'
 import CardRegistration from 'Containers/CardRegistration'
+import PayOnLine from 'Containers/PayOnLine'
 import AppContainer from 'App/App'
 
 const routes = [
@@ -38,6 +39,11 @@ const routes = [
       {
         path: '/mimonte/registro-tarjetas',
         component: CardRegistration,
+        exact: true
+      },
+      {
+        path: '/mimonte/pago',
+        component: PayOnLine,
         exact: true
       }
     ]

@@ -439,7 +439,7 @@ module.exports = router => {
             SERVICE_TOKEN_OAUTH.HOST,
             SERVICE_TOKEN_OAUTH.PORT,
             SERVICE_TOKEN_OAUTH.PATH_REGISTRY_PWD,
-            CONFIG.METHOD_POST,
+            CONFIG.METHOD_PUT,
             headers,
             data,
             // eslint-disable-next-line no-shadow

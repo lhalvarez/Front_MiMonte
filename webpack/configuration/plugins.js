@@ -1,4 +1,6 @@
+/* eslint-disable import/no-extraneous-dependencies */
 // dependencies
+const path = require('path')
 const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -6,9 +8,10 @@ const webpack = require('webpack')
 // eslint-disable-next-line
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
-const Stylish = require('webpack-stylish')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+/* const BrotliPlugin = require('brotli-webpack-plugin') */
+const AssetsPlugin = require('assets-webpack-plugin')
 // enviroment
 const isDevelopment = process.env.NODE_ENV !== 'production'
 // Analyzer
@@ -34,9 +37,14 @@ function plugins() {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name].css'
-    }),
+    }) /* 
+    new BrotliPlugin({
+      asset: '[path].br[query]',
+      test: /\.(js|css|html|svg)$/,
+      threshold: 10240,
+      minRatio: 0.8
+    }), */,
     new CleanWebpackPlugin(pathsToClean, cleanOptions),
-    new Stylish(),
     new webpack.DefinePlugin(GLOBALS)
   ]
 
@@ -68,7 +76,12 @@ function plugins() {
         threshold: 10240,
         minRatio: 0.8
       }),
-      new HtmlWebpackPlugin({ minify: true })
+      new HtmlWebpackPlugin({ minify: true }),
+      new AssetsPlugin({
+        prettyPrint: true,
+        filename: 'assets.json',
+        path: path.resolve(__dirname, '../../dist/app')
+      })
     )
   }
 

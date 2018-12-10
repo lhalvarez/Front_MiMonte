@@ -122,13 +122,76 @@
   thead > tr > th {
     border-top: none;
     border-bottom: 2px solid @color-main;
+    font-size: 14px;
   }
   tbody > tr > td {
     a {
       color: @color-main;
     }
-    span.descripcion-prenda {
-      word-break: break-all;
+    span.boleta {
+      color: @color-main;
+    }
+    div.action-centered {
+      svg {
+        display: block;
+        margin: auto;
+        color: @color-main;
+      }
+    }
+  }
+  tbody > tr > td.date-warning {
+    color: @color-white;
+    padding: 4px;
+    text-align: center;
+    vertical-align: middle;
+    background-image: linear-gradient(
+    90deg,
+    #98002e 0%,
+    #c9003c 54%,
+    #eb403c 100%
+    );
+    p {
+      text-transform: uppercase;
+      svg {
+        padding-right: 1px;
+      }
+      small {
+        text-transform: none;
+      }
+    }
+  }
+  tbody > tr > td.descripcion-prenda {
+    max-width: 400px;
+    width: 400px;
+    word-break: break-all;
+    p {
+      width: 400px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      text-align: justify;
+      small {
+        font-size: 12px;
+        line-height: 2;
+      }
+    }
+  }
+  tbody > tr > td.descripcion-prenda-pago {
+    max-width: 250px;
+    width: 250px;
+    word-break: break-all;
+    p {
+      width: 200px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 14px;
+      text-align: justify;
+      small {
+        font-size: 12px;
+        line-height: 2;
+      }
     }
   }
 }
