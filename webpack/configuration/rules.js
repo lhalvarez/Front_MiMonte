@@ -59,7 +59,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              minimize: true,
               localIdentName: '[name]_[local]',
               importLoaders: 2,
               sourceMap: false
@@ -88,7 +87,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              minimize: true,
               localIdentName: '[name]_[local]',
               importLoaders: 2,
               sourceMap: false
@@ -104,7 +102,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              minimize: true,
               localIdentName: '[name]_[local]',
               importLoaders: 2,
               sourceMap: false
@@ -134,7 +131,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              minimize: true,
               localIdentName: '[name]_[local]',
               import: true,
               importLoaders: 2,
@@ -165,7 +161,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              minimize: true,
               localIdentName: '[name]_[local]',
               import: true,
               importLoaders: 2,
@@ -199,7 +194,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              minimize: true,
               localIdentName: '[name]_[local]',
               importLoaders: 2,
               sourceMap: false
@@ -228,7 +222,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              minimize: true,
               localIdentName: '[name]_[local]',
               importLoaders: 2,
               sourceMap: false
@@ -244,7 +237,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              minimize: true,
               localIdentName: '[name]_[local]',
               importLoaders: 2,
               sourceMap: false
@@ -274,7 +266,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              minimize: true,
               localIdentName: '[name]_[local]',
               import: true,
               importLoaders: 2,
@@ -310,7 +301,6 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              minimize: true,
               localIdentName: '[name]_[local]',
               import: true,
               importLoaders: 2,

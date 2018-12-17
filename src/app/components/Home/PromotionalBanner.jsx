@@ -1,10 +1,8 @@
 import React from 'react'
-import { Row, Col } from 'react-bootstrap'
+import { Row, Col, Button } from 'react-bootstrap'
 import logoTiendaMonte from 'SharedImages/icono-tienda-monte.png'
 
 import './Home.less'
-
-import Button from 'Components/commons/Button'
 
 type Props = {
   /** */
@@ -18,7 +16,7 @@ function PromotionalBanner(props: Props) {
         <div className="promotional-image" />
       </Col>
       <Col md={4}>
-        <div className="promotional-actioner">
+        <div className="promotional-actioner text-center">
           <img
             src={logoTiendaMonte}
             className="img-fluid d-block mx-auto"
@@ -28,10 +26,12 @@ function PromotionalBanner(props: Props) {
             Compra sin salir de casa en Tienda Monte en Línea
           </h4>
           <Button
-            variant="default"
-            label="Ir a la tienda"
-            className="d-block mx-auto"
-          />
+            variant="info"
+            href="https://tienda.montepiedad.com.mx/"
+            className=""
+          >
+            Ir a la tienda
+          </Button>
         </div>
       </Col>
     </Row>

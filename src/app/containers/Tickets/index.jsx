@@ -10,7 +10,8 @@ import {
   getUUID,
   errorMessage,
   getItem,
-  replaceObject
+  replaceObject,
+  capitalize
 } from 'SharedUtils/Utils'
 // Context
 import { UserConsumer } from 'Context/User'
@@ -32,7 +33,8 @@ library.add(faPlusCircle)
 type Props = {
   history: Array<mixed>,
   handleLoading: void,
-  dataCallback: Object
+  dataCallback: Object,
+  onShowModal: Object
 }
 
 type State = {
@@ -67,12 +69,12 @@ class Tickets extends Component<Props, State> {
               icon: <FontAwesomeIcon icon={faPlusCircle} />
             }
           ],
-          customDivClass: 'action-centered'
+          customDivClass: 'action-centered text-center align-items-center'
         },
         {
           dataField: 'prenda.folio',
           text: 'Nº boleta',
-          simpleCustomClass: 'boleta'
+          simpleCustomClass: 'boleta align-items-center'
         },
         {
           dataField: 'descripcion',
@@ -86,7 +88,8 @@ class Tickets extends Component<Props, State> {
         {
           dataField: 'condiciones.fechaLimitePago',
           text: 'Fecha límite de pago',
-          type: 'date'
+          type: 'date',
+          classes: 'text-lowercase align-middle'
         }
       ],
       Marketing: [
@@ -161,7 +164,7 @@ class Tickets extends Component<Props, State> {
         })
       })
       .catch(() => {
-        this.setState({ loadingActive: false })
+        this.setState({ loadingActive: false, loadingNextToBeat: false })
       })
   }
 
@@ -254,11 +257,10 @@ class Tickets extends Component<Props, State> {
                 const { descripcion, tipoContrato } = e.prenda
 
                 return (
-                  <p>
-                    {descripcion}
-                    <br />
+                  <div>
+                    <p>{capitalize(descripcion.toLowerCase())}</p>
                     <small>{`Tipo de empeño: ${tipoContrato}`}</small>
-                  </p>
+                  </div>
                 )
               }
               e.descripcion = <Descripcion />
@@ -309,7 +311,7 @@ class Tickets extends Component<Props, State> {
     const row = getItem(data, { id })
 
     const { folio } = row.prenda
-    const { handleLoading, history } = this.props
+    const { handleLoading, onShowModal, history } = this.props
 
     handleLoading(true)
     getDetailsTicket({ folios: { folio: [folio] } })
@@ -320,7 +322,7 @@ class Tickets extends Component<Props, State> {
       })
       .catch(err => {
         handleLoading(false)
-        this.setState({ showModal: true, content: errorMessage(err) })
+        onShowModal(errorMessage(err))
       })
   }
 

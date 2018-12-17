@@ -45,7 +45,7 @@ function ForgotPwd(props: Props) {
               />
               <Button
                 variant="primary"
-                label="Ingresar"
+                label="Enviar"
                 size="lg"
                 className="float-right"
                 onClick={() => handleModalLogin(3)}

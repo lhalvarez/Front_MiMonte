@@ -12,7 +12,7 @@ import DataTable from 'Components/commons/DataTable'
 // Context
 import TicketsContext from 'Context/Tickets/index'
 // Utils
-import { formatDate } from 'SharedUtils/Utils'
+import { formatDate, capitalize } from 'SharedUtils/Utils'
 
 library.add(faAngleLeft)
 
@@ -41,7 +41,7 @@ class DetailTickets extends Component<Props> {
 
     return (
       <Fragment>
-        <Row className="tickets-next-to-beat-message">
+        <Row className="tickets-next-to-beat-message border-bottom pb-2 pt-1 mx-0">
           <Col md={10}>
             <h4>
               <small>{`Boleta ${folio}`}</small>
@@ -57,37 +57,42 @@ class DetailTickets extends Component<Props> {
           </Col>
         </Row>
         <Row>
-          <Col md={5}>
-            <p>
+          <Col md={4} className="backgroundLigthGray ml-3 pt-4">
+            <p className="subtitle">
               Prenda
               <br />
-              <small>{descripcion}</small>
+              <small>{capitalize(descripcion.toLowerCase())}</small>
             </p>
-            <p>
+            <p className="subtitle">
               Fecha de empeño
               <br />
-              <small>
-                {fechaIngreso && formatDate(fechaIngreso, 'MMM Do YY')}
+              <small className="text-capitalize">
+                {fechaIngreso && formatDate(fechaIngreso, 'DD MMMM YYYY')}
               </small>
             </p>
-            <p>
+            <p className="subtitle">
               Tipo de empeño
               <br />
               <small>{tipoContrato}</small>
             </p>
-            <p>
+            <p className="subtitle">
               Fecha límite de pago
               <br />
-              {fechaLimitePago && formatDate(fechaLimitePago, 'MMM Do YY')}
+              <small className="text-capitalize">
+                {fechaLimitePago &&
+                  formatDate(fechaLimitePago, ' DD MMMM YYYY')}
+              </small>
             </p>
-            <p>
+            <p className="subtitle">
               Sucursal
               <br />
               <small>{sucursal}</small>
             </p>
           </Col>
-          <Col md={{ md: 6, offset: 1 }}>
-            <h6>Historial de pagos - Refrendos, Desempeño y/o Abonos</h6>
+          <Col md={{ xs: 7, offset: 1 }} className="pt-4">
+            <p className="encabezadoTabla">
+              Historial de pagos - Refrendos, Desempeño y/o Abonos
+            </p>
             <DataTable
               columns={columns}
               data={data}
@@ -95,6 +100,7 @@ class DetailTickets extends Component<Props> {
               customHandlers={customHandlers}
             />
           </Col>
+          <Col xs={1} />
         </Row>
       </Fragment>
     )

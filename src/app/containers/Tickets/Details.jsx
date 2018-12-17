@@ -32,7 +32,7 @@ class Details extends Component<Props, State> {
   state = {
     columns: {
       Detail: [
-        { dataField: 'tipoOperacion', text: 'Operacion' },
+        { dataField: 'tipoOperacion', text: 'Operación' },
         { dataField: 'monto', type: 'currency', text: 'Monto' },
         {
           dataField: 'folio',
@@ -42,15 +42,15 @@ class Details extends Component<Props, State> {
             {
               name: 'Descargar',
               icon: '',
-              class: 'text-center'
+              class: 'mr-3'
             },
             {
               name: 'Visualizar',
               icon: '',
-              class: 'text-center'
+              class: 'ml-3'
             }
           ],
-          customDivClass: 'text-center'
+          customDivClass: ''
         }
       ]
     },
@@ -125,7 +125,7 @@ class Details extends Component<Props, State> {
 
     return (
       <Fragment>
-        <div className="border-box-shadow mt-4">
+        <div className="border-box-shadow mt-1 pt-2 py-0 px-0">
           <TicketsContext.Provider
             value={{ ticketConditions, ticketDetail, ticketOperations }}
           >

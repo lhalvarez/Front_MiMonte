@@ -148,16 +148,20 @@ export const getMessageResponse = response => {
 }
 
 export const questionMessage = (message, okClick, cancelClick) => {
-  const modalObj = { body: <Row>
+  const modalObj = {
+    body: (
+      <Row>
         <Col xs={4} className="text-center">
           <img src={questionImage} alt="" className="img-fluid" />
         </Col>
         <Col xs={8} className="mediaBody text-left align-self-center">
           <p>{message}</p>
         </Col>
-      </Row>, footer: [
+      </Row>
+    ),
+    footer: [
       { label: 'SALIR', variant: 'info', onClick: okClick },
-      { label: 'CANCELAR', variant: 'primary',  onClick: cancelClick }
+      { label: 'CANCELAR', variant: 'primary', onClick: cancelClick }
     ]
   }
 
@@ -296,6 +300,10 @@ export const setDefaultValues = object => {
   })
 
   return jsonObj
+}
+
+export const capitalize = cadena => {
+  return cadena.charAt(0).toUpperCase() + cadena.slice(1)
 }
 
 export const isBefore = (date1, date2) => moment(date1).isBefore(date2)

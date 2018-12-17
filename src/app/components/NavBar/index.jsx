@@ -23,7 +23,7 @@ function NavBarInstance(props: Props) {
               <li className="nav-link">
                 <Link to="/mimonte/boletas">Boletas</Link>
               </li>
-              <li className="nav-link">
+              {/* <li className="nav-link">
                 <Link to="/mimonte/pago">Pago en Línea</Link>
               </li>
               <li className="nav-link">
@@ -31,7 +31,7 @@ function NavBarInstance(props: Props) {
               </li>
               <li className="nav-link">
                 <Link to="/mimonte/registro-tarjetas">Métodos de pago</Link>
-              </li>
+              </li> */}
             </Nav>
           </Navbar.Collapse>
           <Navbar.Collapse id="navbar-nav" className="justify-content-end">

@@ -165,6 +165,7 @@ function DataTable(props: Props) {
             noDataIndication={noDataIndication}
             headerClasses="header-tabla-mimonte"
             pagination={pagination ? paginationFactory(options) : null}
+            wrapperClasses="table-responsive"
             {...props.baseProps}
             loading={loading}
             overlay={overlayFactory({
