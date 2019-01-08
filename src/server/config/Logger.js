@@ -23,7 +23,7 @@ const appenders = {
   },
   file: {
     type: 'file',
-    filename: `DIS_${today}.log`,
+    filename: `MIMONTE_${today}.log`,
     maxLogSize: 100024,
     backups: 10000,
     layout: {

@@ -1,3 +1,10 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable vars-on-top */
+/* eslint-disable no-undef */
+/* eslint-disable camelcase */
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-var */
+/* eslint-disable one-var */
 // Dependencies
 import '@babel/polyfill'
 import React from 'react'
@@ -7,7 +14,6 @@ import { hydrate } from 'react-dom'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'SharedStyles/main.less'
 import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css'
-// import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css'
 // Containers
 import App from './index'
 

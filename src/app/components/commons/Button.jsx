@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap'
 
 // Flow Props
 type Props = {
+  name: string,
   variant: string,
   disabled: string,
   className: string,
@@ -16,6 +17,7 @@ type Props = {
 
 function ButtonInstance(props: Props) {
   const {
+    name,
     variant,
     disabled,
     className,
@@ -29,6 +31,7 @@ function ButtonInstance(props: Props) {
 
   return (
     <Button
+      name={name}
       variant={variant}
       disabled={disabled}
       className={className}

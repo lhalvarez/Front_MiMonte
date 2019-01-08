@@ -1,15 +1,18 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 
-import iconTarjetas from 'SharedImages/icon-tarjetas.png'
-import logoOpenpay from 'SharedImages/logo-openpay.png'
-import iconoEscudo from 'SharedImages/icono-escudo.png'
+import OpenPayInfo from 'Components/CardRegistration/OpenPayInfo'
 
-import Styles from './RegistrationForm.less'
+import iconTarjetas from 'SharedImages/icon-tarjetas.svg'
 
-function RegistrationInstructios() {
+type Props = {
+  styles: Object
+}
+
+function RegistrationInstructions(props: Props) {
+  const { styles } = props
   return (
-    <div className={Styles.registro_tarjetas}>
+    <div className={styles.registro_tarjetas}>
       <Row>
         <Col>
           <img
@@ -17,45 +20,19 @@ function RegistrationInstructios() {
             className="img-fluid d-block mx-auto"
             alt="icono-tarjetas"
           />
-          <p className={Styles.p_advice}>
+          <p className={styles.p_advice}>
             Aún no cuentas con métodos de pago
             <br />
-            <small className={Styles.p_advice_small}>
-              Utiliza el formulario de la derecha para registrarlos y poder
+            <small className={styles.p_advice_small}>
+              Utiliza el formulario de la derecha para registrarlos para poder
               pagar con rapidez y seguridad.
             </small>
           </p>
         </Col>
       </Row>
-      <Row className={Styles.row_transactions}>
-        <Col md={6}>
-          <p className={Styles.p_transactions}>
-            Transacciones realizadas vía:
-            <br />
-            <img
-              src={logoOpenpay}
-              className="img-fluid d-block mx-auto"
-              alt="logo-openpay"
-            />
-          </p>
-        </Col>
-        <Col md={2}>
-          <img
-            src={iconoEscudo}
-            className={`${
-              Styles.image_encrypt
-            } img-fluid d-block mx-auto w-100`}
-            alt="icono-escudo"
-          />
-        </Col>
-        <Col md={3}>
-          <p className={Styles.p_encrypt}>
-            Tus pagos se realizan de forma segura con encriptación 256 bits
-          </p>
-        </Col>
-      </Row>
+      <OpenPayInfo styles={styles} />
     </div>
   )
 }
 
-export default RegistrationInstructios
+export default RegistrationInstructions

@@ -12,7 +12,11 @@ type Props = {
   value: string,
   type: string,
   textInvalid: string,
-  classLabel: string
+  classLabel: string,
+  dataType: string,
+  disabled: boolean,
+  checked: boolean,
+  inline: boolean
 }
 
 function Checkbox(props: Props) {
@@ -26,7 +30,11 @@ function Checkbox(props: Props) {
     value,
     type,
     textInvalid,
-    classLabel
+    classLabel,
+    dataType,
+    disabled,
+    checked,
+    inline
   } = props
 
   const checkValidity = () => {
@@ -46,16 +54,22 @@ function Checkbox(props: Props) {
   }
 
   return (
-    <Form.Check id={id} type={type} custom>
+    <Form.Check id={id} name={name} type={type} custom>
       <Form.Check.Input
-        inline
+        inline={inline}
         value={value}
         name={name}
         required={required}
         isInvalid={error || checkValidity()}
         onChange={handleChange}
+        type={type}
+        data-type={dataType}
+        disabled={disabled}
+        checked={checked || false}
       />
-      <Form.Check.Label className={classLabel}>{label}</Form.Check.Label>
+      <Form.Check.Label className={classLabel} type={type}>
+        {label}
+      </Form.Check.Label>
       <Form.Control.Feedback type="invalid">
         {textInvalid || 'Este campo es requerido'}
       </Form.Control.Feedback>

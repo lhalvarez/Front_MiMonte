@@ -1,6 +1,15 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-access-state-in-setstate */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 // Dependencies
-import React, { Fragment, Component, SyntheticEvent } from 'react'
+import React, {
+  Fragment,
+  Component,
+  SyntheticEvent,
+  SyntheticInputEvent
+} from 'react'
 import { Row, Col, Tabs, Tab } from 'react-bootstrap'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,7 +20,10 @@ import {
   errorMessage,
   getItem,
   replaceObject,
-  capitalize
+  capitalize,
+  removeItem,
+  cloneObject,
+  warningMessage
 } from 'SharedUtils/Utils'
 // Context
 import { UserConsumer } from 'Context/User'
@@ -24,6 +36,7 @@ import TicketsToBeat from 'Components/Tickets/TicketsToBeat'
 import ActiveTickets from 'Components/Tickets/ActiveTickets'
 import ModalProvider from 'Components/commons/ModalMessage/ModalProvider'
 import MarketingTickets from 'Components/Tickets/MarketingTickets'
+import PayPanel from 'Components/Tickets/PayPanel'
 import { isEqual } from 'underscore'
 import numeral from 'numeral'
 
@@ -51,7 +64,7 @@ type State = {
   activeGUID: string,
   marketingGUID: string,
   urlCallBackActive: string,
-  dataCallback: Object
+  paymentDetailTickets: Array<mixed>
 }
 
 class Tickets extends Component<Props, State> {
@@ -60,21 +73,10 @@ class Tickets extends Component<Props, State> {
     columns: {
       Active: [
         {
-          dataField: 'condiciones.fechaIngreso',
-          text: '',
-          type: 'custom',
-          customObject: [
-            {
-              name: 'Detalles',
-              icon: <FontAwesomeIcon icon={faPlusCircle} />
-            }
-          ],
-          customDivClass: 'action-centered text-center align-items-center'
-        },
-        {
           dataField: 'prenda.folio',
           text: 'Nº boleta',
-          simpleCustomClass: 'boleta align-items-center'
+          simpleCustomClass: 'boleta align-items-center',
+          classes: 'descripcion-boleta'
         },
         {
           dataField: 'descripcion',
@@ -82,28 +84,36 @@ class Tickets extends Component<Props, State> {
           classes: 'descripcion-prenda'
         },
         {
-          dataField: 'montoEmpeno',
-          text: 'Monto del empeño'
+          dataField: 'saldos',
+          text: 'Operación | Monto',
+          type: 'saldos',
+          classes: 'saldos'
         },
         {
           dataField: 'condiciones.fechaLimitePago',
           text: 'Fecha límite de pago',
-          type: 'date',
-          classes: 'text-lowercase align-middle'
+          type: 'trafficLight',
+          classes: 'text-lowercase align-middle trafficLight'
         }
       ],
       Marketing: [
         { dataField: 'prenda.folio', text: 'Boleta' },
         {
-          dataField: 'prenda.descripcion',
+          dataField: 'descripcion',
           text: 'Prenda',
-          simpleCustomClass: 'descripcion-prenda'
+          classes: 'descripcion-prenda'
+        },
+        {
+          dataField: 'prenda.montoPrestamo',
+          text: 'Monto del empeño',
+          type: 'currency'
         },
         { dataField: 'prenda.sucursal', text: 'Sucursal' },
         {
           dataField: 'condiciones.fechaComercializacion',
           text: 'En comercialización desde',
-          type: 'date'
+          type: 'trafficLight',
+          classes: 'text-lowercase align-middle trafficLight'
         }
       ]
     },
@@ -117,14 +127,14 @@ class Tickets extends Component<Props, State> {
     showModal: false,
     activeGUID: '',
     marketingGUID: '',
-    dataCallback: {}
+    paymentDetailTickets: []
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    const { location } = this.props
+    const tickets = location.state ? location.state.tickets : []
     const { userInfo, data } = this.context
-    const { dataCallback } = this.state
-    // let { activeGUID } = this.state
-    // activeGUID = getUUID()
+    const marketingGUID = getUUID()
 
     getUserTickets({
       idCliente: userInfo.clientId,
@@ -132,7 +142,7 @@ class Tickets extends Component<Props, State> {
         criterioBoleta: 2 // Boletas activas
       },
       trazabilidad: {
-        GUID: getUUID(),
+        GUID: marketingGUID,
         urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
       }
     })
@@ -140,72 +150,102 @@ class Tickets extends Component<Props, State> {
         let { partida } = response.partidas
 
         partida = partida.map(e => {
+          const item = getItem(tickets, { id: e.id })
+
+          if (item) {
+            switch (item.tipoEmpeno) {
+              case 'desempeno':
+                e.radioDesempeno = true
+                break
+              case 'refrendo':
+                e.radioRefrendo = true
+                break
+              case 'abono':
+                e.radioAbono = true
+                break
+              default:
+            }
+          }
+
           const Descripcion = () => {
-            const { descripcion, tipoContrato } = e.prenda
+            const { id, prenda } = e
+            const { descripcion, tipoContrato } = prenda
 
             return (
-              <p>
-                {descripcion.toString()}
-                <br />
-                <small>{`Tipo de empeño: ${tipoContrato}`}</small>
-              </p>
+              <Fragment>
+                <p>
+                  {descripcion.toString()}
+                  <br />
+                  <small>{`Tipo de empeño: ${tipoContrato}`}</small>
+                </p>
+                <a
+                  href="#"
+                  // eslint-disable-next-line no-shadow
+                  onClick={e => {
+                    // eslint-disable-next-line no-unused-expressions
+                    e.preventDefault()
+                    this.onClickDetails(id)
+                  }}
+                >
+                  Ver detalles
+                </a>
+              </Fragment>
             )
           }
-          e.descripcion = <Descripcion />
 
+          e.descripcion = <Descripcion />
           return e
         })
 
         this.setState({
           ticketsNextToBeat: partida,
-          // activeGUID,
+          marketingGUID,
           loadingNextToBeat: false,
-          dataCallback: data
+          paymentDetailTickets: cloneObject(tickets)
         })
       })
       .catch(() => {
-        this.setState({ loadingActive: false, loadingNextToBeat: false })
+        this.setState({
+          loadingNextToBeat: false,
+          paymentDetailTickets: tickets
+        })
       })
   }
 
   componentWillReceiveProps(nextProps) {
-    const { dataCallback } = this.props
+    const { dataCallback, location } = this.props
+    const tickets = location.state ? location.state.tickets : []
+    const { activeGUID, marketingGUID } = this.state
+
     if (!isEqual(dataCallback, nextProps.dataCallback)) {
       const { requestGUID } = nextProps.dataCallback
-      const { activeGUID, marketingGUID } = this.state
-      let { ticketsActive } = this.state
+      let { ticketsNextToBeat, ticketsActive } = this.state
 
       if (requestGUID) {
+        const { partidas } = nextProps.dataCallback
         if (requestGUID === activeGUID) {
-          const { partidas } = nextProps.dataCallback
-
           partidas.partida.map(e => {
             const { prenda, saldos } = e
             const item = getItem(ticketsActive, { id: prenda.folio })
+            const itemTicket = getItem(tickets, { id: item.id })
 
-            const Saldos = () => {
-              const { saldoDesempeno, saldoRefrendo } = saldos
-
-              return (
-                <p>
-                  {saldoDesempeno && (
-                    <small>
-                      {`Desempeño: ${numeral(saldoDesempeno).format(
-                        '$ 0,0.00'
-                      )}`}
-                    </small>
-                  )}
-                  <br />
-                  {saldoRefrendo && (
-                    <small>
-                      {`Refrendo: ${numeral(saldoRefrendo).format('$ 0,0.00')}`}
-                    </small>
-                  )}
-                </p>
-              )
+            if (itemTicket) {
+              switch (itemTicket.tipoEmpeno) {
+                case 'desempeno':
+                  item.radioDesempeno = true
+                  break
+                case 'refrendo':
+                  item.radioRefrendo = true
+                  break
+                case 'abono':
+                  item.radioAbono = true
+                  item.abono = itemTicket.monto
+                  break
+                default:
+              }
             }
 
-            item.saldos = <Saldos />
+            item.saldos = saldos
             ticketsActive = replaceObject(
               ticketsActive,
               { id: prenda.folio },
@@ -213,16 +253,47 @@ class Tickets extends Component<Props, State> {
             )
             return true
           })
+        } else if (requestGUID === marketingGUID) {
+          partidas.partida.map(e => {
+            const { prenda, saldos } = e
+            const item = getItem(ticketsNextToBeat, { id: prenda.folio })
+            const itemTicket = getItem(tickets, { id: item.id })
+
+            if (itemTicket) {
+              switch (itemTicket.tipoEmpeno) {
+                case 'desempeno':
+                  item.radioDesempeno = true
+                  break
+                case 'refrendo':
+                  item.radioRefrendo = true
+                  break
+                case 'abono':
+                  item.radioAbono = true
+                  break
+                default:
+              }
+            }
+
+            item.saldos = saldos
+            ticketsNextToBeat = replaceObject(
+              ticketsNextToBeat,
+              { id: prenda.folio },
+              item
+            )
+            return true
+          })
         }
-        this.setState({ ticketsActive })
+        this.setState({ ticketsNextToBeat, ticketsActive })
       }
     }
   }
 
   onSelect = activekey => {
+    const { location } = this.props
+    const tickets = location.state ? location.state.tickets : []
     const { userInfo } = this.context
-    // let { activeGUID } = this.state
-    // activeGUID = getUUID()
+    const activeGUID = getUUID()
+    const marketingGUID = getUUID()
 
     this.setState(
       {
@@ -245,7 +316,13 @@ class Tickets extends Component<Props, State> {
             criterioBoleta: activekey // Boletas vencidas
           },
           trazabilidad: {
-            GUID: getUUID(),
+            GUID:
+              // eslint-disable-next-line no-nested-ternary
+              activekey === '2'
+                ? marketingGUID
+                : activekey === '1'
+                ? activeGUID
+                : getUUID(),
             urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
           }
         })
@@ -254,17 +331,31 @@ class Tickets extends Component<Props, State> {
 
             partida = partida.map(e => {
               const Descripcion = () => {
-                const { descripcion, tipoContrato } = e.prenda
+                const { id, prenda } = e
+                const { descripcion, tipoContrato } = prenda
 
                 return (
-                  <div>
-                    <p>{capitalize(descripcion.toLowerCase())}</p>
-                    <small>{`Tipo de empeño: ${tipoContrato}`}</small>
-                  </div>
+                  <Fragment>
+                    <p>
+                      {descripcion.toString()}
+                      <br />
+                      <small>{`Tipo de empeño: ${tipoContrato}`}</small>
+                    </p>
+                    <a
+                      href="#"
+                      // eslint-disable-next-line no-shadow
+                      onClick={e => {
+                        // eslint-disable-next-line no-unused-expressions
+                        e.preventDefault()
+                        this.onClickDetails(id, 'ticketsNextToBeat')
+                      }}
+                    >
+                      Ver detalles
+                    </a>
+                  </Fragment>
                 )
               }
               e.descripcion = <Descripcion />
-
               return e
             })
 
@@ -284,7 +375,21 @@ class Tickets extends Component<Props, State> {
                   : activekey === '3'
                   ? 'loadingInMarketing'
                   : 'loadingNextToBeat'
-              }`]: false
+              }`]: false,
+              [`${
+                // eslint-disable-next-line no-nested-ternary
+                activekey === '1'
+                  ? 'activeGUID'
+                  : activekey === '3'
+                  ? 'realMarketingGUID'
+                  : 'marketingGUID'
+              }`]:
+                // eslint-disable-next-line no-nested-ternary
+                activekey === '1'
+                  ? activeGUID
+                  : activekey === '3'
+                  ? getUUID()
+                  : marketingGUID
             })
           })
           .catch(() => {
@@ -305,20 +410,36 @@ class Tickets extends Component<Props, State> {
     )
   }
 
-  onClickDetails = (id, table) => {
+  onClickDetails = id => {
     // eslint-disable-next-line react/destructuring-assignment
-    const data = this.state[table]
-    const row = getItem(data, { id })
+    const { activeKey, paymentDetailTickets } = this.state
+    // eslint-disable-next-line react/destructuring-assignment
+    const data = this.state[
+      `${
+        activeKey === '2'
+          ? 'ticketsNextToBeat'
+          : activeKey === '1'
+          ? 'ticketsActive'
+          : 'ticketsInMarketing'
+      }`
+    ]
+    const item = getItem(data, { id })
 
-    const { folio } = row.prenda
+    const { folio } = item.prenda
     const { handleLoading, onShowModal, history } = this.props
 
     handleLoading(true)
     getDetailsTicket({ folios: { folio: [folio] } })
       .then(response => {
         const { partidas } = response
+        const { saldos } = item
+
         handleLoading(false)
-        history.push('boletas/detalle', { ...partidas.partida[0] })
+        history.push('boletas/detalle', {
+          ...partidas.partida[0],
+          saldos,
+          tickets: paymentDetailTickets
+        })
       })
       .catch(err => {
         handleLoading(false)
@@ -326,9 +447,173 @@ class Tickets extends Component<Props, State> {
       })
   }
 
-  handleHide = (event: SyntheticEvent<HTMLButtonElement>) => {
-    if ((event.currentTarget: HTMLButtonElement)) {
-      this.setState({ showModal: false })
+  onBlur = e => {
+    const { history, onShowModal } = this.props
+    const { value, id } = e.target
+    const { activeKey } = this.state
+    let { paymentDetailTickets } = this.state
+    // eslint-disable-next-line react/destructuring-assignment
+    let dataArray = this.state[
+      activeKey === 2 ? 'ticketsNextToBeat' : 'ticketsActive'
+    ]
+    const item = getItem(dataArray, { id })
+    const { saldos } = item
+    const itemDetail = getItem(paymentDetailTickets, { id })
+
+    if (parseFloat(saldos.saldoDesempeno) < parseFloat(value)) {
+      onShowModal(
+        warningMessage('La cantidad no debe exceder el monto del desempeño')
+      )
+    } else {
+      item.abono = value
+      itemDetail.monto = parseFloat(value)
+      dataArray = replaceObject(dataArray, { id }, item)
+      paymentDetailTickets = replaceObject(
+        paymentDetailTickets,
+        { id },
+        itemDetail
+      )
+      // eslint-disable-next-line no-restricted-globals
+      history.push('/mimonte/boletas', { tickets: paymentDetailTickets })
+      this.setState({
+        [activeKey === 2 ? 'ticketsNextToBeat' : 'ticketsActive']: dataArray,
+        paymentDetailTickets
+      })
+    }
+  }
+
+  onChange = ({ target }: SyntheticInputEvent) => {
+    const { history } = this.props
+    const { id } = target
+    const [option, folio] = id.split('&')
+    const { activeKey } = this.state
+    let { paymentDetailTickets } = this.state
+    // eslint-disable-next-line react/destructuring-assignment
+    let dataArray = this.state[
+      activeKey === 2 ? 'ticketsNextToBeat' : 'ticketsActive'
+    ]
+    const item = getItem(dataArray, { id: folio })
+    const { saldos } = item
+    let itemDetail = getItem(paymentDetailTickets, { id: folio })
+
+    itemDetail = {
+      ...itemDetail,
+      desempeno: false,
+      refrendo: false,
+      abono: false,
+      [option]: true,
+      monto: 0
+    }
+
+    switch (option) {
+      case 'desempeno':
+        item.radioDesempeno = true
+        item.radioRefrendo = false
+        item.radioAbono = false
+        itemDetail.monto = saldos.saldoDesempeno
+        break
+      case 'refrendo':
+        item.radioDesempeno = false
+        item.radioRefrendo = true
+        item.radioAbono = false
+        itemDetail.monto = saldos.saldoRefrendo
+        break
+      case 'abono':
+        item.radioDesempeno = false
+        item.radioRefrendo = false
+        item.radioAbono = true
+        item.monto = 0
+        break
+      default:
+    }
+
+    if (itemDetail.id) {
+      itemDetail.tipoEmpeno = option
+      paymentDetailTickets = replaceObject(
+        paymentDetailTickets,
+        { id: folio },
+        itemDetail
+      )
+    } else {
+      itemDetail.id = folio
+      itemDetail.tipoEmpeno = option
+      paymentDetailTickets.push(itemDetail)
+    }
+
+    dataArray = replaceObject(dataArray, { id: folio }, item)
+    // eslint-disable-next-line no-restricted-globals
+    history.push('/mimonte/boletas', { tickets: paymentDetailTickets })
+    this.setState({
+      [activeKey === 1 ? 'ticketsInMarketing' : 'ticketsActive']: dataArray,
+      paymentDetailTickets
+    })
+  }
+
+  onClickDetelete = id => {
+    const { history } = this.props
+    const { activeKey } = this.state
+    let { paymentDetailTickets } = this.state
+    const itemDetail = getItem(paymentDetailTickets, { id })
+    // eslint-disable-next-line react/destructuring-assignment
+    let dataArray = this.state[
+      `${
+        activeKey === '2'
+          ? 'ticketsNextToBeat'
+          : activeKey === '1'
+          ? 'ticketsActive'
+          : ''
+      }`
+    ]
+
+    if (activeKey === '2' || activeKey === '1') {
+      const item = getItem(dataArray, { id })
+
+      switch (itemDetail.tipoEmpeno) {
+        case 'desempeno':
+          item.radioDesempeno = false
+          break
+        case 'refrendo':
+          item.radioRefrendo = false
+          break
+        case 'abono':
+          item.radioAbono = false
+          break
+        default:
+      }
+
+      dataArray = replaceObject(dataArray, { id }, item)
+      paymentDetailTickets = removeItem(paymentDetailTickets, { id })
+      // eslint-disable-next-line no-restricted-globals
+      history.push('/mimonte/boletas', { tickets: paymentDetailTickets })
+      this.setState({
+        [activeKey === '2' ? 'ticketsNextToBeat' : 'ticketsActive']: dataArray,
+        paymentDetailTickets
+      })
+    } else {
+      paymentDetailTickets = removeItem(paymentDetailTickets, { id })
+      this.setState({ paymentDetailTickets })
+    }
+  }
+
+  onClickPay = () => {
+    const { history, onShowModal } = this.props
+    const { paymentDetailTickets } = this.state
+    // eslint-disable-next-line array-callback-return
+    const validation = paymentDetailTickets
+      .filter(p => p.abono && !p.monto)
+      .map(o => o.id)
+
+    if (validation.length) {
+      onShowModal(
+        errorMessage(
+          'Pago',
+          `Proporcione un monto para ${validation.length > 1 ? 'las' : 'la'} ${
+            validation.length > 1 ? 'boletas' : 'boleta'
+          } ${validation.join(', ')}`
+        )
+      )
+    } else {
+      history.push('/mimonte/pago', { tickets: paymentDetailTickets })
     }
   }
 
@@ -345,7 +630,8 @@ class Tickets extends Component<Props, State> {
       loadingActive,
       loadingInMarketing,
       content,
-      showModal
+      showModal,
+      paymentDetailTickets
     } = this.state
 
     return (
@@ -363,7 +649,7 @@ class Tickets extends Component<Props, State> {
                 <small>Boletas</small>
               </h4>
             </Col>
-            <Col md={12} className="ticket-tabs">
+            <Col md={9} className="ticket-tabs">
               <Tabs
                 activeKey={activeKey}
                 onSelect={this.onSelect}
@@ -377,6 +663,8 @@ class Tickets extends Component<Props, State> {
                       e => this.onClickDetails(e, 'ticketsNextToBeat')
                     ]}
                     loading={loadingNextToBeat}
+                    handleBlur={this.onBlur}
+                    handleRadio={this.onChange}
                   />
                 </Tab>
                 <Tab eventKey="1" title="Prendas en empeño">
@@ -387,6 +675,8 @@ class Tickets extends Component<Props, State> {
                       e => this.onClickDetails(e, 'ticketsActive')
                     ]}
                     loading={loadingActive}
+                    handleBlur={this.onBlur}
+                    handleRadio={this.onChange}
                   />
                 </Tab>
                 <Tab eventKey="3" title="Prendas en comercialización">
@@ -397,6 +687,13 @@ class Tickets extends Component<Props, State> {
                   />
                 </Tab>
               </Tabs>
+            </Col>
+            <Col md={3}>
+              <PayPanel
+                data={paymentDetailTickets}
+                handleDetelete={this.onClickDetelete}
+                handlePay={this.onClickPay}
+              />
             </Col>
           </Row>
         </div>

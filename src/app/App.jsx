@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-expressions */
 // Dependencies
 import React, { Component, Fragment } from 'react'
 import { Route } from 'react-router-dom'
 // API
 import { logout } from 'Api/Login'
-import getUserInfo from 'Api/UserInfo'
+import getUserInfo, { getClientLevel } from 'Api/UserInfo'
 // Context
 import { UserProvider } from 'Context/User'
 // Components
@@ -39,6 +40,7 @@ const RouteWithSubRoutes = route => (
         handleLoading={route.handleLoading}
         dataCallback={route.dataCallback}
         onShowModal={route.onShowModal}
+        handleHide={route.handleHide}
         routes={route.routes}
       />
     )}
@@ -78,11 +80,31 @@ class App extends Component<Props, State> {
   componentWillMount() {
     getUserInfo()
       .then(response => {
-        this.setState({ userInfo: response, isLoading: false })
+        getClientLevel(response.clientId)
+          .then(resp => {
+            const userInfo = {
+              ...response,
+              clientLevel: resp.nivelActual
+            }
+            this.setState({
+              userInfo,
+              isLoading: false
+            })
+          })
+          .catch(() => {
+            this.setState({ isLoading: false })
+          })
       })
       .catch(() => {
         this.setState({ isLoading: false })
       })
+  }
+
+  onSelectNav = e => {
+    const { location, history } = this.props
+    const tickets = location.state ? location.state.tickets : []
+
+    history.push(e, { tickets })
   }
 
   handlerLogout = () => {
@@ -93,9 +115,13 @@ class App extends Component<Props, State> {
       content: questionMessage(
         '¿Quieres cerrar sesión?',
         () => {
-          logout().then(() => {
-            history.push('/login')
-          })
+          logout()
+            .then(() => {
+              history.push('/login')
+            })
+            .catch(() => {
+              history.push('/login')
+            })
         },
         () => {
           this.handleHide()
@@ -127,35 +153,33 @@ class App extends Component<Props, State> {
           showModal={showModal}
           onClose={this.handleHide}
         />
-        {(!isLoading && (
-          <UserProvider value={{ userInfo }}>
-            <ModalProvider
-              content={content}
-              showModal={showModal}
-              onClose={this.handleHide}
+        <Spinner loading={isLoading} />
+        <UserProvider value={{ userInfo }}>
+          <NavHeader userInfo={userInfo} />
+          <div className="gradiente position-absolute" />
+          <header>
+            <NavBar
+              handleSelectNav={this.onSelectNav}
+              handleLogOut={this.handlerLogout}
             />
-            <NavHeader userInfo={userInfo} />
-            <div className="gradiente position-absolute" />
-            <header>
-              <NavBar handleLogOut={this.handlerLogout} />
-            </header>
-            <main role="main" className="container">
-              {Object.keys(userInfo).length > 0 &&
-                routes.map(route => (
-                  <RouteWithSubRoutes
-                    key={route.path.toString()}
-                    handleLoading={this.onLoading}
-                    onShowModal={this.onShowModal}
-                    dataCallback={data}
-                    {...route}
-                  />
-                ))}
-            </main>
-            <footer>
-              <Footer />
-            </footer>
-          </UserProvider>
-        )) || <Spinner />}
+          </header>
+          <main role="main" className="container">
+            {Object.keys(userInfo).length > 0 &&
+              routes.map(route => (
+                <RouteWithSubRoutes
+                  key={route.path.toString()}
+                  handleLoading={this.onLoading}
+                  onShowModal={this.onShowModal}
+                  handleHide={this.handleHide}
+                  dataCallback={data}
+                  {...route}
+                />
+              ))}
+          </main>
+          <footer>
+            <Footer />
+          </footer>
+        </UserProvider>
       </Fragment>
     )
   }

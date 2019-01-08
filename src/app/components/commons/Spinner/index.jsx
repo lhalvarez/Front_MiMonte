@@ -1,19 +1,25 @@
 // Dependencies
 import React from 'react'
 // Images
-import puff from 'SharedImages/puff.svg'
+import puff from 'SharedImages/mimonte-animado.gif'
 import Styles from './Spinner.less'
 
-function Spinner() {
-  const { background, loader } = Styles
+type Props = {
+  loading: boolean
+}
+
+function Spinner(props: Props) {
+  const { loading } = props
+  const { divLoader, divLoaderHidden, loader } = Styles
 
   return (
-    <div className={background}>
+    <div
+      id="divLoader"
+      className={`${divLoader} ${!loading ? divLoaderHidden : ''}`}
+    >
       <div className={loader}>
-        <h4>
-          Cargando información...
-          <img alt="loading" src={puff} />
-        </h4>
+        <img alt="loading" src={puff} />
+        <h4>Cargando información...</h4>
       </div>
     </div>
   )

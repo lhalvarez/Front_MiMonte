@@ -4,27 +4,22 @@
 import React, { Fragment } from 'react'
 import { Row, Col } from 'react-bootstrap'
 
-import TextInput from 'Components/commons/TextInput'
-import Button from 'Components/commons/Button'
-
-import logoVisa from 'SharedImages/logo-visa.png'
-import logoMasterCard from 'SharedImages/logo-mastercard.png'
+import logoVisa from 'SharedImages/logo-visa.svg'
+import logoMasterCard from 'SharedImages/logo-mastercard-lineal.svg'
 import iconCvv from 'SharedImages/icon-cvv.png'
 
 type Props = {
-  alias: String,
-  handleChange: void,
-  handleClickAdd: void,
+  form: Object,
   styles: any
 }
 
 function OpenPayForm(props: Props) {
-  const { alias, handleChange, handleClickAdd, styles } = props
+  const { form, styles } = props
 
   return (
     <Fragment>
       <Row>
-        <Col>
+        <Col className="mb-2">
           <img src={logoVisa} className={styles.logo_visa} alt="logo-visa" />
           <img src={logoMasterCard} alt="logo-mastercard" />
         </Col>
@@ -43,84 +38,70 @@ function OpenPayForm(props: Props) {
               />
             </div>
           </Col>
-          <Col md={4}>
-            <div className="form-group">
-              <label className="form-label">Número de tarjeta</label>
-              <input
-                type="text"
-                autoComplete="off"
-                data-openpay-card="card_number"
-                className="form-control"
-              />
-            </div>
-          </Col>
-          <Col md={2}>
-            <div className="form-group">
-              <label className="form-label">Mes</label>
-              <input
-                type="text"
-                placeholder="Mes"
-                data-openpay-card="expiration_month"
-                className="form-control"
-                maxLength="2"
-              />
-            </div>
-          </Col>
-          <Col md={2}>
-            <div className="form-group">
-              <label className="form-label">Año</label>
-              <input
-                type="text"
-                placeholder="Año"
-                data-openpay-card="expiration_year"
-                className="form-control"
-                maxLength="2"
-              />
-            </div>
-          </Col>
-          <Col md={3}>
-            <div className="form-group">
-              <label className="form-label">Código de seguridad</label>
-              <input
-                type="text"
-                placeholder="3 dígitos"
-                autoComplete="off"
-                data-openpay-card="cvv2"
-                className="form-control"
-                maxLength="5"
-              />
-            </div>
-          </Col>
-          <Col md={1}>
-            <img
-              src={iconCvv}
-              className="img-fluid d-block mx-auto"
-              alt="icono-escudo"
-            />
-          </Col>
         </Row>
         <Row>
-          <Col md={8}>
-            <TextInput
-              name="alias"
-              placeholder="Alias"
-              value={alias}
-              label="Alias"
-              type="text"
-              maxLength={20}
-              onChange={handleChange}
-            />
-          </Col>
-          <Col md={4}>
-            <Button
-              variant="primary"
-              label="Agregar"
-              size="lg"
-              className="float-right mt-4"
-              id="pay-button"
-              onClick={handleClickAdd}
-              block
-            />
+          <Col md={12}>
+            <div className="p-0 mb-2 form-row">
+              <Col xs={4}>
+                <label className="form-label">Número de tarjeta</label>
+                <input
+                  type="text"
+                  autoComplete="off"
+                  data-openpay-card="card_number"
+                  className="form-control"
+                  maxLength="16"
+                  minLength="16"
+                  required
+                />
+              </Col>
+              <Col md={4}>
+                <label className="form-label">Fecha de expiración</label>
+                <div className="form-row">
+                  <Col xs={6}>
+                    <input
+                      inline
+                      type="text"
+                      placeholder="Mes"
+                      data-openpay-card="expiration_month"
+                      className="form-control"
+                      maxLength="2"
+                    />
+                  </Col>
+                  <Col xs={6}>
+                    <input
+                      inline
+                      type="text"
+                      placeholder="Año"
+                      data-openpay-card="expiration_year"
+                      className="form-control"
+                      maxLength="2"
+                    />
+                  </Col>
+                </div>
+              </Col>
+              <Col md={4}>
+                <label className="form-label">Código de seguridad</label>
+                <div className="form-row">
+                  <Col xs={8}>
+                    <input
+                      type="text"
+                      placeholder="3 dígitos"
+                      autoComplete="off"
+                      data-openpay-card="cvv2"
+                      className="form-control"
+                      maxLength="5"
+                    />
+                  </Col>
+                  <Col xs={4}>
+                    <img
+                      src={iconCvv}
+                      className="img-fluid d-block mx-auto "
+                      alt="icono-escudo"
+                    />
+                  </Col>
+                </div>
+              </Col>
+            </div>
           </Col>
         </Row>
       </form>

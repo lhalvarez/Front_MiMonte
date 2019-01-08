@@ -1,6 +1,7 @@
 // Dependencies
 import React from 'react'
 import { Form } from 'react-bootstrap'
+import numeral from 'numeral'
 // Flow Props and State
 type Props = {
   error: boolean,
@@ -8,6 +9,7 @@ type Props = {
   onChange: any,
   label: string,
   name: string,
+  id: string,
   value: string,
   placeholder: string,
   type: string,
@@ -23,7 +25,9 @@ type Props = {
   lowercase: boolean,
   disabled: boolean,
   number: boolean,
-  handleBlur: any
+  handleBlur: any,
+  currency: boolean,
+  decimal: boolean
 }
 
 function TextInput(props: Props) {
@@ -33,6 +37,7 @@ function TextInput(props: Props) {
     onChange,
     label,
     name,
+    id,
     value,
     placeholder,
     type,
@@ -48,7 +53,9 @@ function TextInput(props: Props) {
     lowercase,
     disabled,
     number,
-    handleBlur
+    handleBlur,
+    currency,
+    decimal
   } = props
 
   const checkValidity = () => {
@@ -63,16 +70,19 @@ function TextInput(props: Props) {
   }
 
   const handleChange = (event: any) => {
-    // TODO: Revisar que funcione ya que es props.onChange(event)
     const evento = event
     const ival = evento.target.value
     if (number) {
-      evento.target.value = ival.replace(
-        /[A-Za-záéíóúÁÉÍÓÚÜüñÑ'_=/%&+ ¨ $@.\-¿?,:;&#()"¡!°|¬*~]/g,
-        ''
+      evento.target.value = ival.replace(/[^0-9]+/g, '')
+    } else if (decimal) {
+      evento.target.value = ival.replace(/[^0-9.]+/g, '')
+    } else if (currency) {
+      // eslint-disable-next-line prettier/prettier
+      evento.target.value = numeral(ival.replace(/[^0-9]+/g, '')).format(
+        '$ 0,0.00'
       )
     }
-    onChange(evento)
+    if (onChange) onChange(evento)
   }
 
   const bsPrefix = () => {
@@ -93,6 +103,7 @@ function TextInput(props: Props) {
       </Form.Label>
       <Form.Control
         name={name}
+        id={id}
         value={value}
         placeholder={placeholder}
         pattern={pattern}

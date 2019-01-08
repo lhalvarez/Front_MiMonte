@@ -236,10 +236,10 @@ module.exports = router => {
       const grant_type = 'revoke_token'
 
       const body = {
-        grant_type: grant_type.trim(),
-        client_id: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_ID.trim(),
-        client_secret: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_SECRET.trim(),
-        token: data.token.trim()
+        grant_type,
+        client_id: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_ID,
+        client_secret: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_SECRET,
+        token: data.token
       }
 
       doRequestRestURLEncoded(

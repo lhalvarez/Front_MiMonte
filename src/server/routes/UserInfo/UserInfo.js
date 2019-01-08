@@ -30,13 +30,16 @@ module.exports = router => {
       // eslint-disable-next-line no-else-return
     } else {
       const userId = data.idUser
-      const headers = {
+      let headers = {
         Accept: 'application/json',
-        Authorization: `Bearer ${data.token}`,
         'Content-Type': 'application/json;charset=UTF-8',
         idConsumidor: SERVICE.ID_CONSUMIDOR,
         idDestino: SERVICE.ID_DESTINO,
         usuario: data.idUser
+      }
+
+      if (config.name === 'userInfo') {
+        headers = { ...headers, Authorization: `Bearer ${data.token}` }
       }
 
       const body = map ? map(data) : data
@@ -63,17 +66,19 @@ module.exports = router => {
             `[User:${userId}] ${config.name}: Exitoso`,
             LOGGER_USER_INFO
           )
+          if (config.name === 'userInfo') {
+            const sessionInfo = {
+              email: userId,
+              fullName: `${responseJSON.Cliente.nombre} ${
+                responseJSON.Cliente.apellidoPaterno
+              } ${responseJSON.Cliente.apellidoMaterno}`,
+              clientId: responseJSON.Cliente.idCliente,
+              credentialNumber: responseJSON.Cliente.numeroDeCredencial
+            }
 
-          const sessionInfo = {
-            email: userId,
-            fullName: `${responseJSON.Cliente.nombre} ${
-              responseJSON.Cliente.apellidoPaterno
-            } ${responseJSON.Cliente.apellidoMaterno}`,
-            clientId: responseJSON.Cliente.idCliente,
-            credentialNumber: responseJSON.Cliente.numeroDeCredencial
+            return res.status(200).send(sessionInfo)
           }
-
-          return res.status(200).send(sessionInfo)
+          return res.status(200).send(responseJSON)
         },
         err => {
           LOGGER('ERROR', err, LOGGER_USER_INFO)
@@ -101,6 +106,26 @@ module.exports = router => {
     }
   )
 
+  const clientLevel = serviceHandler(
+    {
+      name: 'clientLevel',
+      protocol: SERVICE.PROTOCOL,
+      host: SERVICE.HOST,
+      port: SERVICE.PORT,
+      path: `${SERVICE.PATH_CLIENT_LEVEL}?apiKey=${CONFIG.API_KEY}&apiSecret=${
+        CONFIG.API_SECRET
+      }`,
+      method: CONFIG.METHOD_POST
+    },
+    data => {
+      const tmp = Object.assign({}, data)
+      delete tmp.idUser
+      delete tmp.token
+      return tmp
+    }
+  )
+
   // Link routes and functions
   router.post('/userInfo', userInfo)
+  router.post('/clientLevel', clientLevel)
 }

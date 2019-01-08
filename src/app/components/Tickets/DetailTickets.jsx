@@ -19,9 +19,12 @@ library.add(faAngleLeft)
 // Flow Props and Stats
 type Props = {
   columns: Array<Object>,
-  data: Array<Object>,
   customHandlers: Array<mixed>,
-  handleBack: void
+  handleBack: void,
+  activeItem: Array<Object>,
+  handleBlur: void,
+  handleRadio: void,
+  handleAdd: void
 }
 
 class DetailTickets extends Component<Props> {
@@ -29,7 +32,15 @@ class DetailTickets extends Component<Props> {
 
   render() {
     const ticketsConsumer = this.context
-    const { columns, data, customHandlers, handleBack } = this.props
+    const {
+      columns,
+      customHandlers,
+      handleBack,
+      activeItem,
+      handleBlur,
+      handleRadio,
+      handleAdd
+    } = this.props
     const {
       folio,
       descripcion,
@@ -90,15 +101,41 @@ class DetailTickets extends Component<Props> {
             </p>
           </Col>
           <Col md={{ xs: 7, offset: 1 }} className="pt-4">
-            <p className="encabezadoTabla">
-              Historial de pagos - Refrendos, Desempeño y/o Abonos
-            </p>
-            <DataTable
-              columns={columns}
-              data={data}
-              noDataIndication="No existen operaciones"
-              customHandlers={customHandlers}
-            />
+            <Row>
+              <Col>
+                <p className="encabezadoTabla">Paga tu boleta en línea</p>
+                <DataTable
+                  columns={columns.ActiveItem}
+                  data={activeItem}
+                  noDataIndication="No cuentas con boletas activas"
+                  handleBlur={handleBlur}
+                  handleRadio={handleRadio}
+                />
+              </Col>
+              <Col md={8}>
+                <p className="text-muted">
+                  El refrendo solo se puede realizar en los 5 días naturales
+                  antes de la fecha de comercialización
+                </p>
+              </Col>
+              <Col md={4}>
+                <Button name="add" label="Agregar" block onClick={handleAdd} />
+              </Col>
+            </Row>
+            <hr />
+            <Row>
+              <Col>
+                <p className="encabezadoTabla">
+                  Historial de pagos - Refrendos, Desempeño y/o Abonos
+                </p>
+                <DataTable
+                  columns={columns.Detail}
+                  data={[]}
+                  noDataIndication="No existen operaciones"
+                  customHandlers={customHandlers}
+                />
+              </Col>
+            </Row>
           </Col>
           <Col xs={1} />
         </Row>

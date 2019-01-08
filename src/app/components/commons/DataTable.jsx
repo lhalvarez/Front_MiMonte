@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-indent */
 /* eslint-disable react/jsx-wrap-multilines */
 /* eslint-disable react/jsx-one-expression-per-line */
@@ -9,7 +10,6 @@ import { InputGroup } from 'react-bootstrap'
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import overlayFactory from 'react-bootstrap-table2-overlay'
-import numeral from 'numeral'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -18,10 +18,15 @@ import {
   faAngleRight,
   faAngleDoubleLeft,
   faAngleDoubleRight,
-  faExclamationCircle
+  faExclamationCircle,
+  faHourglassHalf,
+  faCircle
 } from '@fortawesome/free-solid-svg-icons'
 
-import { formatDate } from 'SharedUtils/Utils'
+import Checkbox from 'Components/commons/Checkbox'
+import TextInput from 'Components/commons/TextInput'
+
+import { formatDate, getItem, getCurrency } from 'SharedUtils/Utils'
 
 library.add(
   faSearch,
@@ -29,7 +34,9 @@ library.add(
   faAngleRight,
   faAngleDoubleLeft,
   faAngleDoubleRight,
-  faExclamationCircle
+  faExclamationCircle,
+  faHourglassHalf,
+  faCircle
 )
 
 type Props = {
@@ -39,7 +46,9 @@ type Props = {
   customHandlers: Array<mixed>,
   search: boolean,
   pagination: boolean,
-  loading: boolean
+  loading: boolean,
+  handleChange: void,
+  handleRadio: void
 }
 
 function DataTable(props: Props) {
@@ -50,7 +59,9 @@ function DataTable(props: Props) {
     customHandlers,
     search,
     pagination,
-    loading
+    loading,
+    handleRadio,
+    handleBlur
   } = props
 
   const { SearchBar } = Search
@@ -92,7 +103,7 @@ function DataTable(props: Props) {
       )
       // eslint-disable-next-line no-else-return
     } else if (type === 'currency') {
-      return <span>{numeral(cell).format('$ 0,0.00')}</span>
+      return <span>{getCurrency(cell)}</span>
     } else if (type === 'custom') {
       const customOptions = []
       customObject.forEach((c, index) => {
@@ -114,18 +125,125 @@ function DataTable(props: Props) {
         )
       })
       return <div className={customDivClass}>{customOptions}</div>
-    } else if (type === 'dateWarning') {
+    } else if (type === 'trafficLight') {
+      const { condiciones } = row
+
       return (
-        <div className="date-warning">
-          <p>
-            <FontAwesomeIcon icon={faExclamationCircle} />
-            &nbsp;
-            {formatDate(cell, 'll')}
-            <br />
-            <small>Próxima a vencer</small>
-          </p>
-        </div>
+        <p>
+          {condiciones && condiciones.tipoSemaforo === 'Rojo' && (
+            <Fragment>
+              <small>Próxima a vencer</small>
+              <br />
+            </Fragment>
+          )}
+          {condiciones && condiciones.tipoSemaforo && (
+            <Fragment>
+              <FontAwesomeIcon
+                className={
+                  condiciones.tipoSemaforo === 'Rojo'
+                    ? 'red-light'
+                    : condiciones.tipoSemaforo === 'Ambar'
+                    ? 'ambar-light'
+                    : 'verde-light'
+                }
+                icon={
+                  condiciones.tipoSemaforo === 'Rojo'
+                    ? faExclamationCircle
+                    : faCircle
+                }
+              />
+              &nbsp;
+            </Fragment>
+          )}
+          {formatDate(cell, 'll')}
+        </p>
       )
+    } else if (type === 'saldos') {
+      const { operacionDisponible } = row.operacionesDisponibles
+      const operacionAbono = getItem(operacionDisponible, { idOperacion: 116 })
+      const {
+        id,
+        radioDesempeno,
+        radioRefrendo,
+        radioAbono,
+        abono,
+        saldos
+      } = row
+
+      const SaldosItem = () => (
+        <Fragment>
+          {saldos && (
+            <Fragment>
+              <div className={`radio ${radioDesempeno ? 'active' : ''}`}>
+                <div className="radio-container">
+                  <Checkbox
+                    label="Desempeño"
+                    name={`partida${id}`}
+                    id={`desempeno&${id}`}
+                    value={id}
+                    type="radio"
+                    checked={radioDesempeno}
+                    onChange={handleRadio}
+                  />
+                </div>
+                <span>
+                  {saldos && saldos.saldoDesempeno
+                    ? getCurrency(saldos.saldoDesempeno)
+                    : ''}
+                </span>
+              </div>
+              <div className={`radio ${radioRefrendo ? 'active' : ''}`}>
+                <div className="radio-container">
+                  <Checkbox
+                    label="Refrendo"
+                    name={`partida${id}`}
+                    id={`refrendo&${id}`}
+                    value={id}
+                    type="radio"
+                    checked={radioRefrendo}
+                    onChange={handleRadio}
+                  />
+                </div>
+                {saldos && saldos.saldoRefrendo
+                  ? getCurrency(saldos.saldoRefrendo)
+                  : ''}
+              </div>
+            </Fragment>
+          )}
+          {!saldos && (
+            <p>
+              Cargando saldos...&nbsp;
+              <FontAwesomeIcon icon={faHourglassHalf} />
+            </p>
+          )}
+          {saldos && operacionAbono.aplicable && (
+            <div className={`radio ${radioAbono ? 'active' : ''}`}>
+              <div className="radio-container">
+                <Checkbox
+                  label="Abono"
+                  name={`partida${id}`}
+                  id={`abono&${id}`}
+                  value={id}
+                  type="radio"
+                  checked={radioAbono}
+                  onChange={handleRadio}
+                />
+              </div>
+              <TextInput
+                name={`abono${id}`}
+                id={id}
+                placeholder={radioAbono ? getCurrency(abono) : '$ 0.00'}
+                label=""
+                type="text"
+                decimal
+                disabled={!radioAbono}
+                handleBlur={handleBlur}
+              />
+            </div>
+          )}
+        </Fragment>
+      )
+      return <SaldosItem />
     }
 
     return <span className={simpleCustomClass}>{cell}</span>

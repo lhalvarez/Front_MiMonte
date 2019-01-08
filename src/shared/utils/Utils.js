@@ -15,8 +15,10 @@ import {
   where,
   without,
   uniq,
-  isMatch
+  isMatch,
+  clone
 } from 'underscore'
+import numeral from 'numeral'
 
 import React from 'react'
 
@@ -38,6 +40,17 @@ const styles = {
 }
 
 const uuidv4 = require('uuid/v4')
+
+export const cloneObject = object => {
+  return clone(object)
+}
+
+export const getCurrency = number => {
+  if (isNaN(number)) {
+    parseFloat(number)
+  }
+  return numeral(number).format('$ 0,0.00')
+}
 
 export const infoMessage = message => {
   const modalObj = {
@@ -160,8 +173,8 @@ export const questionMessage = (message, okClick, cancelClick) => {
       </Row>
     ),
     footer: [
-      { label: 'SALIR', variant: 'info', onClick: okClick },
-      { label: 'CANCELAR', variant: 'primary', onClick: cancelClick }
+      { label: 'Aceptar', variant: 'info', onClick: okClick },
+      { label: 'Cancelar', variant: 'primary', onClick: cancelClick }
     ]
   }
 
