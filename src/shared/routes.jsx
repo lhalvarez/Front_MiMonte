@@ -1,6 +1,7 @@
 // Containers
 import Login from 'Containers/Login'
 import Home from 'Containers/Home'
+import Activate from 'Containers/Activate'
 import Register from 'Containers/Register'
 import Tickets from 'Containers/Tickets'
 import TicketsDetail from 'Containers/Tickets/Details'
@@ -16,6 +17,10 @@ const routes = [
   {
     path: '/registro',
     component: Register
+  },
+  {
+    path: '/activar/:token/:email',
+    component: Activate
   },
   {
     path: '/mimonte',

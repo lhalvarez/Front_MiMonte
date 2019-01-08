@@ -19,18 +19,33 @@
   position: relative;
 }
 
+.form-label {
+  font-family: 'Roboto Condensed';
+  font-size: 14px;
+}
+
 .container-header {
   padding-left: 0 !important;
   margin-top: 12px;
   margin-bottom: 12px;
   .main-header {
     .user-welcome {
+      font-family: 'Roboto Regular';
       p {
         font-size: 16px;
         color: @color-dark-gray;
-        small {
-          color: @color-main;
-        }
+      }
+      .bronce {
+        color: #cd7532;
+      }
+      .plata {
+        color: #8fa1a5;
+      }
+      .oro {
+        color: #ffc850;
+      }
+      .platino {
+        color: #68a9b4;
       }
     }
   }
@@ -48,10 +63,11 @@
   height: 300px;
   background: @color-red;
   background: linear-gradient(
-    to right,
-    @color-dark-red,
-    @color-red,
-    @color-light-red
+    90deg,
+    #98002e 0%,
+    #ac0730 24%,
+    #c1122e 51%,
+    #ee1c25 100%
   );
 }
 
@@ -130,4 +146,28 @@
   border: 1px solid @color-dark-red;
   -webkit-box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
   box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+}
+
+.panel-pay {
+  border: solid 1px @color-light-gray;
+  box-shadow: 0 3px 8px 0 rgba(189, 199, 222, 0.37);
+  padding: 6px;
+  h5 {
+    color: @color-main;
+  }
+  p.advice {
+    font-size: 16px;
+    text-align: center;
+  }
+  div.total-pay {
+    border-top: solid 1px @color-light-gray;
+    p {
+      padding: 10px 10px;
+      font-family: 'Roboto Bold';
+      color: @color-main;
+      small {
+        padding-left: 5rem;
+      }
+    }
+  }
 }

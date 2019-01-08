@@ -1,8 +1,27 @@
 @import '../../../shared/styles/variables.less';
 
+.noPadding {
+  padding: 0%;
+}
+
 .registration_title_screen {
   font-family: 'Roboto Condensed Light';
   color: @color-main!important;
+}
+
+.containPayMethod {
+  border-top: 1px solid @color-smooth-gray;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.titleCard {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  font-family: 'Roboto Condensed Light';
+  font-size: 36px;
+  color: @color-dark-gray;
 }
 
 .logo_visa {
@@ -17,25 +36,29 @@
   color: @color-main;
   font-size: 24px;
   text-align: center;
+  font-family: 'Roboto Condensed Light';
 }
 
 .p_advice_small {
   color: @color-dark-gray;
-  font-size: 16px;
+  font-size: 14px;
   margin-top: 10px;
+  font-family: 'Roboto Regular';
   display: block;
   line-height: 1;
 }
 
 .row_transactions {
   margin-top: 24px;
+  font-family: 'Roboto Condensed Light';
 }
 
 .p_transactions {
-  font-size: 12px;
+  font-size: 10px;
   color: @color-light-gray;
   text-align: center;
-  line-height: 2;
+  line-height: 3;
+  font-family: 'Roboto Bold';
 }
 
 .image_encrypt {
@@ -43,21 +66,26 @@
 }
 
 .p_encrypt {
-  font-size: 12px;
+  font-size: 10px;
   color: @color-light-gray;
-  text-align: justify;
+  margin-top: 8px;
+  text-align: left;
+  font-family: 'Roboto Bold';
 }
 
 .registration_title {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-family: 'Roboto Condensed';
   font-size: 20px;
   color: @color-main;
 }
 
 .registration_title_small {
-  font-size: 14px;
+  font-family: 'Roboto Condensed';
+  font-size: 12px;
   color: @color-light-gray;
   text-transform: uppercase;
-  line-height: 4;
 }
 
 .payment_methods {
@@ -65,10 +93,13 @@
 }
 
 .instructions_methods {
-  margin: 16px 24px 16px;
-  padding-bottom: 16px;
-  border-bottom: solid 2px @color-smooth-gray;
-  margin-bottom: 26px;
+  margin: 1.5rem 0.25rem 0.25rem;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.add_button {
+  margin-top: 1.9rem;
 }
 
 .p_my_methods {
@@ -81,13 +112,3 @@
   font-size: 12px;
   color: @color-light-gray;
 }
-
-.p_alias_text {
-  font-size: 20px;
-  line-height: 1;
-}
-
-.small_alias_text {
-  font-size: 16px;
-}
-

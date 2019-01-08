@@ -41,7 +41,7 @@ function Logo(props: Props) {
             styles.subtitle
           }`}
         >
-          Fácil · Seguro · Siempre disponible
+          Fácil · Seguro · A tu alcance
         </Col>
       </Row>
       <Row>
@@ -49,9 +49,9 @@ function Logo(props: Props) {
           xs={12}
           className={`${styles.main_Panel__Content} ${styles.texto}`}
         >
-          Mi Monte es el portal en donde podrás consultar el estado de tus
-          prendas, pagar tus boletas. Para disfrutar de este portal sólo
-          necesitas ser cliente de Nacional Monte de Piedad.
+          Todo Nacional Monte de Piedad a tu alcance, con Mi Monte podrás tener
+          tu tarjeta siempre contigo, conocer tu nivel de cliente, estado de
+          cuenta y fechas próximas de pago.
         </Col>
       </Row>
       <Row>

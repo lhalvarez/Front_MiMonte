@@ -7,11 +7,20 @@ type Props = {
   columns: Array<Object>,
   data: Array<Object>,
   customHandlers: Array<mixed>,
-  loading: boolean
+  loading: boolean,
+  handleBlur: void,
+  handleRadio: void
 }
 
 function ActiveTickets(props: Props) {
-  const { columns, data, customHandlers, loading } = props
+  const {
+    columns,
+    data,
+    customHandlers,
+    loading,
+    handleBlur,
+    handleRadio
+  } = props
 
   return (
     <Fragment>
@@ -23,6 +32,8 @@ function ActiveTickets(props: Props) {
         search
         pagination
         loading={loading}
+        handleBlur={handleBlur}
+        handleRadio={handleRadio}
       />
     </Fragment>
   )

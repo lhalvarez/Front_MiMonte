@@ -34,8 +34,8 @@ function RegisterForm(props: Props) {
       <div className={`${style.gradiente} gradiente position-absolute`} />
       <Container className={`${style.registro} container-header`}>
         <Row className="main-header">
-          <Col xs={6}>
-            <img src={logo} alt="" className="img-fluid d-block mx-auto" />
+          <Col xs={6} className="text-left">
+            <img src={logo} alt="" className="img-fluid ml-5" />
           </Col>
           <Col xs={6} className={`text-right align-middle ${style.textMain} `}>
             <p className={`${style.paddingTop10} ${style.verticalCenter}`}>
@@ -51,7 +51,7 @@ function RegisterForm(props: Props) {
       <Container className={style.registro}>
         <Row>
           <Col xs={6} className="text-left">
-            <h2 className={style.h2}>Registro</h2>
+            <h2 className={`${style.h2} ml-4`}>Registro</h2>
           </Col>
           <Col xs={6} className={`${style.btnInicio} text-right`}>
             <Button variant="transparent" label="Inicio" onClick={goToInicio} />

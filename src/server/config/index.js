@@ -18,6 +18,8 @@ module.exports = {
   PSW_ID: process.env.PSW_ID,
   APP_PL: process.env.APP_PL,
   PSW_PL: process.env.PSW_PL,
+  API_KEY: process.env.API_KEY,
+  API_SECRET: process.env.API_SECRET,
 
   USER_POOL_ID: process.env.USER_POOL_ID,
   CLIENT_ID: process.env.CLIENT_ID,
@@ -66,7 +68,8 @@ module.exports = {
     PROTOCOL: PROTOCOL_BPM,
     HOST: HOST_BPM,
     PORT: PORT_BPM,
-    PATH: '/NMP/GestionClientes/Cliente/v2/usuarioMonte'
+    PATH: '/NMP/GestionClientes/Cliente/v2/usuarioMonte',
+    PATH_CLIENT_LEVEL: '/NMP/GestionClientes/NivelCliente/v1'
   },
   SERVICE_REGISTER: {
     ID_CONSUMIDOR: '25',
@@ -77,7 +80,9 @@ module.exports = {
     PATH: '/NMP/GestionClientes/UsuariosMonte/v1/validarDatos',
     PATH_CREATE_USER: '/NMP/GestionClientes/UsuariosMonte/v1/solicitarAlta',
     PATH_VALIDATE_MEDIA_CONTACT:
-      '/NMP/GestionClientes/UsuariosMonte/v1/validarMedioContacto'
+      '/NMP/GestionClientes/UsuariosMonte/v1/validarMedioContacto',
+    PATH_ACTIVATE_ACCOUNT:
+      '/NMP/GestionClientes/UsuariosMonte/v1/solicitarActivacion'
   },
   SERVICE_USER_TICKETS: {
     ID_CONSUMIDOR: '25',

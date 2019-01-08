@@ -68,3 +68,30 @@ export async function createUser(form, option) {
       throw error
     })
 }
+
+export async function activateAccount(token, email) {
+  const activateUsr = {
+    usuario: {
+      nombreUsuario: email,
+      medioContacto: {
+        contactoPor: 2,
+        tipoContacto: 'correo',
+        valorContacto: email
+      },
+      datosValidacion: {
+        token
+      }
+    }
+  }
+
+  return new ClientHttpRequest({
+    service: 'auth/activateAccount',
+    method: 'POST',
+    data: { ...activateUsr }
+  })
+    .request()
+    .then(response => response.data)
+    .catch(error => {
+      throw error
+    })
+}

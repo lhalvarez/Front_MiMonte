@@ -39,9 +39,7 @@ type State = {
 class Registration extends Component<Props, State> {
   state = {
     content: [],
-    form: {
-      codeVerify: ''
-    },
+    form: {},
     validationObj: {
       validateVerifyData: true
     },
@@ -269,12 +267,13 @@ class Registration extends Component<Props, State> {
   }
 
   goToStep4 = option => {
-    const { form, inputRef } = this.state
+    const { inputRef } = this.state
+    let { form } = this.state
+    form = { ...form, codeVerify: inputRef.value }
     this.setState({
       isLoading: true,
-      form: { ...form, codeVerify: inputRef.value }
+      form
     })
-    console.log(form)
     createUser(form, option)
       .then(() => {
         if (option === 'SMS' || option === 'email') {

@@ -320,8 +320,102 @@ module.exports = router => {
     )
   }
 
+  const activateAccount = (req, res) => {
+    const data = req.body
+
+    const headers = {
+      Accept: 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      usuario: 'usuarioMonte',
+      idConsumidor: SERVICE_TOKEN_OAUTH.ID_CONSUMIDOR,
+      idDestino: SERVICE_TOKEN_OAUTH.ID_DESTINO
+    }
+
+    const body = {
+      grant_type: 'client_credentials',
+      client_id: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_ID,
+      client_secret: SERVICE_TOKEN_OAUTH.SERVER_APP_TOKEN_CLIENT_SECRET
+    }
+
+    doRequestRestURLEncoded(
+      SERVICE_TOKEN_OAUTH.PROTOCOL,
+      SERVICE_TOKEN_OAUTH.HOST,
+      SERVICE_TOKEN_OAUTH.PORT,
+      SERVICE_TOKEN_OAUTH.PATH,
+      CONFIG.METHOD_POST,
+      headers,
+      body,
+      // eslint-disable-next-line consistent-return
+      response => {
+        const responseJSON = JSON.parse(response)
+        if (responseJSON.codigoError) {
+          LOGGER(
+            'ERROR',
+            `[User:${JSON.stringify(responseJSON)}] ValidationError: Token`,
+            LOGGER_REGISTER
+          )
+          return res.status(500).send(responseJSON)
+          // eslint-disable-next-line no-else-return
+        } else {
+          const accessToken = responseJSON.access_token
+          // eslint-disable-next-line no-shadow
+          const headers = {
+            Accept: 'application/json',
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
+            idConsumidor: SERVICE.ID_CONSUMIDOR,
+            idDestino: SERVICE.ID_DESTINO,
+            usuario: 'usuarioMonte'
+          }
+
+          LOGGER(
+            'INFO',
+            `[User:${JSON.stringify(responseJSON)}]: Exitoso`,
+            LOGGER_REGISTER
+          )
+          doRequestRest(
+            SERVICE.PROTOCOL,
+            SERVICE.HOST,
+            SERVICE.PORT,
+            SERVICE.PATH_ACTIVATE_ACCOUNT,
+            CONFIG.METHOD_PUT,
+            headers,
+            data,
+            // eslint-disable-next-line no-shadow
+            response => {
+              // eslint-disable-next-line no-shadow
+              const responseJSON = JSON.parse(response)
+              responseJSON.message = 'Operacion Exitosa'
+
+              LOGGER(
+                'INFO',
+                `[User:${JSON.stringify(responseJSON)}: Exitoso`,
+                LOGGER_REGISTER
+              )
+              return res.status(200).send(responseJSON)
+            },
+            err => {
+              LOGGER('ERROR', err, LOGGER_REGISTER)
+
+              return res.status(500).send(JSON.parse(err))
+            }
+          )
+        }
+      },
+      err => {
+        LOGGER(
+          'ERROR',
+          `[User:${JSON.stringify(err)}] ValidationError: Token ${err}`,
+          LOGGER_REGISTER
+        )
+        return res.status(500).send(JSON.parse(err))
+      }
+    )
+  }
+
   // Link routes and functions
   router.post('/validateData', validateData)
   router.post('/createUser', createUser)
+  router.post('/activateAccount', activateAccount)
   router.post('/validateMediaContact', validateMediaContact)
 }

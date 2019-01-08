@@ -8,11 +8,13 @@ type Props = {
   columns: Array<Object>,
   data: Array<Object>,
   customHandlers: Array<mixed>,
-  loading: boolean
+  loading: boolean,
+  handleBlur: void,
+  handleRadio: void
 }
 
 function TicketsToBeat(props: Props) {
-  const { data, customHandlers, loading } = props
+  const { data, customHandlers, loading, handleBlur, handleRadio } = props
   let { columns } = props
 
   const columnsObj = {
@@ -37,6 +39,8 @@ function TicketsToBeat(props: Props) {
         search
         pagination
         loading={loading}
+        handleBlur={handleBlur}
+        handleRadio={handleRadio}
       />
     </Fragment>
   )

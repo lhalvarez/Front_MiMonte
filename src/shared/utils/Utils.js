@@ -15,8 +15,10 @@ import {
   where,
   without,
   uniq,
-  isMatch
+  isMatch,
+  clone
 } from 'underscore'
+import numeral from 'numeral'
 
 import React from 'react'
 
@@ -38,6 +40,17 @@ const styles = {
 }
 
 const uuidv4 = require('uuid/v4')
+
+export const cloneObject = object => {
+  return clone(object)
+}
+
+export const getCurrency = number => {
+  if (isNaN(number)) {
+    parseFloat(number)
+  }
+  return numeral(number).format('$ 0,0.00')
+}
 
 export const infoMessage = message => {
   const modalObj = {
@@ -148,16 +161,20 @@ export const getMessageResponse = response => {
 }
 
 export const questionMessage = (message, okClick, cancelClick) => {
-  const modalObj = { body: <Row>
+  const modalObj = {
+    body: (
+      <Row>
         <Col xs={4} className="text-center">
           <img src={questionImage} alt="" className="img-fluid" />
         </Col>
         <Col xs={8} className="mediaBody text-left align-self-center">
           <p>{message}</p>
         </Col>
-      </Row>, footer: [
-      { label: 'SALIR', variant: 'info', onClick: okClick },
-      { label: 'CANCELAR', variant: 'primary',  onClick: cancelClick }
+      </Row>
+    ),
+    footer: [
+      { label: 'Aceptar', variant: 'info', onClick: okClick },
+      { label: 'Cancelar', variant: 'primary', onClick: cancelClick }
     ]
   }
 
@@ -296,6 +313,10 @@ export const setDefaultValues = object => {
   })
 
   return jsonObj
+}
+
+export const capitalize = cadena => {
+  return cadena.charAt(0).toUpperCase() + cadena.slice(1)
 }
 
 export const isBefore = (date1, date2) => moment(date1).isBefore(date2)

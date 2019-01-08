@@ -17,3 +17,20 @@ export default async function getUserInfo() {
       throw error
     })
 }
+
+export async function getClientLevel(idCliente) {
+  return new ClientHttpRequest({
+    service: 'api/clientLevel',
+    method: 'POST',
+    data: { idCliente, calificacionMidas: -1 },
+    headers: Object.assign({
+      Authorization: sessionStorage.access_token,
+      uid: sessionStorage.uid
+    })
+  })
+    .request()
+    .then(response => response.data)
+    .catch(error => {
+      throw error
+    })
+}

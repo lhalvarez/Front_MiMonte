@@ -4,9 +4,9 @@ import { Row, Col } from 'react-bootstrap'
 // Components
 import DataTable from 'Components/commons/DataTable'
 // Images
-import iconoAnillo from 'SharedImages/ico-anillo-etiqueta-120.png'
-import iconoBoleta from 'SharedImages/ico-hoja-id-80.png'
-import iconoMessages from 'SharedImages/ico-globos-80.png'
+import iconoAnillo from 'SharedImages/ico-recuperar1.png'
+import iconoBoleta from 'SharedImages/ico-recuperar2.png'
+import iconoMessages from 'SharedImages/ico-recuperar3.png'
 // Styles
 import Styles from './Tickets.less'
 // Flow Props and Stats
@@ -21,7 +21,7 @@ function ActiveTickets(props: Props) {
 
   return (
     <Row>
-      <Col md={9}>
+      <Col xs={12}>
         <DataTable
           columns={columns}
           data={data}
@@ -31,20 +31,23 @@ function ActiveTickets(props: Props) {
           loading={loading}
         />
       </Col>
-      <Col md={3} className="mt-4">
+      <Col xs={12} className="mt-4">
+        <h3 className={`mt-3 ${Styles.h3} text-center`}>
+          ¡Aún puedes recuperar tu prenda!
+        </h3>
+      </Col>
+      <Col md={4} className="mt-4">
         <img
           src={iconoAnillo}
-          className="img-fluid d-block mx-auto"
+          className="img-fluid d-block mx-auto mt-4"
           alt="icono-anillo"
         />
-        <h3 className={`mt-3 ${Styles.h3}`}>
-          ¡Aún puedes recuperar tu prenda!
-          <br />
-          <small className={Styles.small}>
-            Acude a la sucursal de Nacional Monte de Piedad en donde realizaste
-            tu empeño y realiza tu Desempeño Extemporáneo.
-          </small>
-        </h3>
+        <p className={`mt-2 text-center ${Styles.p}`}>
+          Acude a la sucursal de Nacional Monte de Piedad en donde realizaste tu
+          empeño y realiza tu Desempeño Extemporáneo.
+        </p>
+      </Col>
+      <Col md={4} className="mt-4">
         <img
           src={iconoBoleta}
           className="img-fluid d-block mx-auto mt-4"
@@ -55,6 +58,8 @@ function ActiveTickets(props: Props) {
           como realizar el pago de tu préstamo otorgado, intereses y comisión
           por desempeño extemporáneo.
         </p>
+      </Col>
+      <Col md={4} className="mt-4">
         <img
           src={iconoMessages}
           className="img-fluid d-block mx-auto mt-4"
