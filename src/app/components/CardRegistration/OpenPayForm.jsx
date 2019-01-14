@@ -8,14 +8,19 @@ import logoVisa from 'SharedImages/logo-visa.svg'
 import logoMasterCard from 'SharedImages/logo-mastercard-lineal.svg'
 import iconCvv from 'SharedImages/icon-cvv.png'
 
+// Components
+import TextInput from 'Components/commons/TextInput'
+
 type Props = {
   form: Object,
-  styles: any
+  styles: any,
+  validate: boolean,
+  validationObj: Object,
+  handleChange: void
 }
 
 function OpenPayForm(props: Props) {
-  const { form, styles } = props
-
+  const { form, styles, validate, handleChange, validationObj } = props
   return (
     <Fragment>
       <Row>
@@ -28,13 +33,18 @@ function OpenPayForm(props: Props) {
         <Row>
           <Col md={12}>
             <div className="form-group">
-              <label className="form-label">Nombre del titular</label>
-              <input
+              <TextInput
+                name="holder_name"
+                value={form.holder_name}
                 type="text"
+                label="Nombre del titular"
+                validity={validationObj.validateCardName}
+                textInvalid={validationObj.textInvalidCardName}
                 placeholder="Como aparece en la tarjeta"
-                autoComplete="off"
-                data-openpay-card="holder_name"
-                className="form-control"
+                required
+                maxLength={50}
+                onChange={handleChange}
+                uppercase
               />
             </div>
           </Col>
@@ -43,38 +53,56 @@ function OpenPayForm(props: Props) {
           <Col md={12}>
             <div className="p-0 mb-2 form-row">
               <Col xs={4}>
-                <label className="form-label">Número de tarjeta</label>
-                <input
+                <TextInput
+                  name="card_number"
+                  value={form.card_number}
+                  label="Número de tarjeta"
                   type="text"
-                  autoComplete="off"
-                  data-openpay-card="card_number"
-                  className="form-control"
-                  maxLength="16"
-                  minLength="16"
+                  placeholder="No. de tarjeta"
                   required
+                  error={validate}
+                  validity={validationObj.validateCard}
+                  textInvalid={validationObj.textInvalidCard}
+                  maxLength={16}
+                  onChange={handleChange}
+                  uppercase
+                  number
                 />
               </Col>
               <Col md={4}>
-                <label className="form-label">Fecha de expiración</label>
                 <div className="form-row">
                   <Col xs={6}>
-                    <input
-                      inline
-                      type="text"
+                    <label className="form-label">Mes</label>
+                    <TextInput
+                      name="expiration_month"
+                      value={form.expiration_month}
                       placeholder="Mes"
-                      data-openpay-card="expiration_month"
+                      type="text"
+                      required
+                      validity={validationObj.validateMonth}
+                      textInvalid={validationObj.textInvalidExpirationMonth}
+                      maxLength={2}
+                      onChange={handleChange}
+                      uppercase
                       className="form-control"
-                      maxLength="2"
+                      number
                     />
                   </Col>
                   <Col xs={6}>
-                    <input
-                      inline
+                    <label className="form-label">Año</label>
+                    <TextInput
+                      name="expiration_year"
+                      value={form.expiration_year}
                       type="text"
                       placeholder="Año"
-                      data-openpay-card="expiration_year"
+                      required
+                      validity={validationObj.validateYear}
+                      textInvalid={validationObj.textInvalidExpirationYear}
+                      maxLength={2}
                       className="form-control"
-                      maxLength="2"
+                      onChange={handleChange}
+                      uppercase
+                      number
                     />
                   </Col>
                 </div>
@@ -83,13 +111,19 @@ function OpenPayForm(props: Props) {
                 <label className="form-label">Código de seguridad</label>
                 <div className="form-row">
                   <Col xs={8}>
-                    <input
+                    <TextInput
+                      name="cvv2"
+                      value={form.cvv2}
                       type="text"
                       placeholder="3 dígitos"
-                      autoComplete="off"
-                      data-openpay-card="cvv2"
+                      required
+                      validity={validationObj.validateCvv2}
+                      textInvalid={validationObj.textInvalidCvv2}
+                      maxLength={3}
                       className="form-control"
-                      maxLength="5"
+                      onChange={handleChange}
+                      uppercase
+                      number
                     />
                   </Col>
                   <Col xs={4}>

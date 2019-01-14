@@ -19,13 +19,16 @@ import style from './PayOnLine.less'
 
 type Props = {
   partidas: Array<mixed>,
+  validationObj: Object,
   cards: Array<mixed>,
   handleChange: any,
   removePartida: any,
   onPay: any,
   form: Object,
-  disabledOpenPayForm: boolean,
-  montoPagar: number
+  disabled: Object,
+  montoPagar: number,
+  handleChangeBoletas: any,
+  handleChangeMetodoPago: any
 }
 
 function PagoEnLinea(props: Props) {
@@ -34,10 +37,13 @@ function PagoEnLinea(props: Props) {
     cards,
     handleChange,
     form,
-    disabledOpenPayForm,
+    disabled,
     onPay,
     montoPagar,
-    removePartida
+    removePartida,
+    handleChangeBoletas,
+    handleChangeMetodoPago,
+    validationObj
   } = props
 
   const formatter = new Intl.NumberFormat('en-US', {
@@ -72,7 +78,9 @@ function PagoEnLinea(props: Props) {
           <p className={style.detalledepago}>Detalle pago</p>
         </Col>
         <Col xs={3} className="text-right">
-          <a href="#">Editar</a>
+          <a href="#" onClick={handleChangeBoletas}>
+            Editar
+          </a>
         </Col>
       </Row>
       {listaPartidas}
@@ -104,22 +112,22 @@ function PagoEnLinea(props: Props) {
             Consulta la sección de boletas para agregar boletas a tu lista de
             pagos
           </p>
-          <Button label="Seleccionar boletas" />
+          <Button label="Seleccionar boletas" onClick={handleChangeBoletas} />
         </Col>
       </Row>
     </div>
   )
 
   const cardsCheck = cards.map(card => (
-    <Col xs={4} key={card.referencia}>
+    <Col xs={4} key={card.id}>
       <Row>
         <Col xs={1} className="my-2 px-0">
           <Checkbox
             type="radio"
-            id={card.referencia}
+            id={card.id}
             name="cardSelected"
             onChange={handleChange}
-            dataType={card.referencia}
+            dataType={card.id}
             value={form.cardSelected}
           />
         </Col>
@@ -165,8 +173,7 @@ function PagoEnLinea(props: Props) {
       </Row>
     </div>
   )
-  const showAlias = disabledOpenPayForm || cards.length >= 3
-
+  const showAlias = disabled.form || cards.length >= 3
   return (
     <Fragment>
       <Row className="tickets-next-to-beat-message border-bottom pb-2 pt-1 mx-0">
@@ -193,8 +200,13 @@ function PagoEnLinea(props: Props) {
               <p className={`${style.creditoDebito} mb-1 mt-2`}>
                 CRÉDITO Y DÉBITO
               </p>
-              <fieldset disabled={disabledOpenPayForm}>
-                <OpenPayForm form={form} styles={style} />
+              <fieldset disabled={disabled.form}>
+                <OpenPayForm
+                  form={form}
+                  validationObj={validationObj}
+                  handleChange={handleChange}
+                  styles={style}
+                />
               </fieldset>
             </Col>
           </Row>
@@ -219,7 +231,8 @@ function PagoEnLinea(props: Props) {
                     Alcanzaste la cantidad máxima de métodos registrados
                   </p>
                   <a
-                    href="/mimonte/registro-tarjetas"
+                    href="#"
+                    onClick={handleChangeMetodoPago}
                     className={`${style.gestionarMetodo} mt-0 mb-4 pb-1`}
                   >
                     Gestionar métodos de pago
@@ -246,7 +259,12 @@ function PagoEnLinea(props: Props) {
               <Row className="mx-0 my-4 pb-1">
                 <Col xs={6} />
                 <Col xs={6} className="my-auto px-0">
-                  <Button label="Pagar" className="w-100" onClick={onPay} />
+                  <Button
+                    label="Pagar"
+                    className="w-100"
+                    onClick={onPay}
+                    disabled={disabled.button}
+                  />
                 </Col>
               </Row>
             </Col>

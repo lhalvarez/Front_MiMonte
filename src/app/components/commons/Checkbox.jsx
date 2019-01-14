@@ -65,7 +65,7 @@ function Checkbox(props: Props) {
         type={type}
         data-type={dataType}
         disabled={disabled}
-        checked={checked || false}
+        checked={checked}
       />
       <Form.Check.Label className={classLabel} type={type}>
         {label}

@@ -297,7 +297,6 @@ export const isNullOrEmpty = jsonObj => {
 
 export const setDefaultValues = object => {
   const jsonObj = Object.assign({}, object)
-
   each(jsonObj, (value, key) => {
     if (typeof value === 'string') {
       jsonObj[key] = ''

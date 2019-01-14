@@ -8,6 +8,7 @@ import TicketsDetail from 'Containers/Tickets/Details'
 import CardRegistration from 'Containers/CardRegistration'
 import PayOnLine from 'Containers/PayOnLine'
 import AppContainer from 'App/App'
+import Movements from 'Containers/Movements'
 
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
       {
         path: '/mimonte/pago',
         component: PayOnLine,
+        exact: true
+      },
+      {
+        path: '/mimonte/movimientos',
+        component: Movements,
         exact: true
       }
     ]

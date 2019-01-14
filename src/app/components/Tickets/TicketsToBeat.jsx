@@ -34,7 +34,7 @@ function TicketsToBeat(props: Props) {
       <DataTable
         columns={columns}
         data={data}
-        noDataIndication="No cuentas con boletas activas"
+        noDataIndication="No cuentas con boletas próximas a vencer"
         customHandlers={customHandlers}
         search
         pagination

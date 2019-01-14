@@ -6,7 +6,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Fragment } from 'react'
 import BootstrapTable from 'react-bootstrap-table-next'
-import { InputGroup } from 'react-bootstrap'
+import { InputGroup, Row, Col } from 'react-bootstrap'
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit'
 import paginationFactory from 'react-bootstrap-table2-paginator'
 import overlayFactory from 'react-bootstrap-table2-overlay'
@@ -48,7 +48,9 @@ type Props = {
   pagination: boolean,
   loading: boolean,
   handleChange: void,
-  handleRadio: void
+  handleRadio: void,
+  textHeader: Object,
+  handleBlur: void
 }
 
 function DataTable(props: Props) {
@@ -61,7 +63,8 @@ function DataTable(props: Props) {
     pagination,
     loading,
     handleRadio,
-    handleBlur
+    handleBlur,
+    textHeader
   } = props
 
   const { SearchBar } = Search
@@ -94,13 +97,7 @@ function DataTable(props: Props) {
     const { type, customObject, customDivClass, simpleCustomClass } = option
 
     if (type === 'date') {
-      return (
-        <span>
-          {formatDate(cell, 'll')
-            .toString()
-            .toUpperCase()}
-        </span>
-      )
+      return <span>{formatDate(cell, ' DD MMMM YYYY')}</span>
       // eslint-disable-next-line no-else-return
     } else if (type === 'currency') {
       return <span>{getCurrency(cell)}</span>
@@ -155,7 +152,7 @@ function DataTable(props: Props) {
               &nbsp;
             </Fragment>
           )}
-          {formatDate(cell, 'll')}
+          {formatDate(cell, ' DD MMMM YYYY')}
         </p>
       )
     } else if (type === 'saldos') {
@@ -174,7 +171,11 @@ function DataTable(props: Props) {
         <Fragment>
           {saldos && (
             <Fragment>
-              <div className={`radio ${radioDesempeno ? 'active' : ''}`}>
+              <div
+                className={`radio ${radioDesempeno ? 'active' : ''} ${
+                  saldos.saldoDesempeno === 0 ? 'disabled' : ''
+                }`}
+              >
                 <div className="radio-container">
                   <Checkbox
                     label="Desempeño"
@@ -192,7 +193,11 @@ function DataTable(props: Props) {
                     : ''}
                 </span>
               </div>
-              <div className={`radio ${radioRefrendo ? 'active' : ''}`}>
+              <div
+                className={`radio ${radioRefrendo ? 'active' : ''} ${
+                  saldos.saldoRefrendo === 0 ? 'disabled' : ''
+                }`}
+              >
                 <div className="radio-container">
                   <Checkbox
                     label="Refrendo"
@@ -265,18 +270,23 @@ function DataTable(props: Props) {
       {props => (
         <Fragment>
           {search && (
-            <InputGroup className="search-bar-container">
-              <InputGroup.Prepend>
-                <InputGroup.Text id="inputGroupPrepend">
-                  <FontAwesomeIcon icon={faSearch} />
-                </InputGroup.Text>
-              </InputGroup.Prepend>
-              <SearchBar
-                {...props.searchProps}
-                className="search-bar"
-                placeholder="Buscar"
-              />
-            </InputGroup>
+            <Row>
+              <Col xs={3}>
+                <InputGroup className="search-bar-container">
+                  <InputGroup.Prepend>
+                    <InputGroup.Text id="inputGroupPrepend">
+                      <FontAwesomeIcon icon={faSearch} />
+                    </InputGroup.Text>
+                  </InputGroup.Prepend>
+                  <SearchBar
+                    {...props.searchProps} // eslint-disable-line
+                    className="search-bar"
+                    placeholder="Buscar"
+                  />
+                </InputGroup>
+              </Col>
+              <Col xs={9}>{textHeader}</Col>
+            </Row>
           )}
           <BootstrapTable
             bordered={false}
@@ -284,7 +294,7 @@ function DataTable(props: Props) {
             headerClasses="header-tabla-mimonte"
             pagination={pagination ? paginationFactory(options) : null}
             wrapperClasses="table-responsive"
-            {...props.baseProps}
+            {...props.baseProps} // eslint-disable-line
             loading={loading}
             overlay={overlayFactory({
               spinner: true,

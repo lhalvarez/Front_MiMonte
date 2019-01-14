@@ -10,16 +10,17 @@ function rules(type) {
   const rule = [
     {
       test: /\.(js|jsx)$/,
+      exclude: /(node_modules|bower_components)/,
       use: {
         loader: 'babel-loader',
         options: {
+          presets: ['@babel/preset-env'],
           cacheDirectory: true
         }
-      },
-      exclude: /node_modules/
+      }
     },
     {
-      test: /\.(eot|ttf|woff|woff2)$/,
+      test: /\.(eot|otf|ttf|woff|woff2)$/,
       loader: 'file-loader',
       options: {
         name: '[name].[ext]',
@@ -33,10 +34,6 @@ function rules(type) {
         name: '[name].[ext]',
         outputPath: 'assets/images/'
       }
-    },
-    {
-      test: /\.(otf)$/,
-      loader: 'file-loader'
     },
     {
       test: /\.(csv|tsv)$/,
@@ -59,7 +56,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               importLoaders: 2,
               sourceMap: false
             }
@@ -87,7 +84,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               importLoaders: 2,
               sourceMap: false
             }
@@ -102,7 +99,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               importLoaders: 2,
               sourceMap: false
             }
@@ -131,7 +128,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               import: true,
               importLoaders: 2,
               sourceMap: false
@@ -161,7 +158,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               import: true,
               importLoaders: 2,
               sourceMap: false
@@ -194,7 +191,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               importLoaders: 2,
               sourceMap: false
             }
@@ -222,7 +219,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               importLoaders: 2,
               sourceMap: false
             }
@@ -237,7 +234,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               importLoaders: 2,
               sourceMap: false
             }
@@ -266,7 +263,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: false,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               import: true,
               importLoaders: 2,
               sourceMap: false
@@ -301,7 +298,7 @@ function rules(type) {
             loader: 'css-loader',
             options: {
               modules: true,
-              localIdentName: '[name]_[local]',
+              localIdentName: '[name]__[local]_[hash:base64]',
               import: true,
               importLoaders: 2,
               sourceMap: false

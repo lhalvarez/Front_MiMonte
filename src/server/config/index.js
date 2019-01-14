@@ -1,4 +1,5 @@
 //! Reparar errores de eslint
+const [PROTOCOL, HOST, PORT] = process.env.BACKEND_CAT.split('#')
 const [
   PROTOCOL_OAUTH,
   HOST_OAUTH,
@@ -20,6 +21,8 @@ module.exports = {
   PSW_PL: process.env.PSW_PL,
   API_KEY: process.env.API_KEY,
   API_SECRET: process.env.API_SECRET,
+  API_SET_ID_OPENPAY: process.env.API_SET_ID_OPENPAY,
+  API_KEY_OPENPAY: process.env.API_KEY_OPENPAY,
 
   USER_POOL_ID: process.env.USER_POOL_ID,
   CLIENT_ID: process.env.CLIENT_ID,
@@ -42,6 +45,13 @@ module.exports = {
   LOGGER_USER_TICKETS: 4,
   LOGGER_DETAILS_TICKET: 5,
   LOGGER_REGISTER: 6,
+  LOGGER_CARD_REGISTRATION: 7,
+  LOGGER_MOVEMENTS: 8,
+  LOGGER_PAY_ON_LINE: 9,
+
+  PROTOCOL,
+  HOST,
+  PORT,
 
   METHOD_POST: 'POST',
   METHOD_GET: 'GET',
@@ -107,5 +117,31 @@ module.exports = {
     HOST: HOST_BPM,
     PORT: PORT_BPM,
     PATH: '/NMP/OperacionPrendaria/EstadoCuenta/v1/PDF'
+  },
+  SERVICE_MOVEMENTS: {
+    ID_CONSUMIDOR: '25',
+    ID_DESTINO: '100',
+    PROTOCOL: PROTOCOL_BPM,
+    HOST: HOST_BPM,
+    PORT: PORT_BPM,
+    PATH:
+      '/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/Movimientos',
+    PATH_RECIBOS:
+      '/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/Recibos'
+  },
+  SERVICE_PAY_ON_LINE: {
+    ID_CONSUMIDOR: '25',
+    ID_DESTINO: '100',
+    PROTOCOL: PROTOCOL_BPM,
+    HOST: HOST_BPM,
+    PORT: PORT_BPM,
+    PATH:
+      '/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/Transaccion'
+  },
+  SERVICE_CARD_REGISTRATION: {
+    PATH: 'mimonte/v1/tarjetas/cliente',
+    PATH_SAVE_CARD: 'mimonte/v1/tarjeta',
+    PATH_DELETE_CARD: 'mimonte/v1/tarjeta',
+    PATH_UPDATE_CARD: 'mimonte/v1/tarjeta/update'
   }
 }

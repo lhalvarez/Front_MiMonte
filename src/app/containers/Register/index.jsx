@@ -331,11 +331,9 @@ class Registration extends Component<Props, State> {
       disableStep4
     } = this.state
 
-    if (isLoading) {
-      return <Spinner />
-    }
     return (
       <Fragment>
+        <Spinner loading={isLoading} />
         <ModalProvider
           content={content}
           showModal={showModal}

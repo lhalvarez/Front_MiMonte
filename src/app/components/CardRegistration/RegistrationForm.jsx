@@ -10,6 +10,7 @@ import Styles from './RegistrationForm.less'
 
 type Props = {
   form: Object,
+  validationObj: Object,
   handleChange: void,
   handleClickAdd: void,
   handleShowCollapse: void,
@@ -26,6 +27,7 @@ function RegistrationForm(props: Props) {
     handleShowCollapse,
     handleClickDelete,
     handleClickUpdate,
+    validationObj,
     cards
   } = props
 
@@ -57,7 +59,7 @@ function RegistrationForm(props: Props) {
           </p>
           <OpenPayForm
             form={form}
-            handleClickAdd={handleClickAdd}
+            validationObj={validationObj}
             handleChange={handleChange}
             styles={Styles}
           />
@@ -71,6 +73,9 @@ function RegistrationForm(props: Props) {
                     value={form.alias}
                     label="Alias"
                     type="text"
+                    validity={validationObj.alias}
+                    textInvalid={validationObj.textInvalidAlias}
+                    uppercase
                     maxLength={20}
                     onChange={handleChange}
                   />

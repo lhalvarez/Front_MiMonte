@@ -5,12 +5,13 @@ const CompressionPlugin = require('compression-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const webpack = require('webpack')
+const WebpackNotifierPlugin = require('webpack-notifier')
 // eslint-disable-next-line
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-/* const BrotliPlugin = require('brotli-webpack-plugin') */
+const BrotliPlugin = require('brotli-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 // enviroment
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -19,37 +20,44 @@ const isAnalyzer = process.env.ANALYZER === 'true'
 
 const GLOBALS = {
   'process.env.APP': JSON.stringify(process.env.APP),
-  'process.env.baseURL': JSON.stringify(process.env.BACKEND_SERVER)
+  'process.env.baseURL': JSON.stringify(process.env.BACKEND_SERVER),
+  'process.env.setId': JSON.stringify(process.env.API_SET_ID_OPENPAY),
+  'process.env.setApiPublicKey': JSON.stringify(
+    process.env.API_PUBLIC_KEY_OPENPAY
+  ),
+  'process.env.setApiPrivateKey': JSON.stringify(
+    process.env.API_PRIVATE_KEY_OPENPAY
+  ),
+  'process.env.setSandboxMode': JSON.stringify(process.env.SET_SANDBOX_MODE)
 }
 
 function plugins() {
-  // the path(s) that should be cleaned
-  const pathsToClean = [
-    path.resolve(__dirname, '../../dist/'),
-    path.resolve(__dirname, '../../build')
-  ]
-  // the clean options to use
-  const cleanOptions = {
-    verbose: true,
-    dry: false,
-    watch: false,
-    allowExternal: true,
-    beforeEmit: true
-  }
-
   const plugin = [
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.HashedModuleIdsPlugin(),
     new MiniCssExtractPlugin({
       filename: '[name].css',
-      chunkFilename: '[name].css'
-    }) /* 
-    new BrotliPlugin({
-      asset: '[path].br[query]',
-      test: /\.(js|css|html|svg)$/,
-      threshold: 10240,
-      minRatio: 0.8
-    }), */,
-    new CleanWebpackPlugin(pathsToClean, cleanOptions),
+      chunkFilename: '[id].css'
+    }),
+    new HtmlWebpackPlugin({
+      title: 'React Initial'
+    }),
+    new HardSourceWebpackPlugin({
+      cacheDirectory: '../../node_modules/.cache/hard-source/[confighash]',
+      environmentHash: {
+        root: process.cwd(),
+        directories: [],
+        files: ['package-lock.json', 'yarn.lock']
+      },
+      info: {
+        mode: 'none',
+        level: 'debug'
+      },
+      cachePrune: {
+        maxAge: 2 * 24 * 60 * 60 * 1000,
+        sizeThreshold: 50 * 1024 * 1024
+      }
+    }),
     new webpack.DefinePlugin(GLOBALS)
   ]
 
@@ -64,6 +72,9 @@ function plugins() {
     plugin.push(
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
+      new WebpackNotifierPlugin({
+        title: 'Mi Monte'
+      }),
       new DashboardPlugin()
     )
   } else {
@@ -81,7 +92,12 @@ function plugins() {
         threshold: 10240,
         minRatio: 0.8
       }),
-      new HtmlWebpackPlugin({ minify: true }),
+      new BrotliPlugin({
+        asset: '[path].br[query]',
+        test: /\.(js|css|html|svg|ttf)$/,
+        threshold: 10240,
+        minRatio: 0.8
+      }),
       new AssetsPlugin({
         prettyPrint: true,
         filename: 'assets.json',

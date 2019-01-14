@@ -73,7 +73,11 @@ module.exports = router => {
                 responseJSON.Cliente.apellidoPaterno
               } ${responseJSON.Cliente.apellidoMaterno}`,
               clientId: responseJSON.Cliente.idCliente,
-              credentialNumber: responseJSON.Cliente.numeroDeCredencial
+              credentialNumber: responseJSON.Cliente.numeroDeCredencial,
+              name: `${responseJSON.Cliente.nombre}`,
+              lastName: `${responseJSON.Cliente.apellidoPaterno} ${
+                responseJSON.Cliente.apellidoMaterno
+              }`
             }
 
             return res.status(200).send(sessionInfo)

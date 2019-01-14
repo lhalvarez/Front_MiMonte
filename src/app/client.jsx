@@ -19,9 +19,9 @@ import App from './index'
 
 // eslint-disable-next-line func-names
 window.onload = function() {
-  window.OpenPay.setId('mzdtln0bmtms6o3kck8f')
-  window.OpenPay.setApiKey('pk_f0660ad5a39f4912872e24a7a660370c')
-  window.OpenPay.setSandboxMode(true)
+  window.OpenPay.setId(process.env.setId)
+  window.OpenPay.setApiKey(process.env.setApiPublicKey)
+  window.OpenPay.setSandboxMode(process.env.setSandboxMode === 'true')
 }
 
 // DOM

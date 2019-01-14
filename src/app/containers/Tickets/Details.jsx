@@ -112,8 +112,8 @@ class Details extends Component<Props, State> {
       )
 
       saldos = {
-        saldoDesempeno: saldoDesempeno.monto,
-        saldoRefrendo: saldoRefrendo.monto
+        saldoDesempeno: saldoDesempeno ? saldoDesempeno.monto : 0,
+        saldoRefrendo: saldoRefrendo ? saldoRefrendo.monto : 0
       }
     }
 

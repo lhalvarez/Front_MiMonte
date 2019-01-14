@@ -31,7 +31,6 @@ function RegisteredCards(props: Props) {
     handleClickUpdate,
     cards
   } = props
-
   const noCards = <RegistrationInstructions styles={styles} />
 
   const cardItem = item => (
@@ -40,7 +39,7 @@ function RegisteredCards(props: Props) {
         <Card.Body>
           <div className="logo-card">
             <img
-              src={item.tipo === 'Visa' ? logoVisa : logoMasterCard}
+              src={item.tipo === 'visa' ? logoVisa : logoMasterCard}
               className="img-fluid d-block mx-auto"
               alt="logo-card"
             />
@@ -56,29 +55,42 @@ function RegisteredCards(props: Props) {
             </p>
           </div>
           <div className="actioners-card">
-            <a href="#" name={item.referencia} onClick={handleShowCollapse}>
+            <a
+              href="#"
+              name={item.alias}
+              onClick={() => handleShowCollapse(item)}
+            >
               Editar
             </a>
-            <a href="#" name={item.referencia} onClick={handleClickDelete}>
+            <a
+              href="#"
+              name={item.referencia}
+              onClick={() => handleClickDelete(item)}
+            >
               Eliminar
             </a>
           </div>
         </Card.Body>
-        <Collapse in={form[`alias-${item.referencia}`]}>
+        <Collapse in={form[`alias-${item.id}`]}>
           <Card.Footer>
             <TextInput
-              name={item.referencia}
-              value={form[item.referencia]}
+              name={item.alias}
+              value={form[item.alias]}
               label="Alias"
               placeholder="Alias"
+              uppercase
               onChange={handleChange}
             />
             <div>
-              <a href="#" name={item.referencia} onClick={handleShowCollapse}>
+              <a
+                href="#"
+                name={item.alias}
+                onClick={() => handleShowCollapse(item)}
+              >
                 Cancelar
               </a>
               <Button
-                name={item.referencia}
+                name={item.alias}
                 label="Guardar"
                 className="float-right"
                 onClick={handleClickUpdate}

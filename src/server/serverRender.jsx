@@ -22,16 +22,25 @@ export default function serverRender(): any {
       }
     }
 
-    const markup = renderToString(
+    // Rendering with SSR
+    const markup: string = renderToString(
       <AppContainer server location={req.url} context={context} />
     )
+    const title: string = 'Mi Monte'
+    const app: string = 'main'
+    const vendor: string = 'vendor'
+    const stylesheet: string = '/app/main.css'
 
     if (context.url) {
       res.redirect(301, context.url)
     } else {
       res.send(
         html({
-          markup
+          markup,
+          title,
+          app,
+          vendor,
+          stylesheet
         })
       )
     }

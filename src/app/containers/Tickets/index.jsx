@@ -227,60 +227,61 @@ class Tickets extends Component<Props, State> {
           partidas.partida.map(e => {
             const { prenda, saldos } = e
             const item = getItem(ticketsActive, { id: prenda.folio })
-            const itemTicket = getItem(tickets, { id: item.id })
-
-            if (itemTicket) {
-              switch (itemTicket.tipoEmpeno) {
-                case 'desempeno':
-                  item.radioDesempeno = true
-                  break
-                case 'refrendo':
-                  item.radioRefrendo = true
-                  break
-                case 'abono':
-                  item.radioAbono = true
-                  item.abono = itemTicket.monto
-                  break
-                default:
+            if (item) {
+              const itemTicket = getItem(tickets, { id: item.id })
+              if (itemTicket) {
+                switch (itemTicket.tipoEmpeno) {
+                  case 'desempeno':
+                    item.radioDesempeno = true
+                    break
+                  case 'refrendo':
+                    item.radioRefrendo = true
+                    break
+                  case 'abono':
+                    item.radioAbono = true
+                    item.abono = itemTicket.monto
+                    break
+                  default:
+                }
               }
-            }
 
-            item.saldos = saldos
-            ticketsActive = replaceObject(
-              ticketsActive,
-              { id: prenda.folio },
-              item
-            )
-            return true
+              item.saldos = saldos
+              ticketsActive = replaceObject(
+                ticketsActive,
+                { id: prenda.folio },
+                item
+              )
+            }
+            return e
           })
         } else if (requestGUID === marketingGUID) {
           partidas.partida.map(e => {
             const { prenda, saldos } = e
             const item = getItem(ticketsNextToBeat, { id: prenda.folio })
-            const itemTicket = getItem(tickets, { id: item.id })
-
-            if (itemTicket) {
-              switch (itemTicket.tipoEmpeno) {
-                case 'desempeno':
-                  item.radioDesempeno = true
-                  break
-                case 'refrendo':
-                  item.radioRefrendo = true
-                  break
-                case 'abono':
-                  item.radioAbono = true
-                  break
-                default:
+            if (item) {
+              const itemTicket = getItem(tickets, { id: item.id })
+              if (itemTicket) {
+                switch (itemTicket.tipoEmpeno) {
+                  case 'desempeno':
+                    item.radioDesempeno = true
+                    break
+                  case 'refrendo':
+                    item.radioRefrendo = true
+                    break
+                  case 'abono':
+                    item.radioAbono = true
+                    break
+                  default:
+                }
               }
+              item.saldos = saldos
+              ticketsNextToBeat = replaceObject(
+                ticketsNextToBeat,
+                { id: prenda.folio },
+                item
+              )
             }
-
-            item.saldos = saldos
-            ticketsNextToBeat = replaceObject(
-              ticketsNextToBeat,
-              { id: prenda.folio },
-              item
-            )
-            return true
+            return e
           })
         }
         this.setState({ ticketsNextToBeat, ticketsActive })
@@ -416,9 +417,9 @@ class Tickets extends Component<Props, State> {
     // eslint-disable-next-line react/destructuring-assignment
     const data = this.state[
       `${
-        activeKey === '2'
+        activeKey === 2
           ? 'ticketsNextToBeat'
-          : activeKey === '1'
+          : activeKey === 1
           ? 'ticketsActive'
           : 'ticketsInMarketing'
       }`
@@ -483,7 +484,7 @@ class Tickets extends Component<Props, State> {
   }
 
   onChange = ({ target }: SyntheticInputEvent) => {
-    const { history } = this.props
+    const { history, onShowModal } = this.props
     const { id } = target
     const [option, folio] = id.split('&')
     const { activeKey } = this.state
@@ -527,26 +528,30 @@ class Tickets extends Component<Props, State> {
       default:
     }
 
-    if (itemDetail.id) {
-      itemDetail.tipoEmpeno = option
-      paymentDetailTickets = replaceObject(
-        paymentDetailTickets,
-        { id: folio },
-        itemDetail
-      )
+    if (item.monto === 0 && option !== 'abono') {
+      onShowModal(warningMessage('No se puede seleccionar ésta operación'))
     } else {
-      itemDetail.id = folio
-      itemDetail.tipoEmpeno = option
-      paymentDetailTickets.push(itemDetail)
-    }
+      if (itemDetail.id) {
+        itemDetail.tipoEmpeno = option
+        paymentDetailTickets = replaceObject(
+          paymentDetailTickets,
+          { id: folio },
+          itemDetail
+        )
+      } else {
+        itemDetail.id = folio
+        itemDetail.tipoEmpeno = option
+        paymentDetailTickets.push(itemDetail)
+      }
 
-    dataArray = replaceObject(dataArray, { id: folio }, item)
-    // eslint-disable-next-line no-restricted-globals
-    history.push('/mimonte/boletas', { tickets: paymentDetailTickets })
-    this.setState({
-      [activeKey === 1 ? 'ticketsInMarketing' : 'ticketsActive']: dataArray,
-      paymentDetailTickets
-    })
+      dataArray = replaceObject(dataArray, { id: folio }, item)
+      // eslint-disable-next-line no-restricted-globals
+      history.push('/mimonte/boletas', { tickets: paymentDetailTickets })
+      this.setState({
+        [activeKey === 1 ? 'ticketsInMarketing' : 'ticketsActive']: dataArray,
+        paymentDetailTickets
+      })
+    }
   }
 
   onClickDetelete = id => {

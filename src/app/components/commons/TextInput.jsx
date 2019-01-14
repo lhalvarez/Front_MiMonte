@@ -97,7 +97,7 @@ function TextInput(props: Props) {
 
   return (
     <Form.Group>
-      <Form.Label>
+      <Form.Label hidden={!label}>
         {label}
         &nbsp;
       </Form.Label>
