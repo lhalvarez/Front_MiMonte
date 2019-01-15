@@ -9,7 +9,6 @@ const webpack = require('webpack')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
 const DashboardPlugin = require('webpack-dashboard/plugin')
-const BrotliPlugin = require('brotli-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
 // enviroment
 const isDevelopment = process.env.NODE_ENV !== 'production'
@@ -68,12 +67,6 @@ function plugins() {
         filename: '[path].gz[query]',
         algorithm: 'gzip',
         test: /\.js$|\.css$|\.html$/,
-        threshold: 10240,
-        minRatio: 0.8
-      }),
-      new BrotliPlugin({
-        asset: '[path].br[query]',
-        test: /\.(js|css|html|svg|ttf)$/,
         threshold: 10240,
         minRatio: 0.8
       }),
