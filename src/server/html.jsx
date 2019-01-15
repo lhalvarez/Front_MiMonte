@@ -34,6 +34,8 @@ export default function html(options) {
         </script>
         <script src="/app/${vendor}.bundle.js"></script>
         <script src="/app/${app}.bundle.js"></script>
+        <script type="text/javascript"  src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
+        <script type='text/javascript' Access-Control-Allow-Origin: * src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
       </body>
     </html>
   `

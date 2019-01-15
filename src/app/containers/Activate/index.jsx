@@ -2,8 +2,12 @@ import React, { Fragment, Component } from 'react'
 
 import { activateAccount } from 'Api/Register'
 
+// Components
+import RegisterActive from 'Components/Activate'
+
 type Props = {
-  match: Object
+  match: Object,
+  history: any
 }
 type State = {
   activated: number
@@ -25,6 +29,11 @@ class Activate extends Component<Props, State> {
       .catch(() => {
         this.setState({ activated: 3 })
       })
+  }
+
+  goToInicio = () => {
+    const { history } = this.props
+    history.push('/login')
   }
 
   onClickRetryActivation = () => {
@@ -49,19 +58,29 @@ class Activate extends Component<Props, State> {
 
     const Activated = () => {
       if (activated === 1) {
-        return <h1>{`Su cuenta ${email} está siendo activada`}</h1>
+        return (
+          <RegisterActive
+            message={`Su cuenta ${email} está siendo activada`}
+            status="pending"
+          />
+        )
       }
       if (activated === 2) {
         return (
-          <h1>{`Su cuenta ${email} ha sido activada satisfactoriamente`}</h1>
+          <RegisterActive
+            message={`Su cuenta ${email} ha sido activada satisfactoriamente`}
+            status="success"
+            goToInicio={this.goToInicio}
+          />
         )
       }
       return (
         <Fragment>
-          <h1>{`Hubo un error al activar la cuenta ${email}`}</h1>
-          <button type="button" onClick={() => this.onClickRetryActivation}>
-            Intentar nuevamente
-          </button>
+          <RegisterActive
+            message={`Hubo un error al activar la cuenta ${email}`}
+            status="error"
+            gotRetryActivation={this.onClickRetryActivation}
+          />
         </Fragment>
       )
     }

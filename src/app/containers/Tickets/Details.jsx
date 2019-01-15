@@ -32,7 +32,8 @@ type State = {
   ticketDetail: Array<Object>,
   ticketOperations: Array<Object>,
   paymentDetailTickets: Array<Object>,
-  activeItem: Array<Object>
+  activeItem: Array<Object>,
+  movimientos: Array<Object>
 }
 
 class Details extends Component<Props, State> {
@@ -55,10 +56,10 @@ class Details extends Component<Props, State> {
         }
       ],
       Detail: [
-        { dataField: '', text: 'Fecha de pago' },
-        { dataField: '', text: 'Operación' },
-        { dataField: '', text: 'Monto' },
-        { dataField: '', text: 'Sucursal' },
+        { dataField: 'movimientos.timestampOperacion', text: 'Fecha de pago' },
+        { dataField: 'movimientos.operacion', text: 'Operación' },
+        { dataField: 'movimientos.monto', text: 'Monto' },
+        { dataField: 'movimeintos.sucursal', text: 'Sucursal' },
         {
           dataField: 'folio',
           text: 'Detalle',
@@ -99,6 +100,7 @@ class Details extends Component<Props, State> {
       operacionesDisponibles,
       tickets
     } = location.state
+    let { movimientos } = location.state
 
     let { saldos } = location.state
     const itemTicket = getItem(tickets, { id: prenda.folio })
@@ -116,7 +118,6 @@ class Details extends Component<Props, State> {
         saldoRefrendo: saldoRefrendo ? saldoRefrendo.monto : 0
       }
     }
-
     const itemObj = {
       id: prenda.folio,
       radioDesempeno: !!(itemTicket && itemTicket.tipoEmpeno === 'desempeno'),
@@ -129,6 +130,7 @@ class Details extends Component<Props, State> {
       fechaLimitePago: condiciones.fechaLimitePago,
       condiciones
     }
+
     activeItem.push(itemObj)
 
     operaciones.operacion = operaciones.operacion.map(e => {
@@ -136,12 +138,14 @@ class Details extends Component<Props, State> {
       return e
     })
 
+    movimientos = movimientos === undefined ? [] : movimientos.movimiento
     this.setState({
       ticketConditions: condiciones,
       ticketOperations: operaciones,
       ticketDetail: prenda,
       paymentDetailTickets: cloneObject(tickets),
-      activeItem
+      activeItem,
+      movimientos
     })
   }
 
@@ -303,7 +307,8 @@ class Details extends Component<Props, State> {
       ticketConditions,
       ticketDetail,
       ticketOperations,
-      activeItem
+      activeItem,
+      movimientos
     } = this.state
 
     return (
@@ -315,6 +320,7 @@ class Details extends Component<Props, State> {
             <DetailTickets
               columns={columns}
               activeItem={activeItem}
+              movimientos={movimientos}
               customHandlers={[
                 e => this.onClickDocument(e, 'Descarga'),
                 e => this.onClickDocument(e, 'visualiza')

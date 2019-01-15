@@ -2,7 +2,6 @@
 import React, { Fragment } from 'react'
 // Components
 import DataTable from 'Components/commons/DataTable'
-import { replaceObject } from 'SharedUtils/Utils'
 // Flow Props and Stats
 type Props = {
   columns: Array<Object>,
@@ -14,20 +13,14 @@ type Props = {
 }
 
 function TicketsToBeat(props: Props) {
-  const { data, customHandlers, loading, handleBlur, handleRadio } = props
-  let { columns } = props
-
-  const columnsObj = {
-    dataField: 'condiciones.fechaLimitePago',
-    text: 'Fecha límite de pago',
-    type: 'dateWarning',
-    classes: 'date-warning'
-  }
-  columns = replaceObject(
-    columns,
-    { dataField: 'condiciones.fechaLimitePago' },
-    columnsObj
-  )
+  const {
+    data,
+    customHandlers,
+    loading,
+    handleBlur,
+    handleRadio,
+    columns
+  } = props
 
   return (
     <Fragment>

@@ -52,7 +52,7 @@ function PagoEnLinea(props: Props) {
     minimumFractionDigits: 2
   })
   const listaPartidas = partidas.map(partida => (
-    <Row className="mb-3" key={partida.numeroboleta}>
+    <Row className="mb-3" key={partida.id}>
       <Col xs={8}>
         <p className={`${style.numeroboleta} my-0`}>{partida.id}</p>
         <p className={`${style.operacion} my-0`}>{partida.tipoOperacion}</p>
@@ -252,6 +252,7 @@ function PagoEnLinea(props: Props) {
                       id="alias"
                       value={form.alias}
                       onChange={handleChange}
+                      uppercase
                     />
                   </Col>
                 </Collapse>

@@ -83,9 +83,9 @@ class PayOnLine extends Component<Props, State> {
             tipo: item.tipo.descripcion,
             digitos: item.digitos,
             alias: item.alias,
-            token: item.token || null,
+            token: item.token,
             id: item.id,
-            id_openpay: item.id_openpay || null
+            id_openpay: item.id_openpay
           }
           return cardSave
         })
@@ -134,15 +134,14 @@ class PayOnLine extends Component<Props, State> {
 
   componentWillReceiveProps(nextProps) {
     const { dataCallback } = nextProps
-    const { idTransaccion } = this.state
-    const { handleHide, handleLoading, onShowModal } = this.props
+    const { idTransaccion, openPayWindow } = this.state
+    const { handleLoading, onShowModal } = this.props
     // eslint-disable-next-line react/destructuring-assignment
     if (!isEqual(this.props.dataCallback, dataCallback)) {
       if (idTransaccion === dataCallback.id) {
-        handleHide()
-        handleLoading(true)
         endTransaction(dataCallback.id)
           .then(() => {
+            openPayWindow.close()
             handleLoading(false)
             onShowModal(Utils.successMessage())
           })
@@ -340,20 +339,15 @@ class PayOnLine extends Component<Props, State> {
               }
             }
             payMethod(objPay)
-              .then(res => {
-                const Modalbody = (
-                  <div className="my-auto text-center">
-                    <object
-                      aria-label="frame"
-                      type="text/html"
-                      data={res.url}
-                      width="400"
-                      height="400"
-                    />
-                  </div>
-                )
-                handleLoading(false)
-                onShowModal(Utils.customMessage('', Modalbody, '', true, ''))
+              // eslint-disable-next-line no-shadow
+              .then(response => {
+                if (response.url) {
+                  const openPayWindow = window.open(response.url, 'openPay')
+                  this.setState({
+                    idTransaccion: response.idTransaccion,
+                    openPayWindow
+                  })
+                }
               })
               .catch(err => {
                 handleLoading(false)
@@ -363,18 +357,19 @@ class PayOnLine extends Component<Props, State> {
               })
             getCard(userInfo.clientId)
               .then(res => {
-                handleLoading(false)
                 const cardResponse = res.object.map(item => {
                   const cardSave = {
                     tipo: item.tipo.descripcion,
                     digitos: item.digitos,
                     alias: item.alias,
                     token: item.token,
-                    id: item.id
+                    id: item.id,
+                    id_openpay: item.id_openpay
                   }
                   return cardSave
                 })
                 cards = [...cardResponse]
+
                 this.setState({
                   form: Utils.setDefaultValues(form),
                   cards
@@ -441,23 +436,14 @@ class PayOnLine extends Component<Props, State> {
         }
       }
       payMethod(objPay)
-        .then(res => {
-          const { idTransaccion, url } = res
-          handleLoading(false)
-          const Modalbody = (
-            <div className="my-auto text-center">
-              <object
-                aria-label="frame"
-                type="text/html"
-                data={url}
-                width="400"
-                height="400"
-              />
-            </div>
-          )
-
-          this.setState({ idTransaccion })
-          onShowModal(Utils.customMessage('', Modalbody, '', true, ''))
+        .then(response => {
+          if (response.url) {
+            const openPayWindow = window.open(response.url, 'openPay')
+            this.setState({
+              idTransaccion: response.idTransaccion,
+              openPayWindow
+            })
+          }
         })
         .catch(err => {
           handleLoading(false)
@@ -551,20 +537,14 @@ class PayOnLine extends Component<Props, State> {
         }
       }
       payMethod(obj)
-        .then(res => {
-          const Modalbody = (
-            <div className="my-auto text-center">
-              <object
-                aria-label="frame"
-                type="text/html"
-                data={res.url}
-                width="400"
-                height="400"
-              />
-            </div>
-          )
-          handleLoading(false)
-          onShowModal(Utils.customMessage('', Modalbody, '', true, ''))
+        .then(response => {
+          if (response.url) {
+            const openPayWindow = window.open(response.url, 'openPay')
+            this.setState({
+              idTransaccion: response.idTransaccion,
+              openPayWindow
+            })
+          }
         })
         .catch(err => {
           handleLoading(false)

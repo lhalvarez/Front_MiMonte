@@ -8,7 +8,10 @@ const { doRequestRest } = require('../../utils/HTTPRequest')
 const LOGGER = require('../../config/Logger').Logger
 const CONFIG = require('../../config')
 
-const openpay = new Openpay(process.env.setId, process.env.setApiPrivateKey)
+const openpay = new Openpay(
+  CONFIG.API_SET_ID_OPENPAY,
+  CONFIG.API_PRIVATE_KEY_OPENPAY
+)
 
 module.exports = router => {
   // eslint-disable-next-line prefer-destructuring

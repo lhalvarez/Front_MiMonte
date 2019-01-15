@@ -7,8 +7,8 @@ const LOGGER = require('../../config/Logger').Logger
 const CONFIG = require('../../config')
 
 const openpay = new Openpay(
-  'mqwwoo1nkej3imduzc2x',
-  'sk_3300702573dc46348ff0052226678170'
+  CONFIG.API_SET_ID_OPENPAY,
+  CONFIG.API_PRIVATE_KEY_OPENPAY
 )
 
 module.exports = router => {
