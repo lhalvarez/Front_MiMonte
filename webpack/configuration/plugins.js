@@ -8,7 +8,6 @@ const webpack = require('webpack')
 // eslint-disable-next-line
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const BrotliPlugin = require('brotli-webpack-plugin')
 const AssetsPlugin = require('assets-webpack-plugin')
@@ -40,22 +39,6 @@ function plugins() {
     }),
     new HtmlWebpackPlugin({
       title: 'React Initial'
-    }),
-    new HardSourceWebpackPlugin({
-      cacheDirectory: '../../node_modules/.cache/hard-source/[confighash]',
-      environmentHash: {
-        root: process.cwd(),
-        directories: [],
-        files: ['package-lock.json', 'yarn.lock']
-      },
-      info: {
-        mode: 'none',
-        level: 'debug'
-      },
-      cachePrune: {
-        maxAge: 2 * 24 * 60 * 60 * 1000,
-        sizeThreshold: 50 * 1024 * 1024
-      }
     }),
     new webpack.DefinePlugin(GLOBALS)
   ]
