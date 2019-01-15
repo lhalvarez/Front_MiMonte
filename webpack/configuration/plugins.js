@@ -52,7 +52,7 @@ function plugins() {
 
   if (isDevelopment) {
     plugin.push(
-      new webpack.HotModuleReplacementPlugin(),
+      // new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new DashboardPlugin()
     )
