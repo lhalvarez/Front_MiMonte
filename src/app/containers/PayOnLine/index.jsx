@@ -11,7 +11,7 @@ import { UserConsumer } from 'Context/User'
 
 // Api
 import getCard, { saveCard } from 'Api/CardRegistration'
-import payMethod from 'Api/PayOnLine'
+import payMethod, { endTransaction } from 'Api/PayOnLine'
 import { isEqual } from 'underscore'
 
 // Flow Props and Stats
@@ -135,11 +135,21 @@ class PayOnLine extends Component<Props, State> {
   componentWillReceiveProps(nextProps) {
     const { dataCallback } = nextProps
     const { idTransaccion } = this.state
-    const { handleHide } = this.props
+    const { handleHide, handleLoading, onShowModal } = this.props
     // eslint-disable-next-line react/destructuring-assignment
     if (!isEqual(this.props.dataCallback, dataCallback)) {
       if (idTransaccion === dataCallback.id) {
         handleHide()
+        handleLoading(true)
+        endTransaction(dataCallback.id)
+          .then(() => {
+            handleLoading(false)
+            onShowModal(Utils.successMessage())
+          })
+          .catch(() => {
+            handleLoading(false)
+            onShowModal(Utils.errorMessage('', 'fallo'))
+          })
       }
     }
   }
@@ -433,6 +443,7 @@ class PayOnLine extends Component<Props, State> {
       payMethod(objPay)
         .then(res => {
           const { idTransaccion, url } = res
+          handleLoading(false)
           const Modalbody = (
             <div className="my-auto text-center">
               <object
@@ -446,7 +457,6 @@ class PayOnLine extends Component<Props, State> {
           )
 
           this.setState({ idTransaccion })
-          handleLoading(false)
           onShowModal(Utils.customMessage('', Modalbody, '', true, ''))
         })
         .catch(err => {
@@ -557,16 +567,15 @@ class PayOnLine extends Component<Props, State> {
           onShowModal(Utils.customMessage('', Modalbody, '', true, ''))
         })
         .catch(err => {
+          handleLoading(false)
           onShowModal(
             Utils.errorMessage(
               '',
               err.response.data.descripcionError || err.message
             )
           )
-          handleLoading(false)
         })
     }
-    handleLoading(false)
   }
 
   removePartida = id => {

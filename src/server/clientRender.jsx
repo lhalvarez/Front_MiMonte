@@ -19,20 +19,10 @@ function clientRender() {
       }
     }
 
-    const markup: string = ''
-    const title: string = 'Mi Monte'
-    const app: string = 'main'
-    const vendor: string = 'vendor'
-    const stylesheet: string = '/app/main.css'
-
     res.send(
       html({
-        markup,
-        initialState,
-        title,
-        app,
-        vendor,
-        stylesheet
+        markup: '',
+        initialState
       })
     )
 

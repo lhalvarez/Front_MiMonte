@@ -17,3 +17,20 @@ export default async function payMethod(obj) {
       throw error
     })
 }
+
+export async function endTransaction(idTransaccion) {
+  return new ClientHttpRequest({
+    service: 'api/endTransaction',
+    method: 'POST',
+    data: { idTransaccion },
+    headers: Object.assign({
+      Authorization: sessionStorage.access_token,
+      uid: sessionStorage.uid
+    })
+  })
+    .request()
+    .then(response => response.data)
+    .catch(error => {
+      throw error
+    })
+}

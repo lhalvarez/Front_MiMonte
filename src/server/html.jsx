@@ -1,31 +1,40 @@
-const html: Array<mixed> = ({
-  app,
-  initialState,
-  markup,
-  stylesheet,
-  title,
-  vendor
-}) => `
-<!DOCTYPE html>
-<html>
+// Environment
+const isProduction = process.env.NODE_ENV === 'production'
 
-<head>
-  <meta charset="utf-8" />
-  <script>window.initialState = ${JSON.stringify(initialState)}</script>
-  <title>${title}</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <link type="text/css" rel="stylesheet" href="${stylesheet}" />
-</head>
+export default function html(options) {
+  const {
+    app = 'main',
+    title = 'Mi Monte',
+    markup,
+    initialState,
+    vendor = 'vendor'
+  } = options
+  let path = '/app'
+  let link = `<link type="text/css" href="${path}/main.css" />`
 
-<body>
-  <div id="root">${markup}</div>
-  <script src="/app/${vendor}.bundle.js"></script>
-  <script src="/app/${app}.bundle.js"></script>
-  <script type="text/javascript"  src="https://openpay.s3.amazonaws.com/openpay.v1.min.js"></script>
-  <script type='text/javascript' Access-Control-Allow-Origin: * src="https://openpay.s3.amazonaws.com/openpay-data.v1.min.js"></script>
-</body>
+  if (isProduction) {
+    path = '/app'
+    link = `<link rel="stylesheet" href="${path}/main.css" />`
+  }
 
-</html>
-`
-export default html
+  return `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>${title}</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        ${link}
+      </head>
+      <body>
+        <div id="root">${markup}</div>
+        <script>
+          window.initialState = ${JSON.stringify(initialState)};
+        </script>
+        <script src="/app/${vendor}.bundle.js"></script>
+        <script src="/app/${app}.bundle.js"></script>
+      </body>
+    </html>
+  `
+}

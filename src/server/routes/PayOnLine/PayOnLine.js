@@ -45,74 +45,107 @@ module.exports = router => {
     }
 
     let body = map ? map(data) : data
-    const { transaccion, cliente, token } = body
+    if (config.name === 'payMethod') {
+      const { transaccion, cliente, token } = body
+      if (!token) {
+        openpay.customers.list(
+          { externalId: cliente.idCliente },
+          // eslint-disable-next-line consistent-return
+          (error, list) => {
+            if (error) {
+              LOGGER('ERROR', error, LOGGER_PAY_ON_LINE)
 
-    if (!token) {
-      openpay.customers.list(
-        { externalId: cliente.idCliente },
-        // eslint-disable-next-line consistent-return
-        (error, list) => {
-          if (error) {
-            LOGGER('ERROR', error, LOGGER_PAY_ON_LINE)
+              return res.status(500).send(JSON.parse(error))
+            } else {
+              LOGGER('INFO', `UserList: ${list}`, LOGGER_PAY_ON_LINE)
+              LOGGER(
+                'INFO',
+                `[User:${userId}] ${config.name}.BODY: ${JSON.stringify(body)}`,
+                LOGGER_PAY_ON_LINE
+              )
 
-            return res.status(500).send(JSON.parse(error))
-          } else {
-            LOGGER('INFO', `UserList: ${list}`, LOGGER_PAY_ON_LINE)
+              // eslint-disable-next-line arrow-body-style
+              const idOpenpay = list.find(element => {
+                return (
+                  parseInt(element.external_id, 10) ===
+                  parseInt(cliente.idCliente, 10)
+                )
+              })
+
+              transaccion.transaccion.cliente = {
+                idOpenpay: idOpenpay.id,
+                nombre: transaccion.transaccion.cliente.nombre,
+                apellidos: transaccion.transaccion.cliente.apellidos,
+                correo: transaccion.transaccion.cliente.correo
+              }
+              body = {
+                ...body,
+                transaccion
+              }
+
+              doRequestRest(
+                config.protocol,
+                config.host,
+                config.port,
+                config.path,
+                config.method,
+                headers,
+                body,
+                // eslint-disable-next-line consistent-return
+                response => {
+                  const responseJSON = JSON.parse(response)
+                  responseJSON.message = 'Operacion Exitosa'
+
+                  LOGGER(
+                    'INFO',
+                    `[User:${userId}] ${config.name}: Exitoso`,
+                    LOGGER_PAY_ON_LINE
+                  )
+                  return res.status(200).send(responseJSON)
+                },
+                err => {
+                  LOGGER('ERROR', err, LOGGER_PAY_ON_LINE)
+
+                  return res.status(500).send(JSON.parse(err))
+                }
+              )
+            }
+          }
+        )
+      } else {
+        doRequestRest(
+          config.protocol,
+          config.host,
+          config.port,
+          config.path,
+          config.method,
+          headers,
+          body,
+          // eslint-disable-next-line consistent-return
+          response => {
+            const responseJSON = JSON.parse(response)
+            responseJSON.message = 'Operacion Exitosa'
+
             LOGGER(
               'INFO',
-              `[User:${userId}] ${config.name}.BODY: ${JSON.stringify(body)}`,
+              `[User:${userId}] ${config.name}: Exitoso`,
               LOGGER_PAY_ON_LINE
             )
+            return res.status(200).send(responseJSON)
+          },
+          err => {
+            LOGGER('ERROR', err, LOGGER_PAY_ON_LINE)
 
-            // eslint-disable-next-line arrow-body-style
-            const idOpenpay = list.find(element => {
-              return (
-                parseInt(element.external_id, 10) ===
-                parseInt(cliente.idCliente, 10)
-              )
-            })
-
-            transaccion.transaccion.cliente = {
-              idOpenpay: idOpenpay.id,
-              nombre: transaccion.transaccion.cliente.nombre,
-              apellidos: transaccion.transaccion.cliente.apellidos,
-              correo: transaccion.transaccion.cliente.correo
-            }
-            body = {
-              ...body,
-              transaccion
-            }
-
-            doRequestRest(
-              config.protocol,
-              config.host,
-              config.port,
-              config.path,
-              config.method,
-              headers,
-              body,
-              // eslint-disable-next-line consistent-return
-              response => {
-                const responseJSON = JSON.parse(response)
-                responseJSON.message = 'Operacion Exitosa'
-
-                LOGGER(
-                  'INFO',
-                  `[User:${userId}] ${config.name}: Exitoso`,
-                  LOGGER_PAY_ON_LINE
-                )
-                return res.status(200).send(responseJSON)
-              },
-              err => {
-                LOGGER('ERROR', err, LOGGER_PAY_ON_LINE)
-
-                return res.status(500).send(JSON.parse(err))
-              }
-            )
+            return res.status(500).send(JSON.parse(err))
           }
-        }
-      )
+        )
+      }
     } else {
+      LOGGER(
+        'INFO',
+        `[User:${userId}] ${config.name}.BODY: ${JSON.stringify(body)}`,
+        LOGGER_PAY_ON_LINE
+      )
       doRequestRest(
         config.protocol,
         config.host,
@@ -131,6 +164,7 @@ module.exports = router => {
             `[User:${userId}] ${config.name}: Exitoso`,
             LOGGER_PAY_ON_LINE
           )
+
           return res.status(200).send(responseJSON)
         },
         err => {
@@ -159,6 +193,24 @@ module.exports = router => {
     }
   )
 
+  const endTransaction = serviceHandler(
+    {
+      name: 'endTransaction',
+      protocol: SERVICE.PROTOCOL,
+      host: SERVICE.HOST,
+      port: SERVICE.PORT,
+      path: SERVICE.PATH_END_TRANSACTION,
+      method: CONFIG.METHOD_POST
+    },
+    data => {
+      const tmp = Object.assign({}, data)
+      delete tmp.idUser
+      delete tmp.token
+      return tmp
+    }
+  )
+
   // Link routes and functions
   router.post('/payMethod', payMethod)
+  router.post('/endTransaction', endTransaction)
 }

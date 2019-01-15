@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 //! Reparar errores de eslint
 // Dependencies
 import express from 'express'

@@ -136,7 +136,9 @@ module.exports = {
     HOST: HOST_BPM,
     PORT: PORT_BPM,
     PATH:
-      '/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/Transaccion'
+      '/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/Transaccion',
+    PATH_END_TRANSACTION:
+      '/NMP/OperacionPrendaria/OperacionesEnLinea/Transaccion.svc/v1/FinalizarTransaccion'
   },
   SERVICE_CARD_REGISTRATION: {
     PATH: 'mimonte/v1/tarjetas/cliente',
