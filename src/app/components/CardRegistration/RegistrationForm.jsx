@@ -73,6 +73,7 @@ function RegistrationForm(props: Props) {
                     value={form.alias}
                     label="Alias"
                     type="text"
+                    required
                     validity={validationObj.alias}
                     textInvalid={validationObj.textInvalidAlias}
                     uppercase

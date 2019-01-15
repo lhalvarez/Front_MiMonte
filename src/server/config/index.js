@@ -22,7 +22,7 @@ module.exports = {
   API_KEY: process.env.API_KEY,
   API_SECRET: process.env.API_SECRET,
   API_SET_ID_OPENPAY: process.env.API_SET_ID_OPENPAY,
-  API_KEY_OPENPAY: process.env.API_KEY_OPENPAY,
+  API_PRIVATE_KEY_OPENPAY: process.env.API_PRIVATE_KEY_OPENPAY,
 
   USER_POOL_ID: process.env.USER_POOL_ID,
   CLIENT_ID: process.env.CLIENT_ID,

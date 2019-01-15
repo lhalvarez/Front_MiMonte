@@ -104,6 +104,7 @@ class CardRegistration extends Component<Props, State> {
           tokenCard: data.id,
           deviceSessionId
         }
+
         handleLoading(true)
         saveCard(obj).then(() => {
           onShowModal(Utils.successMessage())
@@ -133,12 +134,6 @@ class CardRegistration extends Component<Props, State> {
             })
         })
       }
-    } else {
-      onShowModal(
-        Utils.warningMessage(
-          'Alcanzaste la cantidad máxima de métodos registrados'
-        )
-      )
     }
   }
 
@@ -151,7 +146,6 @@ class CardRegistration extends Component<Props, State> {
 
   onClickAdd = () => {
     const { form, validationObj } = this.state
-
     if (Object.keys(form).length === 0) {
       validationObj.validateCardName = true
       validationObj.textInvalidCardName = 'El campo es requerido'
@@ -163,6 +157,8 @@ class CardRegistration extends Component<Props, State> {
       validationObj.textInvalidExpirationYear = 'El campo es requerido'
       validationObj.validateCvv2 = true
       validationObj.textInvalidCvv2 = 'El campo es requerido'
+      validationObj.alias = true
+      validationObj.textInvalidAlias = 'El campo es requerido'
       this.setState({ validationObj })
     } else {
       window.OpenPay.token.create(

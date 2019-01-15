@@ -22,6 +22,7 @@ type Props = {
   customHandlers: Array<mixed>,
   handleBack: void,
   activeItem: Array<Object>,
+  movimientos: Array<Object>,
   handleBlur: void,
   handleRadio: void,
   handleAdd: void
@@ -39,7 +40,8 @@ class DetailTickets extends Component<Props> {
       activeItem,
       handleBlur,
       handleRadio,
-      handleAdd
+      handleAdd,
+      movimientos
     } = this.props
     const {
       folio,
@@ -53,12 +55,12 @@ class DetailTickets extends Component<Props> {
     return (
       <Fragment>
         <Row className="tickets-next-to-beat-message border-bottom pb-2 pt-1 mx-0">
-          <Col md={10}>
+          <Col md={6}>
             <h4>
               <small>{`Boleta ${folio}`}</small>
             </h4>
           </Col>
-          <Col md={2}>
+          <Col md={6} className="text-right">
             <Button
               variant="info"
               label="Regresar a boletas"
@@ -130,7 +132,7 @@ class DetailTickets extends Component<Props> {
                 </p>
                 <DataTable
                   columns={columns.Detail}
-                  data={[]}
+                  data={movimientos}
                   noDataIndication="No existen operaciones"
                   customHandlers={customHandlers}
                 />

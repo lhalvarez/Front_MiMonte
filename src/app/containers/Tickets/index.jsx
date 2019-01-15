@@ -417,9 +417,9 @@ class Tickets extends Component<Props, State> {
     // eslint-disable-next-line react/destructuring-assignment
     const data = this.state[
       `${
-        activeKey === 2
+        activeKey === '2' || activeKey === 2
           ? 'ticketsNextToBeat'
-          : activeKey === 1
+          : activeKey === '1' || activeKey === 1
           ? 'ticketsActive'
           : 'ticketsInMarketing'
       }`

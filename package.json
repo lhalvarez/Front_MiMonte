@@ -26,7 +26,7 @@
     "precise-commits": "precise-commits",
     "pre-commit": "lint-staged",
     "start-dashboard": "npm run clean && NODE_ENV=development BABEL_ENV=development webpack-dashboard babel-node src/server",
-    "start-develop": "npm run clean && NODE_ENV=development BABEL_ENV=development babel-node src/server --hot",
+    "start-develop": "npm run clean && NODE_ENV=development BABEL_ENV=development babel-node src/server",
     "start-analyzer": "npm run clean && NODE_ENV=development BABEL_ENV=development ANALYZER=true babel-node src/server",
     "start": "NODE_ENV=production BABEL_ENV=production babel-node src/server",
     "test": "echo \"Error: no test specified\"",
