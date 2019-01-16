@@ -302,7 +302,7 @@ class PayOnLine extends Component<Props, State> {
                   descripcion: 'Cargo Mi Monte NMP',
                   idSesionDispositivo: deviceSessionId,
                   urlRedireccionamiento: `${process.env.baseURL}/${
-                    process.env.baseURL
+                    process.env.APP
                   }/openPay`,
                   cliente: {
                     nombre: userInfo.name,
@@ -401,7 +401,7 @@ class PayOnLine extends Component<Props, State> {
             descripcion: 'Cargo Mi Monte NMP',
             idSesionDispositivo: deviceSessionId,
             urlRedireccionamiento: `${process.env.baseURL}/${
-              process.env.baseURL
+              process.env.APP
             }/openPay`,
             cliente: {
               nombre: userInfo.name,
@@ -504,7 +504,7 @@ class PayOnLine extends Component<Props, State> {
             descripcion: 'Cargo Mi Monte NMP',
             idSesionDispositivo: deviceSessionId,
             urlRedireccionamiento: `${process.env.baseURL}/${
-              process.env.baseURL
+              process.env.APP
             }/openPay`,
             cliente: {
               nombre: userInfo.name,
