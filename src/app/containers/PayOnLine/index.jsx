@@ -301,7 +301,9 @@ class PayOnLine extends Component<Props, State> {
                   tipoMoneda: 'MXN',
                   descripcion: 'Cargo Mi Monte NMP',
                   idSesionDispositivo: deviceSessionId,
-                  urlRedireccionamiento: `${process.env.baseURL}/openPay`,
+                  urlRedireccionamiento: `${process.env.baseURL}/${
+                    process.env.baseURL
+                  }/openPay`,
                   cliente: {
                     nombre: userInfo.name,
                     apellidos: userInfo.lastName,
@@ -398,7 +400,9 @@ class PayOnLine extends Component<Props, State> {
             tipoMoneda: 'MXN',
             descripcion: 'Cargo Mi Monte NMP',
             idSesionDispositivo: deviceSessionId,
-            urlRedireccionamiento: `${process.env.baseURL}/openPay`,
+            urlRedireccionamiento: `${process.env.baseURL}/${
+              process.env.baseURL
+            }/openPay`,
             cliente: {
               nombre: userInfo.name,
               apellidos: userInfo.lastName,
@@ -499,7 +503,9 @@ class PayOnLine extends Component<Props, State> {
             tipoMoneda: 'MXN',
             descripcion: 'Cargo Mi Monte NMP',
             idSesionDispositivo: deviceSessionId,
-            urlRedireccionamiento: `${process.env.baseURL}/openPay`,
+            urlRedireccionamiento: `${process.env.baseURL}/${
+              process.env.baseURL
+            }/openPay`,
             cliente: {
               nombre: userInfo.name,
               apellidos: userInfo.lastName,

@@ -23,6 +23,7 @@ module.exports = {
   API_SECRET: process.env.API_SECRET,
   API_SET_ID_OPENPAY: process.env.API_SET_ID_OPENPAY,
   API_PRIVATE_KEY_OPENPAY: process.env.API_PRIVATE_KEY_OPENPAY,
+  SET_SANDBOX_MODE: process.env.SET_SANDBOX_MODE,
 
   USER_POOL_ID: process.env.USER_POOL_ID,
   CLIENT_ID: process.env.CLIENT_ID,
