@@ -44,7 +44,9 @@ function plugins() {
 
   if (isAnalyzer) {
     plugin.push(
-      new BundleAnalyzerPlugin({ analyzerMode: 'static' }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static'
+      }),
       new DashboardPlugin()
     )
   }
@@ -70,7 +72,6 @@ function plugins() {
         threshold: 10240,
         minRatio: 0.8
       }),
-      new HtmlWebpackPlugin({ minify: true }),
       new AssetsPlugin({
         prettyPrint: true,
         filename: 'assets.json',
