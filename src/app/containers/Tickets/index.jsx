@@ -143,7 +143,7 @@ class Tickets extends Component<Props, State> {
       },
       trazabilidad: {
         GUID: marketingGUID,
-        urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
+        urlCallBack: `${process.env.baseURL}/mimonte/boletas-callback`
       }
     })
       .then(response => {
@@ -324,7 +324,7 @@ class Tickets extends Component<Props, State> {
                 : activekey === '1'
                 ? activeGUID
                 : getUUID(),
-            urlCallBack: `${process.env.baseURL}mimonte/boletas-callback`
+            urlCallBack: `${process.env.baseURL}/mimonte/boletas-callback`
           }
         })
           .then(response => {
