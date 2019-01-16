@@ -9,7 +9,7 @@ const CONFIG = require('../../config')
 const openpay = new Openpay(
   CONFIG.API_SET_ID_OPENPAY,
   CONFIG.API_PRIVATE_KEY_OPENPAY,
-  [CONFIG.SET_SANDBOX_MODE]
+  CONFIG.SET_SANDBOX_MODE
 )
 
 module.exports = router => {
