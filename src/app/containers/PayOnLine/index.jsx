@@ -557,7 +557,11 @@ class PayOnLine extends Component<Props, State> {
           onShowModal(
             Utils.errorMessage(
               '',
-              err.response.data.descripcionError || err.message
+              err.response.data.descripcionError
+                ? err.response.data.descripcionError
+                : err.response.data.message
+                ? err.response.data.message
+                : err.response.data.description
             )
           )
         })

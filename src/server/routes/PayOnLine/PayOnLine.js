@@ -55,7 +55,7 @@ module.exports = router => {
             if (error) {
               LOGGER('ERROR', error, LOGGER_PAY_ON_LINE)
 
-              return res.status(500).send(JSON.parse(error))
+              return res.status(500).send(JSON.stringify(error))
             } else {
               LOGGER('INFO', `UserList: ${list}`, LOGGER_PAY_ON_LINE)
               LOGGER(
